@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Phase3Common" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="Phase3Common" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="C:/Users/Hibchibbler/Documents/CodeBlockProjects/Phase3/Phase3Common/.objs" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Phase3Common" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Release/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-std=c++11" />
+			<Add option="-Wall" />
+			<Add option="-DSFML_STATIC" />
+			<Add option="-DSFGUI_STATIC" />
+			<Add directory="C:/Program Files (x86)/SFML/include" />
+			<Add directory="C:/Program Files (x86)/SFGUI/include" />
+			<Add directory="C:/Program Files (x86)/Lua/5.1/include" />
+			<Add directory="C:/Program Files (x86)/box2d/include" />
+			<Add directory="C:/Program Files (x86)/expat 2.1.0/source/lib" />
+		</Compiler>
+		<Linker>
+			<Add library="sfml-graphics" />
+			<Add library="sfml-window" />
+			<Add library="sfml-system" />
+			<Add library="sfml-network" />
+			<Add library="sfgui" />
+			<Add library="Box2d" />
+			<Add library="expat" />
+			<Add library="C:\Program Files (x86)\Lua\5.1\lib\lua5.1.lib" />
+			<Add directory="C:/Program Files (x86)/SFML/lib" />
+			<Add directory="C:/Program Files (x86)/SFGUI/lib" />
+			<Add directory="C:/Program Files (x86)/Box2d/lib" />
+			<Add directory="C:/Program Files (x86)/Expat 2.1.0/bin" />
+		</Linker>
+		<Unit filename="Comm.cpp" />
+		<Unit filename="Comm.h" />
+		<Unit filename="Configuration.cpp" />
+		<Unit filename="Configuration.h" />
+		<Unit filename="Game.cpp" />
+		<Unit filename="Game.h" />
+		<Unit filename="GameStage.cpp" />
+		<Unit filename="GameStage.h" />
+		<Unit filename="LoaderConfiguration.cpp" />
+		<Unit filename="LoaderConfiguration.h" />
+		<Unit filename="LoaderMap.cpp" />
+		<Unit filename="LoaderMap.h" />
+		<Unit filename="LoaderXML.cpp" />
+		<Unit filename="LoaderXML.h" />
+		<Unit filename="ManagerConfiguration.cpp" />
+		<Unit filename="ManagerConfiguration.h" />
+		<Unit filename="ManagerMap.cpp" />
+		<Unit filename="ManagerMap.h" />
+		<Unit filename="ManagerPlayer.cpp" />
+		<Unit filename="ManagerPlayer.h" />
+		<Unit filename="ManagerTexture.cpp" />
+		<Unit filename="ManagerTexture.h" />
+		<Unit filename="ManagerWorld.cpp" />
+		<Unit filename="ManagerWorld.h" />
+		<Unit filename="Map.h" />
+		<Unit filename="Messages.cpp" />
+		<Unit filename="Messages.h" />
+		<Unit filename="Player.h" />
+		<Unit filename="Quadtree.h" />
+		<Unit filename="Util.cpp" />
+		<Unit filename="Util.h" />
+		<Unit filename="World.cpp" />
+		<Unit filename="World.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
