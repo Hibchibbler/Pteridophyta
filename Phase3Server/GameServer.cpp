@@ -24,6 +24,7 @@ sf::Uint32 GameServer::initialize()
     add(std::shared_ptr<GameStage>(new StageServerLobby(*this, 1)));//1 - uid for lobby stage
     add(std::shared_ptr<GameStage>(new StageServerMain(*this, 2)));//1 - uid for main stage
 
+    server.StartServer(5676);
     return 0;
 }
 sf::Uint32 GameServer::doEventProcessing()
@@ -37,8 +38,9 @@ sf::Uint32 GameServer::doEventProcessing()
             case CommEventType::Connected:{
                 //Server accepted a remote hosts connection request
                 std::cout << "Connected." << std::endl;
-                mp.players.push_back(SPlayer(new Player));
-                mp.players.back()->connectionId = event.connectionId;
+
+                mp.spectators.push_back(SPlayer(new Player));
+                mp.spectators.back()->connectionId = event.connectionId;
                 break;
             }case CommEventType::Disconnect:{
                 //Server is no longer connected to a remote host
@@ -49,6 +51,9 @@ sf::Uint32 GameServer::doEventProcessing()
                 std::cout << "Error." << std::endl;
                 break;
             case CommEventType::Data:{
+                //SPlayer playerS = mp.getSpectatorByCid(event.connectionId);
+                //SPlayer playerP = mp.getPlayerByCid(event.connectionId);
+
                 //Delegate this event to the current stage
                 getCurrentStage()->doRemoteEvents(event);
                 break;

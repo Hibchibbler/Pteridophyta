@@ -1,21 +1,19 @@
 # depslib dependency file v1.0
-1383978591 source:c:\users\hibchibbler\documents\codeblockprojects\phase3client\clientgame.cpp
-	"ClientGame.h"
-	"SetupStage.h"
-	"MainStage.h"
+1394600686 source:c:\users\hibchibbler\documents\phase3\pteridophyta\phase3client\gameclient.cpp
+	"GameClient.h"
+	"StageClientStart.h"
+	"StageClientLobby.h"
+	"StageClientMain.h"
 
-1384028548 c:\users\hibchibbler\documents\codeblockprojects\phase3client\clientgame.h
+1394428606 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3client\gameclient.h
+	<SFML\graphics.hpp>
 	"Game.h"
-
-1383978588 c:\users\hibchibbler\documents\codeblockprojects\phase3common\game.h
-	<SFML/Graphics.hpp>
-	<SFGUI/SFGUI.hpp>
-	<vector>
-	<box2d/box2d.h>
 	"Comm.h"
-	"Quadtree.h"
-	"AssetManager.h"
-	"ConfigurationLoader.h"
+	"ContextClient.h"
+	"ManagerTexture.h"
+	"ManagerConfiguration.h"
+	"ManagerMap.h"
+	"ManagerWorld.h"
 
 1382069481 c:\program files (x86)\sfml\include\sfml\graphics.hpp
 	<SFML/Window.hpp>
@@ -350,6 +348,13 @@
 	<SFML/System/String.hpp>
 	<string>
 	<vector>
+
+1394414853 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\\game.h
+	<SFML/Graphics.hpp>
+	<SFGUI/SFGUI.hpp>
+	<vector>
+	<box2d/box2d.h>
+	"ManagerPlayer.h"
 
 1382069487 c:\program files (x86)\sfgui\include\sfgui\sfgui.hpp
 	<SFGUI/Bin.hpp>
@@ -859,7 +864,16 @@
 1382203720 c:\program files (x86)\box2d\include\box2d\dynamics\joints\b2weldjoint.h
 	<Box2D/Dynamics/Joints/b2Joint.h>
 
-1383092868 c:\users\hibchibbler\documents\codeblockprojects\phase3common\comm.h
+1394607238 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\\managerplayer.h
+	"Player.h"
+	<vector>
+	<memory>
+
+1394515997 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\\player.h
+	<memory>
+	<SFML/Graphics.hpp>
+
+1394358652 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\\comm.h
 	<SFML/Network.hpp>
 	<memory>
 	<queue>
@@ -935,313 +949,72 @@
 	<SFML/Network/Socket.hpp>
 	<vector>
 
-1383884798 c:\users\hibchibbler\documents\codeblockprojects\phase3common\quadtree.h
+1394506631 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3client\contextclient.h
 
-1383506045 c:\users\hibchibbler\documents\codeblockprojects\phase3common\assetmanager.h
-	<SFML/graphics.hpp>
-	"TMXLoader.h"
-
-1383884922 c:\users\hibchibbler\documents\codeblockprojects\phase3common\tmxloader.h
-	<string.h>
-	<iostream>
-	"XMLLoader.h"
-	"TMXMap.h"
-
-1383884872 c:\users\hibchibbler\documents\codeblockprojects\phase3common\xmlloader.h
-	<expat.h>
-	<fstream>
-	<string.h>
-
-1332624358 c:\program files (x86)\expat 2.1.0\source\lib\expat.h
-	<stdlib.h>
-	"expat_external.h"
-
-1148667148 c:\program files (x86)\expat 2.1.0\source\lib\expat_external.h
-
-1383884998 c:\users\hibchibbler\documents\codeblockprojects\phase3common\tmxmap.h
-	<vector>
-	<string>
-
-1383804004 c:\users\hibchibbler\documents\codeblockprojects\phase3common\configurationloader.h
-	<map>
-	<string>
-	<iostream>
-	<fstream>
-	<expat.h>
-	"XMLLoader.h"
-
-1383094101 c:\users\hibchibbler\documents\codeblockprojects\phase3client\setupstage.h
-	"GameStage.h"
-	<SFGUI/sfgui.hpp>
-
-1383971680 c:\users\hibchibbler\documents\codeblockprojects\phase3common\gamestage.h
-	<SFML/Graphics.hpp>
-	<string>
-	"common.h"
-	"Comm.h"
-
-1379463062 c:\users\hibchibbler\documents\codeblockprojects\phase3common\common.h
-	<sfml/config.hpp>
-
-1383094101 c:\users\hibchibbler\documents\codeblockprojects\phase3client\mainstage.h
-	"GameStage.h"
-
-1384021769 source:c:\users\hibchibbler\documents\codeblockprojects\phase3client\main.cpp
-	"ConfigurationLoader.h"
-	"ClientGame.h"
-	"Game.h"
-	<SFML/Window.hpp>
-
-1383972683 source:c:\users\hibchibbler\documents\codeblockprojects\phase3client\mainstage.cpp
-	"MainStage.h"
-	"Game.h"
-	<iostream>
-
-1383972700 source:c:\users\hibchibbler\documents\codeblockprojects\phase3client\setupstage.cpp
-	"SetupStage.h"
-	"Game.h"
-	<iostream>
-
-1384027674 c:\users\hibchibbler\documents\codeblockprojects\phase3common\\game.h
-	<SFML/Graphics.hpp>
-	<SFGUI/SFGUI.hpp>
-	<vector>
-	<box2d/box2d.h>
-	"Comm.h"
-	"Quadtree.h"
-	"AssetManager.h"
-	"ConfigurationLoader.h"
-
-1383092868 c:\users\hibchibbler\documents\codeblockprojects\phase3common\\comm.h
-	<SFML/Network.hpp>
-	<memory>
-	<queue>
-
-1383884798 c:\users\hibchibbler\documents\codeblockprojects\phase3common\\quadtree.h
-
-1383506045 c:\users\hibchibbler\documents\codeblockprojects\phase3common\\assetmanager.h
-	<SFML/graphics.hpp>
-	"TMXLoader.h"
-
-1383884922 c:\users\hibchibbler\documents\codeblockprojects\phase3common\\tmxloader.h
-	<string.h>
-	<iostream>
-	"XMLLoader.h"
-	"TMXMap.h"
-
-1383884872 c:\users\hibchibbler\documents\codeblockprojects\phase3common\\xmlloader.h
-	<expat.h>
-	<fstream>
-	<string.h>
-
-1383884998 c:\users\hibchibbler\documents\codeblockprojects\phase3common\\tmxmap.h
-	<vector>
-	<string>
-
-1383804004 c:\users\hibchibbler\documents\codeblockprojects\phase3common\\configurationloader.h
-	<map>
-	<string>
-	<iostream>
-	<fstream>
-	<expat.h>
-	"XMLLoader.h"
-
-1383971680 c:\users\hibchibbler\documents\codeblockprojects\phase3common\\gamestage.h
-	<SFML/Graphics.hpp>
-	<string>
-	"common.h"
-	"Comm.h"
-
-1379463062 c:\users\hibchibbler\documents\codeblockprojects\phase3common\\common.h
-	<sfml/config.hpp>
-
-1394244398 source:c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3client\clientgame.cpp
-	"ClientGame.h"
-	"SetupStage.h"
-	"MainStage.h"
-
-1384843023 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3client\clientgame.h
-	<SFML\graphics.hpp>
-	"Game.h"
-	"Comm.h"
-	"AssetManager.h"
-	"ConfigurationManager.h"
-	"ClientContext.h"
-	"ConfigurationManager.h"
-	"MapManager.h"
-	"AssetManager.h"
-	"WorldManager.h"
-
-1394414853 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\game.h
-	<SFML/Graphics.hpp>
-	<SFGUI/SFGUI.hpp>
-	<vector>
-	<box2d/box2d.h>
-	"ManagerPlayer.h"
-
-1394358652 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\comm.h
-	<SFML/Network.hpp>
-	<memory>
-	<queue>
-
-1384397547 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\quadtree.h
-	<vector>
-
-1394242529 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\assetmanager.h
+1394340173 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\\managertexture.h
 	<SFML\graphics.hpp>
 
-1383884922 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\tmxloader.h
-	<string.h>
-	<iostream>
-	"XMLLoader.h"
-	"TMXMap.h"
-
-1384843149 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\xmlloader.h
-
-1384136030 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\tmxmap.h
-	"XMLLoader.h"
-	<vector>
-	<string>
-
-1384110314 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\configurationloader.h
-	<map>
-	<string>
-	<iostream>
-	<fstream>
-	<vector>
-	<expat.h>
-	"XMLLoader.h"
-
-1383094101 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3client\setupstage.h
-	"GameStage.h"
-	<SFGUI/sfgui.hpp>
-
-1394428987 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\gamestage.h
-	<SFML/Graphics.hpp>
-	<string>
-	"common.h"
-	"Comm.h"
-
-1384121061 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\common.h
-
-1383094101 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3client\mainstage.h
-	"GameStage.h"
-
-1394319527 source:c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3client\main.cpp
-	"GameClient.h"
-	"Game.h"
-	<SFML/Window.hpp>
-
-1384137556 source:c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3client\mainstage.cpp
-	"MainStage.h"
-	"ClientGame.h"
-	<iostream>
-
-1394242013 source:c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3client\setupstage.cpp
-	"SetupStage.h"
-	"ClientGame.h"
-	<iostream>
-
-1384069106 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\gamecontext.h
-
-1384069272 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3client\gamecontext.h
-
-1384842566 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\configuration.h
-	<string>
-	<vector>
-
-1384116612 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3client\clientcontext.h
-
-1384837813 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\configurationmanager.h
+1394318725 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\\managerconfiguration.h
 	"Configuration.h"
 
-1384837813 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\world.h
+1384842566 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\\configuration.h
+	<string>
 	<vector>
-	"Quadtree.h"
 
-1384837813 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\mapmanager.h
+1394318664 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\\managermap.h
 	"Map.h"
 	<memory>
 
-1394319218 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\map.h
+1394319218 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\\map.h
 	"LoaderXML.h"
 	<vector>
 	<string>
 
-1384842382 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\worldmanager.h
+1394319029 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\\loaderxml.h
 
-1394428606 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3client\gameclient.h
-	<SFML\graphics.hpp>
-	"Game.h"
-	"Comm.h"
-	"ContextClient.h"
-	"ManagerTexture.h"
-	"ManagerConfiguration.h"
-	"ManagerMap.h"
-	"ManagerWorld.h"
+1394319932 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\\managerworld.h
 
-1394315190 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\managerasset.h
-	<SFML\graphics.hpp>
-
-1394318725 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\managerconfiguration.h
-	"Configuration.h"
-
-1394318664 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\managermap.h
-	"Map.h"
-	<memory>
-
-1394319029 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\loaderxml.h
-
-1394319932 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\managerworld.h
-
-1394506631 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3client\contextclient.h
-
-1394433394 source:c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3client\gameclient.cpp
-	"GameClient.h"
-	"StageClientStart.h"
-	"StageClientLobby.h"
-	"StageClientMain.h"
-
-1394508754 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3client\stageclientstart.h
+1394508754 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3client\stageclientstart.h
 	"GameStage.h"
 	<SFGUI/sfgui.hpp>
 
-1394429112 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3client\stageclientmain.h
+1394428987 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\\gamestage.h
+	<SFML/Graphics.hpp>
+	<string>
+	"common.h"
+	"Comm.h"
+
+1384121061 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\\common.h
+
+1394600823 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3client\stageclientlobby.h
+	"GameStage.h"
+	<SFGUI\SFGUI.hpp>
+
+1394429112 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3client\stageclientmain.h
 	"GameStage.h"
 
-1394506436 source:c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3client\stageclientlobby.cpp
+1394319527 source:c:\users\hibchibbler\documents\phase3\pteridophyta\phase3client\main.cpp
+	"GameClient.h"
+	"Game.h"
+	<SFML/Window.hpp>
+
+1394604066 source:c:\users\hibchibbler\documents\phase3\pteridophyta\phase3client\stageclientlobby.cpp
 	"StageClientLobby.h"
 	"GameClient.h"
 	"Comm.h"
 	"Messages.h"
 	<SFGUI\SFGUI.hpp>
 
-1394506691 source:c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3client\stageclientmain.cpp
+1394506510 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\\messages.h
+	<memory>
+
+1394506691 source:c:\users\hibchibbler\documents\phase3\pteridophyta\phase3client\stageclientmain.cpp
 	"StageClientMain.h"
 	"GameClient.h"
 	<iostream>
 
-1394508326 source:c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3client\stageclientstart.cpp
+1394508326 source:c:\users\hibchibbler\documents\phase3\pteridophyta\phase3client\stageclientstart.cpp
 	"StageClientStart.h"
 	"GameClient.h"
 	<iostream>
-
-1394340173 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\managertexture.h
-	<SFML\graphics.hpp>
-
-1394508758 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3client\stageclientlobby.h
-	"GameStage.h"
-	<SFGUI\SFGUI.hpp>
-
-1394496929 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\managerplayer.h
-	"Player.h"
-	<vector>
-	<memory>
-
-1394496949 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\player.h
-	<memory>
-	<SFML/Graphics.hpp>
-
-1394506510 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3common\\messages.h
-	<memory>
 

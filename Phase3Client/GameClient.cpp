@@ -32,6 +32,7 @@ sf::Uint32 GameClient::initialize()
 
     window.create(sf::VideoMode(900,800,32), "Bam");
 
+
     return 0;
 }
 sf::Uint32 GameClient::doEventProcessing()

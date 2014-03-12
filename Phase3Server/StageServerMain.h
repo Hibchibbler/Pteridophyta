@@ -1,6 +1,8 @@
 #ifndef StageServerMain_h_
 #define StageServerMain_h_
 
+#include "GameStage.h"
+
 namespace bali
 {
     class StageServerMain : public GameStage

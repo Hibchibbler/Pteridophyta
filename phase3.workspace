@@ -4,7 +4,9 @@
 		<Project filename="Phase3Client/Phase3Client.cbp">
 			<Depends filename="Phase3Common/Phase3Common.cbp" />
 		</Project>
-		<Project filename="Phase3Server/Phase3Server.cbp" />
+		<Project filename="Phase3Server/Phase3Server.cbp">
+			<Depends filename="Phase3Common/Phase3Common.cbp" />
+		</Project>
 		<Project filename="Phase3Common/Phase3Common.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

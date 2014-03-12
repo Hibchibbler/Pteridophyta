@@ -1,4 +1,7 @@
 #include "StageServerMain.h"
+
+namespace bali{
+
 StageServerMain::StageServerMain(Game & game, sf::Uint32 uid)
     :  GameStage(game, uid)
 {
@@ -27,7 +30,7 @@ sf::Uint32 StageServerMain::doLocalInputs()
 }
 sf::Uint32 StageServerMain::doLoop()
 {
-    finished(0);
+    //finished(0);
     return 0;
 }
 sf::Uint32 StageServerMain::doDraw()
@@ -39,3 +42,4 @@ sf::Uint32 StageServerMain::cleanup()
     return 0;
 }
 
+}//end namespace bali

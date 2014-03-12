@@ -1,5 +1,7 @@
 #include "StageServerStart.h"
 
+namespace bali{
+
 StageServerStart::StageServerStart(Game & game, sf::Uint32 uid)
     :  GameStage(game, uid)
 {
@@ -39,3 +41,5 @@ sf::Uint32 StageServerStart::cleanup()
 {
     return 0;
 }
+
+}//end namespace bali

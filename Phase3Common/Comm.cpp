@@ -14,7 +14,6 @@ Daniel Ferguson
 namespace bali{
 
 bool Comm::StartClient(sf::Uint16 port, sf::IpAddress addr)
-
 {//We are creating a connecting client
     this->address = addr;
     this->port = port;
@@ -30,7 +29,7 @@ bool Comm::StartClient(sf::Uint16 port, sf::IpAddress addr)
 bool Comm::StartServer(sf::Uint16 port)
 {//We are creating a listener
     NotDone = true;
-    Listener.listen(8280);
+    Listener.listen(port);
     ListeningSelector.add(Listener);
     std::cout << "StartServer" << std::endl;
     CommLooperThread.launch();
@@ -71,10 +70,10 @@ bool Comm::Receive(CommEvent &gpacket)
     //first check for system messages
     SystemMutex.lock();
     if(!SystemPackets.empty()){
-        gpacket.connectionId = -1;
         gpacket.packet = SystemPackets.front();
         SystemPackets.pop();
         SystemMutex.unlock();
+        gpacket.connectionId = -1;
         return true;
     }
     SystemMutex.unlock();

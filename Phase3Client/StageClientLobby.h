@@ -10,7 +10,7 @@ namespace bali{
 
     public:
         StageClientLobby(Game & game, sf::Uint32 uid);
-        ~StageClientLobby(){}
+        ~StageClientLobby();
 
         sf::Uint32 initialize();
         sf::Uint32 doRemoteEvents(CommEvent & cevent);

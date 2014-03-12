@@ -14,11 +14,18 @@ StageClientLobby::StageClientLobby(Game & game, sf::Uint32 uid)
 {
 
 }
+
+StageClientLobby::~StageClientLobby()
+{
+
+}
 sf::Uint32 StageClientLobby::initialize()
 {
     ContextClient *ctx = ((ContextClient*)(g.gameContext));
     GameClient* gc = ((GameClient*)&g);
 
+    gc->client.StartClient(5676,sf::IpAddress("192.168.1.13"));
+    sf::sleep(sf::seconds(3));
     std::cout << "Hi from StageClientLobby::initialize() =>" << std::endl;
     std::cout << ctx->name << ", "
               << ctx->pass << ", "
@@ -68,6 +75,8 @@ sf::Uint32 StageClientLobby::initialize()
     mywindow->Add(box);
 
     gc->desk.Add(mywindow);
+
+
 
     initialized();
     return 0;
@@ -127,10 +136,11 @@ sf::Uint32 StageClientLobby::doRemoteEvents(CommEvent & cevent)
     switch (msgId){
      case MsgId::WhoIsAck:{
             std::cout << "Got WhoIsAck" << std::endl;
+            gc->mp.player.stateClient = StatePlayerClient::Waiting;
             break;
     }case MsgId::IdAck:{
             std::cout << "Got IdAck" << std::endl;//mySlot <<   std::endl;
-            gc->mp.player.stateClient = StatePlayerClient::WaitMap;
+            gc->mp.player.stateClient = StatePlayerClient::Waiting;
             break;
     }case MsgId::IdNack:{
             std::cout << "Got IdNack" << std::endl;
@@ -162,35 +172,24 @@ sf::Uint32 StageClientLobby::doLoop()
     sf::Uint32 s = gc->mp.player.stateClient;
 
     switch (s){
-        case StatePlayerClient::New:
-            s = StatePlayerClient::SendWhoIs;
+        case StatePlayerClient::Waiting:
+            //Waiting for some reply.
             break;
         case StatePlayerClient::SendWhoIs:
+            //std::cout << "Sent WhoIs." << std::endl;
             Messages::sendWhoIs(gc->client, gc->mp.player);
-            s = StatePlayerClient::WaitWhoIsAck;
-            break;
-        case StatePlayerClient::WaitWhoIsAck:
-            //Receiving the correct packet will move us along.
-            //std::cout << ".";
+            s = StatePlayerClient::Waiting;//WaitWhoIsAck;
             break;
         case StatePlayerClient::SendId:{
+            //std::cout << "Sent Id." << std::endl;
             Messages::sendId(gc->client, gc->mp.player);
-            s = StatePlayerClient::WaitIdAck;
+            s = StatePlayerClient::Waiting;//WaitIdAck;
             break;
-        }case StatePlayerClient::WaitIdAck:
-            //Receiving the correct packet will move us along.
-            //std::cout << ",";
-            break;
-        case StatePlayerClient::WaitMap:
-
-            break;
+        }
         case StatePlayerClient::SendReady:
+            //std::cout << "Sent Ready." << std::endl;
             Messages::sendReady(gc->client, gc->mp.player);
-            s = StatePlayerClient::WaitStart;
-            break;
-        case StatePlayerClient::WaitStart:
-            //Receiving the correct packet will move us along.
-            //std::cout << "'";
+            s = StatePlayerClient::Waiting;//WaitStart;
             break;
     }
     gc->mp.player.stateClient = s;
