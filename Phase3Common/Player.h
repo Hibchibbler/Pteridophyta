@@ -44,15 +44,54 @@ namespace bali
         Player(){
             name = "?";
             connectionId = -1;
-            stateClient = StatePlayerClient::SendWhoIs;
+            stateClient = StatePlayerClient::Waiting;
             stateServer = StatePlayerServer::Waiting;
+            identified = 0;
+            ready = 0;
+        }
+
+        //Mark the player as identified.
+        void setIdentity()
+        {
+            identified = 1;
+        }
+
+        bool isIdentified()
+        {
+            return (identified==1);
+        }
+
+        void setReady()
+        {
+            ready = 1;
+        }
+
+        bool isReady()
+        {
+            return (ready==1);
         }
 
         std::string name;
         sf::Uint32 team;
         sf::Uint32 connectionId;
-        sf::Uint32 stateClient;
-        sf::Uint32 stateServer;
+
+        //
+        //These are for the lobby
+        //
+        sf::Uint32 identified;
+        sf::Uint32 ready;
+
+        union{
+            //
+            //State used by client
+            //
+            sf::Uint32 stateClient;
+
+            //
+            //State used by server
+            //
+            sf::Uint32 stateServer;
+        };
 
     };
 

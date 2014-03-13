@@ -47,15 +47,22 @@ namespace bali
     //CommEvent is a structure containing
     // information, pertaining to a particular event, that is passed to the user.
     struct CommEventType{
+        //** these convey the connectionid to the game via the packet payload.
         enum CET{
-            Connected,
+            Connected,//**
             Established,
-            Disconnect,
+            Disconnect,//**
             Data,
             Sent,
             Error
         };
     };
+
+    //Note
+    //connectionId is used with the Comm interface to send messages to the serve, by way of a particular connection.
+    //You specify the connectionId of the connection. The connectionId is local only. Not transmitted. There is no
+    //relationship between the connectionId's on the server, and those on the client.
+    //
     class CommEvent
     {
     public:

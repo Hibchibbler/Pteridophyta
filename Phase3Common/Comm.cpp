@@ -18,6 +18,7 @@ bool Comm::StartClient(sf::Uint16 port, sf::IpAddress addr)
     this->address = addr;
     this->port = port;
 
+    TotalConnectCount = 0;
     NotDone = true;
     AddConnection(std::shared_ptr<Connection>(new Connection()));
     std::cout << "StartClient" << std::endl;
@@ -28,6 +29,7 @@ bool Comm::StartClient(sf::Uint16 port, sf::IpAddress addr)
 //TODO: StartServer operates on the Established connections container
 bool Comm::StartServer(sf::Uint16 port)
 {//We are creating a listener
+    TotalConnectCount = 0;
     NotDone = true;
     Listener.listen(port);
     ListeningSelector.add(Listener);
@@ -238,7 +240,6 @@ void Comm::CommLooper(Comm* comm)
             }
             (*i)->SendMutex.unlock();
         }
-
         //Sleep little baby
         sf::sleep(sf::milliseconds(0));
     }

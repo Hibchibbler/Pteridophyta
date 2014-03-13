@@ -17,13 +17,11 @@ GameClient::~GameClient()
 
 sf::Uint32 GameClient::initialize()
 {
-    //client.StartClient(9786, "127.0.0.1");
     setContext(new ContextClient());
 
-    add(std::shared_ptr<GameStage>(new StageClientStart(*this, 0)));//0 - uid for setupstage
-    add(std::shared_ptr<GameStage>(new StageClientLobby(*this, 1)));//0 - uid for setupstage
-    add(std::shared_ptr<GameStage>(new StageClientMain(*this, 2)));//1 - uid for mainstage
-
+    add(std::shared_ptr<GameStage>(new StageClientStart(*this, 0)));//0 - uid for start stage
+    add(std::shared_ptr<GameStage>(new StageClientLobby(*this, 1)));//1 - uid for lobby stage
+    add(std::shared_ptr<GameStage>(new StageClientMain(*this, 2)));//2 - uid for main stage
 
     mc.initialize("configuration.xml");
     mm.initialize(mc);
@@ -32,12 +30,10 @@ sf::Uint32 GameClient::initialize()
 
     window.create(sf::VideoMode(900,800,32), "Bam");
 
-
     return 0;
 }
 sf::Uint32 GameClient::doEventProcessing()
 {
-
     //Do remote processing
     CommEvent event;
     while (client.Receive(event)){
@@ -48,7 +44,14 @@ sf::Uint32 GameClient::doEventProcessing()
                 //Local Host has connected to Server
                 std::cout << "Connected." << std::endl;/// << msgId << std::endl;
 
-                mp.player.connectionId = event.connectionId;
+                //
+                //The Connect Comm Event Type packs the connections'
+                //connectionId as part of payload.
+                //Disconnect also works this way.
+                //
+                sf::Uint32 cid;
+                event.packet >> cid;
+                mp.player.connectionId = cid;
                 break;
             }case CommEventType::Disconnect:{
                 //Local Host is disconnected from Server
@@ -59,6 +62,7 @@ sf::Uint32 GameClient::doEventProcessing()
                 std::cout << "Error." << std::endl;// << msgId << std::endl;
                 break;
             case CommEventType::Data:{
+                std::cout << "Data." << std::endl;
                 //Delegate this event to the current stage
                 getCurrentStage()->doRemoteEvents(event);
                 break;
@@ -83,8 +87,6 @@ sf::Uint32 GameClient::doEventProcessing()
     }
 
     getCurrentStage()->doLocalInputs();
-
-
     return 0;
 }
 sf::Uint32 GameClient::doGameProcessing()

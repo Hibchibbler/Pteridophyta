@@ -1005,16 +1005,11 @@
 
 1394497585 c:\users\hibchibbler\documents\codeblockprojects\phase3\phase3server\stageservermain.h
 
-1394605054 source:c:\users\hibchibbler\documents\phase3\pteridophyta\phase3server\gameserver.cpp
+1394682614 source:c:\users\hibchibbler\documents\phase3\pteridophyta\phase3server\gameserver.cpp
 	"GameServer.h"
 	"StageServerStart.h"
 	"StageServerLobby.h"
 	"StageServerMain.h"
-	"GameServer.h"
-	"Common\LogFile.h"
-	"Common\Comm.h"
-	"Common\TeamManager.h"
-	"Common\ArenaManager.h"
 
 1394497485 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3server\gameserver.h
 	"Game.h"
@@ -1033,16 +1028,16 @@
 	<box2d/box2d.h>
 	"ManagerPlayer.h"
 
-1394607238 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\managerplayer.h
+1394689256 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\managerplayer.h
 	"Player.h"
 	<vector>
 	<memory>
 
-1394515997 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\player.h
+1394690200 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\player.h
 	<memory>
 	<SFML/Graphics.hpp>
 
-1394358652 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\comm.h
+1394682851 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\comm.h
 	<SFML/Network.hpp>
 	<memory>
 	<queue>
@@ -1093,7 +1088,7 @@
 	<iostream>
 	"GameServer.h"
 
-1394599302 source:c:\users\hibchibbler\documents\phase3\pteridophyta\phase3server\stageserverlobby.cpp
+1394691849 source:c:\users\hibchibbler\documents\phase3\pteridophyta\phase3server\stageserverlobby.cpp
 	"StageServerLobby.h"
 	"Comm.h"
 	"ManagerPlayer.h"
@@ -1101,10 +1096,10 @@
 	"Messages.h"
 	<iostream>
 
-1394506510 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\messages.h
+1394675737 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\messages.h
 	<memory>
 
-1394516087 source:c:\users\hibchibbler\documents\phase3\pteridophyta\phase3server\stageservermain.cpp
+1394607597 source:c:\users\hibchibbler\documents\phase3\pteridophyta\phase3server\stageservermain.cpp
 	"StageServerMain.h"
 
 1394516106 source:c:\users\hibchibbler\documents\phase3\pteridophyta\phase3server\stageserverstart.cpp

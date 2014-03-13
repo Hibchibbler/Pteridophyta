@@ -9,51 +9,48 @@ namespace bali{
 class ManagerPlayer
 {
 public:
+
     SPlayer getPlayerByCid(sf::Uint32 cid)
     {
-        for (auto p = players.begin();
-             p != players.end();
-             p++)
+        for (const auto& p: players)
         {
-            if ((*p)->connectionId == cid)
+            if (p->connectionId == cid)
             {
-                    return *p;
+                return p;
             }
         }
 
         return SPlayer();
     }
 
-    SPlayer getSpectatorByCid(sf::Uint32 cid)
+    bool removePlayerByCid(sf::Uint32 cid)
     {
-        for (auto p = players.begin();
-             p != players.end();
-             p++)
+        for (auto p = players.begin(); p != players.end();p++)
         {
             if ((*p)->connectionId == cid)
             {
-                    return *p;
+                players.erase(p);
+                return true;
             }
         }
-
-        return SPlayer();
+        return false;
     }
 
-    void removeSpectatorByCid(sf::Uint32 cid)
-    {
-        for (auto s = spectators.begin(); s != spectators.end();s++)
-        {
-            if ((*s)->connectionId == cid)
-            {
-                spectators.erase(s);
-                break;
-            }
-        }
-    }
+//    void removeSpectatorByCid(sf::Uint32 cid)
+//    {
+//        for (auto s = spectators.begin(); s != spectators.end();s++)
+//        {
+//            if ((*s)->connectionId == cid)
+//            {
+//                spectators.erase(s);
+//                break;
+//            }
+//        }
+//    }
 
 
     std::vector<SPlayer> players;
-    std::vector<SPlayer> spectators;
+//    std::vector<SPlayer> spectators;
     Player player;
 private:
 };

@@ -25,7 +25,7 @@ sf::Uint32 StageClientLobby::initialize()
     GameClient* gc = ((GameClient*)&g);
 
     gc->client.StartClient(5676,sf::IpAddress("192.168.1.13"));
-    sf::sleep(sf::seconds(3));
+    //sf::sleep(sf::seconds(6));
     std::cout << "Hi from StageClientLobby::initialize() =>" << std::endl;
     std::cout << ctx->name << ", "
               << ctx->pass << ", "
@@ -88,17 +88,18 @@ void StageClientLobby::doJoinTeam1()
     GameClient* gc = ((GameClient*)&g);
     ContextClient* cc = ((ContextClient*)(g.gameContext));
 
-    //Send Id
-    cc->team = 1;
-    gc->mp.player.team = cc->team;
-    gc->mp.player.stateClient = StatePlayerClient::SendId;
-
-    joinTeam1Button->Show(false);
-    joinTeam2Button->Show(false);
-
-    spinner->Show(true);
-    spinner->Start();
-    msg->Show(true);
+    gc->mp.player.stateClient = StatePlayerClient::SendWhoIs;
+//    //Send Id
+//    cc->team = 1;
+//    gc->mp.player.team = cc->team;
+//    gc->mp.player.stateClient = StatePlayerClient::SendId;
+//
+//    joinTeam1Button->Show(false);
+//    joinTeam2Button->Show(false);
+//
+//    spinner->Show(true);
+//    spinner->Start();
+//    msg->Show(true);
 }
 
 void StageClientLobby::doJoinTeam2()
@@ -111,7 +112,7 @@ void StageClientLobby::doJoinTeam2()
     gc->mp.player.team = cc->team;
     gc->mp.player.stateClient = StatePlayerClient::SendId;
 
-    joinTeam1Button->Show(false);
+    joinTeam1Button->Show(true);
     joinTeam2Button->Show(false);
 
     spinner->Show(true);
@@ -137,10 +138,33 @@ sf::Uint32 StageClientLobby::doRemoteEvents(CommEvent & cevent)
      case MsgId::WhoIsAck:{
             std::cout << "Got WhoIsAck" << std::endl;
             gc->mp.player.stateClient = StatePlayerClient::Waiting;
+            sf::Uint32 t1o=0;
+            sf::Uint32 t2o=0;
+
+            sf::Uint32 np;
+            cevent.packet >> np;
+            for (int i = 0;i < np;i++)
+            {
+                std::string name;
+                sf::Uint32 team;
+                cevent.packet >> name >> team;
+                if (team == 1)
+                {
+                    team1[t1o]->SetText(name);
+                    t1o++;
+                }else
+                {
+                    team2[t2o]->SetText(name);
+                    t2o++;
+                }
+            }
+
             break;
     }case MsgId::IdAck:{
             std::cout << "Got IdAck" << std::endl;//mySlot <<   std::endl;
+            gc->mp.player.setIdentity();
             gc->mp.player.stateClient = StatePlayerClient::Waiting;
+
             break;
     }case MsgId::IdNack:{
             std::cout << "Got IdNack" << std::endl;
@@ -151,11 +175,13 @@ sf::Uint32 StageClientLobby::doRemoteEvents(CommEvent & cevent)
             spinner->Show(false);
             spinner->Stop();
             msg->Show(false);
+
             break;
     }case MsgId::Start:{
             std::cout << "Got Start" << std::endl;
             gc->mp.player.stateClient = StatePlayerClient::Established;
             finished(0);
+
             break;
         }
     }
@@ -189,6 +215,16 @@ sf::Uint32 StageClientLobby::doLoop()
         case StatePlayerClient::SendReady:
             //std::cout << "Sent Ready." << std::endl;
             Messages::sendReady(gc->client, gc->mp.player);
+
+            //
+            //The player is ready when we recieve Ready from client.
+            //And player is identified.
+            //
+            if (gc->mp.player.isIdentified())
+                gc->mp.player.setReady();
+            else
+                std::cout << "Ready received, but not identified yet." << std::endl;
+
             s = StatePlayerClient::Waiting;//WaitStart;
             break;
     }

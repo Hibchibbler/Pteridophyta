@@ -35,10 +35,10 @@ namespace bali
         static int sendWhoIs            (Comm & comm, Player & player);
         static int sendId               (Comm & comm, Player & player);
     //Server messages
-        static int sendWhoIsAck         (Comm & comm, Player & player, ManagerPlayer & mp);
-        static int sendIdAck            (Comm & comm, Player & player, ManagerPlayer & mp);
-        static int sendIdNack           (Comm & comm, Player & player);
-        static int sendMap              (Comm & comm, Player & player);
+        static int sendWhoIsAck         (Comm & comm, SPlayer player, ManagerPlayer & mp);
+        static int sendIdAck            (Comm & comm, SPlayer player, ManagerPlayer & mp);
+        static int sendIdNack           (Comm & comm, SPlayer player);
+//        static int sendMap              (Comm & comm, SPlayer player);//TODO: put functionality into IdAck
         static int sendStateOfUnion     (Comm & comm);
         static int sendStart            (Comm & comm);
 

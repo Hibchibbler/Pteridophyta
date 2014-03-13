@@ -1,6 +1,7 @@
 #include "Messages.h"
 #include "Comm.h"
 #include "Player.h"
+#include "ManagerPlayer.h"
 #include <iostream>
 
 namespace bali{
@@ -54,53 +55,58 @@ int Messages::sendId(Comm & comm, Player & player)
     return 0;
 }
 
-int Messages::sendMap(Comm & comm, Player & player)
-{
-    std::cout << "Sent Map" << std::endl;
-    CommEvent event;
-    event.connectionId = player.connectionId;
-    event.packet << CommEventType::Data;
-    event.packet << MsgId::Map;
-//    event.packet << name;
-    comm.Send(event);
-    return 0;
-}
+//int Messages::sendMap(Comm & comm, Player & player)
+//{
+//    std::cout << "Sent Map" << std::endl;
+//    CommEvent event;
+//    event.connectionId = player.connectionId;
+//    event.packet << CommEventType::Data;
+//    event.packet << MsgId::Map;
+////    event.packet << name;
+//    comm.Send(event);
+//    return 0;
+//}
 
-int Messages::sendWhoIsAck(Comm & comm, Player & player, ManagerPlayer & mp)
+int Messages::sendWhoIsAck(Comm & comm, SPlayer player, ManagerPlayer & mp)
 {
     std::cout << "Sent WhoIsAck" << std::endl;
     CommEvent event;
-    event.connectionId = player.connectionId;
+    event.connectionId = player->connectionId;
     event.packet << CommEventType::Data;
     event.packet << MsgId::WhoIsAck;
-//    //Team 1 & 2
-//    for (int t = 1;t < 3;t++){
-//        event.packet << (sf::Uint32)teamMan.teams[t].players.size();//.getTeamSize(1);
-//        for (auto y= teamMan.teams[t].players.begin();y != teamMan.teams[t].players.end();y++){
-//            event.packet << y->playerName;
-//        }
-//    }
+
+    sf::Uint32 numPlayers=0;
+    for (int i = 0;i < mp.players.size();i++){
+        if (/*mp.players[i]->isReady() &&*/ mp.players[i]->isIdentified())
+            numPlayers++;
+    }
+    event.packet << numPlayers;
+    for (const auto &p : mp.players)
+    {
+        if (p->isReady() && p->isIdentified())
+            event.packet << p->name << p->team;
+    }
 
     comm.Send(event);
     return 0;
 }
 
-int Messages::sendIdAck(Comm & comm, Player & player, ManagerPlayer & mp)
+int Messages::sendIdAck(Comm & comm, SPlayer player, ManagerPlayer & mp)
 {
     std::cout << "Sent IdAck" << std::endl;
     CommEvent event;
-    event.connectionId = player.connectionId;
+    event.connectionId = player->connectionId;
     event.packet << CommEventType::Data;
     event.packet << MsgId::IdAck;
 //    event.packet << slot;
     comm.Send(event);
     return 0;
 }
-int Messages::sendIdNack(Comm & comm, Player & player)
+int Messages::sendIdNack(Comm & comm, SPlayer player)
 {
     std::cout << "Sent IdNack" << std::endl;
     CommEvent event;
-    event.connectionId = player.connectionId;
+    event.connectionId = player->connectionId;
     event.packet << CommEventType::Data;
     event.packet << MsgId::IdNack;
     comm.Send(event);
