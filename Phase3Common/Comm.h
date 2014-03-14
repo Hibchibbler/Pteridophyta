@@ -12,6 +12,7 @@ Daniel Ferguson
 #include <SFML/Network.hpp>
 #include <memory>
 #include <queue>
+#include <vector>
 
 
 namespace bali
@@ -32,6 +33,7 @@ namespace bali
             SendMutex = NULL;
             RecvMutex = NULL;*/
         }
+
         bool IsConnected;
         bool error;
         sf::TcpSocket Socket;
@@ -40,9 +42,42 @@ namespace bali
         std::queue<sf::Packet> SendQueue;
         sf::Mutex SendMutex;
         sf::Mutex RecvMutex;
+        sf::SocketSelector selector;
     private:
 
     };
+    class Comm;
+    struct LooperListenerArg
+	{
+        LooperListenerArg(Comm* c){
+            comm = c;
+        }
+		Comm* comm;
+	};
+
+	struct LooperClientHandlerArg
+	{
+		typedef unsigned char byte;
+		LooperClientHandlerArg(Comm* cm, const std::shared_ptr<Connection> & cn)
+		{
+			comm = cm;
+			conn = cn;
+		}
+		Comm* comm;
+		std::shared_ptr<Connection> conn;
+
+	};
+
+	struct LooperClientHandlerContext
+	{////FOLLOW UP ON  THIS
+        LooperClientHandlerContext(Comm* cm, const std::shared_ptr<Connection> & cn){
+            comm = cm;
+            conn = cn;
+        }
+        Comm* comm;
+		std::shared_ptr<Connection> conn;
+        void LooperClientHandler();
+	};
 
     //CommEvent is a structure containing
     // information, pertaining to a particular event, that is passed to the user.
@@ -81,24 +116,24 @@ namespace bali
     public:
         Comm()
             :
-        CommLooperThread(bali::Comm::CommLooper,this){
+        LooperMasterThread(Comm::LooperMaster,this){
             NotDone = true;
             TotalConnectCount=0;
 
 
             for (int c = 0;c <15;c++)
             {
-                Established.push_back(std::shared_ptr<bali::Connection>(new bali::Connection()));
+                Established.push_back(std::shared_ptr<Connection>(new Connection()));
             }
         }
         ~Comm(){
         }
-        void AddConnection(std::shared_ptr<bali::Connection> client);
+        void AddConnection(std::shared_ptr<Connection> client);
         bool StartClient(sf::Uint16 port, sf::IpAddress addr);
         bool StartServer(sf::Uint16 port);
         void Stop();
-        void Send(bali::CommEvent &p);
-        bool Receive(bali::CommEvent &p);
+        void Send(CommEvent &p);
+        bool Receive(CommEvent &p);
 
         /*std::vector<sf::Uint32> getConnectionIds();*/
     protected:
@@ -106,8 +141,15 @@ namespace bali
         sf::Uint16 port;
         sf::TcpListener Listener;
 
-        static void CommLooper(Comm* comm);
-        sf::Thread CommLooperThread;
+        static void LooperClientHandler(std::shared_ptr<LooperClientHandlerArg> arg);
+		std::vector<std::shared_ptr<sf::Thread> > looperClientHandlerThreads;
+
+        static void LooperListener(std::shared_ptr<LooperListenerArg> arg);
+		std::shared_ptr<sf::Thread> looperListenerThread;
+
+        static void LooperMaster(Comm* comm);
+        sf::Thread LooperMasterThread;
+
         sf::SocketSelector ListeningSelector;
         sf::SocketSelector ConnectingSelector;
         sf::SocketSelector EstablishedSelector;
@@ -117,9 +159,11 @@ namespace bali
         sf::Mutex EstablishedMutex;
         sf::Mutex SystemMutex;
 
-        std::vector<std::shared_ptr<bali::Connection> > Listening;
-        std::vector<std::shared_ptr<bali::Connection> > Connecting;
-        std::vector<std::shared_ptr<bali::Connection> > Established;
+        std::vector<std::shared_ptr<Connection> > Listening;
+        std::vector<std::shared_ptr<Connection> > Connecting;
+        std::vector<std::shared_ptr<Connection> > Established;
+
+        std::vector<std::shared_ptr<Connection> > connections;
 
         std::queue<sf::Packet> SystemPackets;
 

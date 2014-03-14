@@ -22,7 +22,7 @@ bool Comm::StartClient(sf::Uint16 port, sf::IpAddress addr)
     NotDone = true;
     AddConnection(std::shared_ptr<Connection>(new Connection()));
     std::cout << "StartClient" << std::endl;
-    CommLooperThread.launch();
+    LooperMasterThread.launch();
     return true;
 }
 
@@ -34,7 +34,15 @@ bool Comm::StartServer(sf::Uint16 port)
     Listener.listen(port);
     ListeningSelector.add(Listener);
     std::cout << "StartServer" << std::endl;
-    CommLooperThread.launch();
+    //LooperMasterThread.launch();
+    looperListenerThread = std::shared_ptr<sf::Thread>
+                (
+                    std::make_shared<sf::Thread>(
+                            Comm::LooperListener,
+                            std::make_shared<LooperListenerArg>(this)
+                    )
+                );
+    looperListenerThread->launch();
     return true;
 }
 
@@ -42,7 +50,7 @@ void Comm::Stop()
 {
     NotDone = false;
     std::cout << "waiting for Looper Thread to stop" << std::endl;
-    CommLooperThread.wait();
+    LooperMasterThread.wait();
 
     Listener.close();
     Connecting.clear();
@@ -111,7 +119,182 @@ void Comm::AddConnection(std::shared_ptr<Connection> client)
     ConnectingMutex.unlock();
 }
 
-void Comm::CommLooper(Comm* comm)
+void Comm::SendSystem(CommEventType::CET cet, sf::Uint32 connectionId, std::string msg)
+{
+    sf::Packet packet;
+    packet << cet << connectionId << msg;
+    SystemMutex.lock();
+    SystemPackets.push(packet);
+    SystemMutex.unlock();
+}
+
+//
+//CommListenLooper handles all incoming connection requests
+//and hands them off to a thread that is dedicated to the connection
+//
+void Comm::LooperListener(std::shared_ptr<LooperListenerArg> arg)
+{
+    std::cout << "LooperListener here" << std::endl;
+	Comm* comm = arg->comm;
+    while (comm->NotDone){
+        std::shared_ptr<Connection> newConn(new Connection());
+
+        sf::Socket::Status s = comm->Listener.accept(newConn->Socket);
+        if (s == sf::Socket::Done){
+            std::cout << "Client connected from " << newConn->Socket.getRemoteAddress().toString() << std::endl;
+
+			//newConn->Socket.setBlocking(false);
+            newConn->connectionId = comm->TotalConnectCount;
+            newConn->IsConnected = true;
+            newConn->selector.add(newConn->Socket);
+
+            comm->EstablishedMutex.lock();
+            comm->Established.push_back(newConn);
+            comm->EstablishedMutex.unlock();
+
+            comm->SendSystem(CommEventType::Connected, comm->TotalConnectCount, std::string("accepted Connection Request"));
+            comm->TotalConnectCount++;
+            //
+            //Initialize a new client thread.
+            //The thread is owned by a shared_ptr. we keep a local temp copy .
+            //The threads' constructor(that is used here) takes two parameters:
+            //1) a function pointer (static member/free)
+            //2) a struct of arguments.
+            //  2.A) the struct is owned by a shared_ptr. we do not store a local temp copy.
+            //
+            std::shared_ptr<sf::Thread>
+                thread(
+                    std::make_shared<sf::Thread>(
+                            Comm::LooperClientHandler,
+                            std::make_shared<LooperClientHandlerArg>(comm, newConn)
+                    )
+                );
+            thread->launch();
+			comm->looperClientHandlerThreads.push_back(thread);
+
+        }else{
+            //TODO: Handle This!!!!!!!!!
+            std::cout << "Unable to accept" << std::endl;
+        }
+        sf::sleep(sf::milliseconds(10));
+    }
+}
+
+void Comm::LooperClientHandler(std::shared_ptr<LooperClientHandlerArg> arg)
+{
+    std::cout << "LooperClientHandler here" << std::endl;
+	Comm* comm = arg->comm;
+	std::shared_ptr<Connection> conn = arg->conn;
+
+	while (comm->NotDone){
+        //Send any pending outgoing data
+        while(!conn->SendQueue.empty()){
+            std::cout << "Sending" << std::endl;
+            //std::cout << conn->SendQueue.size() << std::endl;
+            sf::Packet packet = conn->SendQueue.front();
+            conn->SendQueue.pop();
+            sf::Socket::Status s = conn->Socket.send(packet);
+            if (s == sf::Socket::Done){
+                //comm->SendSystem(CommEventType::Sent, conn->connectionId, std::string("Sent"));
+            }else if (s == sf::Socket::NotReady)
+            {
+                std::cout << "Not Ready To Send." << std::endl;
+            }else{
+                if (s == sf::Socket::Disconnected)
+                    comm->SendSystem(CommEventType::Disconnect, conn->connectionId, std::string("Client disconnected"));
+                else
+                    comm->SendSystem(CommEventType::Error, conn->connectionId, std::string("Error on Send"));
+                conn->error = true;
+
+                break;
+            }
+        }
+
+        if (conn->selector.wait(sf::microseconds(1)))
+        {
+            std::cout << "Receiving" << std::endl;
+            CommEvent RecvPacket;
+            RecvPacket.connectionId = conn->connectionId;
+            sf::Socket::Status s;
+            s = conn->Socket.receive(RecvPacket.packet);
+            if (s == sf::Socket::Done){
+                conn->RecvMutex.lock();
+                conn->RecvQueue.push(RecvPacket.packet);
+                conn->RecvMutex.unlock();
+
+            }
+            else if (s == sf::Socket::NotReady){
+                //std::cout << "Partial Receive? Not pushing packet onto rx queue." << std::endl;
+            }
+            else if (s == sf::Socket::Status::Error){
+                comm->SendSystem(CommEventType::Error, RecvPacket.connectionId, std::string("Error on receive"));
+                conn->error = true;
+            }else if(s == sf::Socket::Disconnected){
+                comm->SendSystem(CommEventType::Disconnect, RecvPacket.connectionId, std::string("Client disconnected"));
+            }
+        }
+
+        sf::sleep(sf::milliseconds(10));
+	}
+}
+
+void LooperClientHandlerContext::LooperClientHandler()
+{
+    std::cout << "LooperClientHandlerContext::LooperClientHandler here" << std::endl;
+
+	while (comm->NotDone){
+        //Send any pending outgoing data
+        while(!conn->SendQueue.empty()){
+            std::cout << "Sending" << std::endl;
+            //std::cout << conn->SendQueue.size() << std::endl;
+            sf::Packet packet = conn->SendQueue.front();
+            conn->SendQueue.pop();
+            sf::Socket::Status s = conn->Socket.send(packet);
+            if (s == sf::Socket::Done){
+                //comm->SendSystem(CommEventType::Sent, conn->connectionId, std::string("Sent"));
+            }else if (s == sf::Socket::NotReady)
+            {
+                std::cout << "Not Ready To Send." << std::endl;
+            }else{
+                if (s == sf::Socket::Disconnected)
+                    comm->SendSystem(CommEventType::Disconnect, conn->connectionId, std::string("Client disconnected"));
+                else
+                    comm->SendSystem(CommEventType::Error, conn->connectionId, std::string("Error on Send"));
+                conn->error = true;
+
+                break;
+            }
+        }
+
+        if (conn->selector.wait(sf::microseconds(1)))
+        {
+            std::cout << "Receiving" << std::endl;
+            CommEvent RecvPacket;
+            RecvPacket.connectionId = conn->connectionId;
+            sf::Socket::Status s;
+            s = conn->Socket.receive(RecvPacket.packet);
+            if (s == sf::Socket::Done){
+                conn->RecvMutex.lock();
+                conn->RecvQueue.push(RecvPacket.packet);
+                conn->RecvMutex.unlock();
+
+            }
+            else if (s == sf::Socket::NotReady){
+                //std::cout << "Partial Receive? Not pushing packet onto rx queue." << std::endl;
+            }
+            else if (s == sf::Socket::Status::Error){
+                comm->SendSystem(CommEventType::Error, RecvPacket.connectionId, std::string("Error on receive"));
+                conn->error = true;
+            }else if(s == sf::Socket::Disconnected){
+                comm->SendSystem(CommEventType::Disconnect, RecvPacket.connectionId, std::string("Client disconnected"));
+            }
+        }
+
+        sf::sleep(sf::milliseconds(10));
+	}
+}
+
+void Comm::LooperMaster(Comm* comm)
 {
     std::cout << "Looper" << std::endl;
 
@@ -246,14 +429,7 @@ void Comm::CommLooper(Comm* comm)
 }
 
 
-void Comm::SendSystem(CommEventType::CET cet, sf::Uint32 connectionId, std::string msg)
-{
-    sf::Packet packet;
-    packet << cet << connectionId << msg;
-    SystemMutex.lock();
-    SystemPackets.push(packet);
-    SystemMutex.unlock();
-}
+
 
 
 }//end namespace bali

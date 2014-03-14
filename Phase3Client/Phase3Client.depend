@@ -873,10 +873,11 @@
 	<memory>
 	<SFML/Graphics.hpp>
 
-1394682851 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\\comm.h
+1394779147 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\\comm.h
 	<SFML/Network.hpp>
 	<memory>
 	<queue>
+	<vector>
 
 1382069481 c:\program files (x86)\sfml\include\sfml\network.hpp
 	<SFML/System.hpp>
@@ -998,7 +999,7 @@
 	"Game.h"
 	<SFML/Window.hpp>
 
-1394692054 source:c:\users\hibchibbler\documents\phase3\pteridophyta\phase3client\stageclientlobby.cpp
+1394755471 source:c:\users\hibchibbler\documents\phase3\pteridophyta\phase3client\stageclientlobby.cpp
 	"StageClientLobby.h"
 	"GameClient.h"
 	"Comm.h"
