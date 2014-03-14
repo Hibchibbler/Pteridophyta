@@ -150,10 +150,12 @@ sf::Uint32 StageClientLobby::doRemoteEvents(CommEvent & cevent)
                 cevent.packet >> name >> team;
                 if (team == 1)
                 {
+                    std::cout << "Adding " << name << " to team 1" << std::endl;
                     team1[t1o]->SetText(name);
                     t1o++;
                 }else
                 {
+                    std::cout << "Adding " << name << " to team 2" << std::endl;
                     team2[t2o]->SetText(name);
                     t2o++;
                 }
