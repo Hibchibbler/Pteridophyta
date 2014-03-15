@@ -52,7 +52,7 @@ sf::Uint32 StageServerLobby::doRemoteEvents(CommEvent & cevent)
 
             p->setIdentity();
 
-            Messages::sendIdAck(gs->server, p);
+            Messages::sendIdAck(gs->server, p, gs->mp);
             //Messages::sendIdNack(gs->server, p);
             break;
         }case MsgId::Ready:{
