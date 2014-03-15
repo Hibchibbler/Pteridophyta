@@ -47,9 +47,12 @@ sf::Uint32 StageServerLobby::doRemoteEvents(CommEvent & cevent)
             break;
         }case MsgId::Id:{
             std::cout << "Got Id" << std::endl;
+            cevent.packet >> p->name;
+            cevent.packet >> p->team;
+
             p->setIdentity();
 
-            Messages::sendIdAck(gs->server, p,gs->mp);
+            Messages::sendIdAck(gs->server, p);
             //Messages::sendIdNack(gs->server, p);
             break;
         }case MsgId::Ready:{

@@ -49,8 +49,8 @@ int Messages::sendId(Comm & comm, Player & player)
     event.connectionId = player.connectionId;
     event.packet << CommEventType::Data;
     event.packet << MsgId::Id;
-//    event.packet << name;
-//    event.packet << team;
+    event.packet << player.name;
+    event.packet << player.team;
     comm.Send(event);
     return 0;
 }
@@ -77,15 +77,20 @@ int Messages::sendWhoIsAck(Comm & comm, SPlayer player, ManagerPlayer & mp)
 
     sf::Uint32 numPlayers=0;
     for (int i = 0;i < mp.players.size();i++){
-        if (/*mp.players[i]->isReady() &&*/ mp.players[i]->isIdentified())
+        if (mp.players[i]->isReady() && mp.players[i]->isIdentified())
             numPlayers++;
     }
+    std::cout << "sendWhoIsAck (" << numPlayers << ")"<<std::endl;
     event.packet << numPlayers;
     for (const auto &p : mp.players)
     {
-        if (p->isReady() && p->isIdentified())
+
+        if (p->isReady() && p->isIdentified()){
+            std::cout << "\t" << p->name << std::endl;
             event.packet << p->name << p->team;
+        }
     }
+    std::cout << std::endl;
 
     comm.Send(event);
     return 0;
@@ -98,7 +103,6 @@ int Messages::sendIdAck(Comm & comm, SPlayer player, ManagerPlayer & mp)
     event.connectionId = player->connectionId;
     event.packet << CommEventType::Data;
     event.packet << MsgId::IdAck;
-//    event.packet << slot;
     comm.Send(event);
     return 0;
 }

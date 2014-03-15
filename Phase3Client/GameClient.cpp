@@ -42,24 +42,17 @@ sf::Uint32 GameClient::doEventProcessing()
         switch (t){
             case CommEventType::Connected:{
                 //Local Host has connected to Server
-                std::cout << "Connected." << std::endl;/// << msgId << std::endl;
-
-                //
-                //The Connect Comm Event Type packs the connections'
-                //connectionId as part of payload.
-                //Disconnect also works this way.
-                //
-                sf::Uint32 cid;
-                event.packet >> cid;
-                mp.player.connectionId = cid;
+                std::cout << "Connected." << std::endl;
+                mp.player.connectionId = event.connectionId;
                 break;
             }case CommEventType::Disconnect:{
                 //Local Host is disconnected from Server
                 std::cout << "Disconnected." <<std::endl;
+
                 break;
             }case CommEventType::Error:
                 //An error has occured in the Server
-                std::cout << "Error." << std::endl;// << msgId << std::endl;
+                std::cout << "Error." << std::endl;
                 break;
             case CommEventType::Data:{
                 std::cout << "Data." << std::endl;

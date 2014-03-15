@@ -32,6 +32,9 @@ sf::Uint32 StageClientLobby::initialize()
               << ctx->port << ", "
               << ctx->ip << std::endl;
 
+    gc->mp.player.name = ctx->name;
+
+
     box =  sfg::Box::Create( sfg::Box::VERTICAL, 5.0f );
 
     sfg::Box::Ptr row = sfg::Box::Create( sfg::Box::HORIZONTAL, 5.0f );
@@ -108,12 +111,20 @@ void StageClientLobby::doJoinTeam2()
     ContextClient* cc = ((ContextClient*)(g.gameContext));
 
     //Send Id
-    cc->team = 2;
-    gc->mp.player.team = cc->team;
-    gc->mp.player.stateClient = StatePlayerClient::SendId;
+    if (!gc->mp.player.isIdentified() && !gc->mp.player.isReady())
+    {
+        cc->team = 2;
+        gc->mp.player.team = cc->team;
+        gc->mp.player.stateClient = StatePlayerClient::SendId;
+
+    }else if (gc->mp.player.isIdentified() && !gc->mp.player.isReady()){
+        gc->mp.player.stateClient = StatePlayerClient::SendReady;
+    }else{
+        finished(0);
+    }
 
     joinTeam1Button->Show(true);
-    joinTeam2Button->Show(false);
+    joinTeam2Button->Show(true);
 
     spinner->Show(true);
     spinner->Start();
@@ -151,19 +162,20 @@ sf::Uint32 StageClientLobby::doRemoteEvents(CommEvent & cevent)
                 if (team == 1)
                 {
                     std::cout << "Adding " << name << " to team 1" << std::endl;
-                    team1[t1o]->SetText(name);
+                    team1[t1o]->SetText(sf::String(name));
                     t1o++;
                 }else
                 {
                     std::cout << "Adding " << name << " to team 2" << std::endl;
-                    team2[t2o]->SetText(name);
+                    team2[t2o]->SetText(sf::String(name));
                     t2o++;
                 }
             }
 
             break;
     }case MsgId::IdAck:{
-            std::cout << "Got IdAck" << std::endl;//mySlot <<   std::endl;
+            std::cout << "Got IdAck" << std::endl;
+
             gc->mp.player.setIdentity();
             gc->mp.player.stateClient = StatePlayerClient::Waiting;
 
@@ -182,7 +194,10 @@ sf::Uint32 StageClientLobby::doRemoteEvents(CommEvent & cevent)
     }case MsgId::Start:{
             std::cout << "Got Start" << std::endl;
             gc->mp.player.stateClient = StatePlayerClient::Established;
-            finished(0);
+            //
+            //This is where finished(0) is supposed to be, but we're doing it somewhere else for PoC
+            //
+            //finished(0);
 
             break;
         }

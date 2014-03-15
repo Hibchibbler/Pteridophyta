@@ -27,21 +27,22 @@ namespace bali
     {
     public:
         Connection(){
-            IsConnected = false;
+            isConnected = false;
             error = false;
+
             /*Socket = NULL;
             SendMutex = NULL;
             RecvMutex = NULL;*/
         }
 
-        bool IsConnected;
+        bool isConnected;
         bool error;
         sf::TcpSocket Socket;
         sf::Uint32 connectionId;
         std::queue<sf::Packet> RecvQueue;
         std::queue<sf::Packet> SendQueue;
-        sf::Mutex SendMutex;
-        sf::Mutex RecvMutex;
+        sf::Mutex sendMutex;
+        sf::Mutex recvMutex;
         sf::SocketSelector selector;
     private:
 
@@ -68,16 +69,16 @@ namespace bali
 
 	};
 
-	struct LooperClientHandlerContext
-	{////FOLLOW UP ON  THIS
-        LooperClientHandlerContext(Comm* cm, const std::shared_ptr<Connection> & cn){
-            comm = cm;
-            conn = cn;
-        }
-        Comm* comm;
-		std::shared_ptr<Connection> conn;
-        void LooperClientHandler();
-	};
+//	struct LooperClientHandlerContext
+//	{////FOLLOW UP ON  THIS
+//        LooperClientHandlerContext(Comm* cm, const std::shared_ptr<Connection> & cn){
+//            comm = cm;
+//            conn = cn;
+//        }
+//        Comm* comm;
+//		std::shared_ptr<Connection> conn;
+//        void LooperClientHandler();
+//	};
 
     //CommEvent is a structure containing
     // information, pertaining to a particular event, that is passed to the user.
@@ -114,58 +115,37 @@ namespace bali
     class Comm
     {
     public:
-        Comm()
-            :
-        LooperMasterThread(Comm::LooperMaster,this){
-            NotDone = true;
-            TotalConnectCount=0;
-
-
-            for (int c = 0;c <15;c++)
-            {
-                Established.push_back(std::shared_ptr<Connection>(new Connection()));
-            }
-        }
-        ~Comm(){
-        }
-        void AddConnection(std::shared_ptr<Connection> client);
+        Comm();
+        ~Comm();
+        //void AddConnection(std::shared_ptr<Connection> client);
         bool StartClient(sf::Uint16 port, sf::IpAddress addr);
         bool StartServer(sf::Uint16 port);
         void Stop();
         void Send(CommEvent &p);
         bool Receive(CommEvent &p);
 
-        /*std::vector<sf::Uint32> getConnectionIds();*/
     protected:
-        sf::IpAddress address;
-        sf::Uint16 port;
-        sf::TcpListener Listener;
+        sf::IpAddress                               address;
+        sf::Uint16                                  port;
+        sf::TcpListener                             listener;
 
         static void LooperClientHandler(std::shared_ptr<LooperClientHandlerArg> arg);
-		std::vector<std::shared_ptr<sf::Thread> > looperClientHandlerThreads;
+		std::vector<std::shared_ptr<sf::Thread> >   looperClientHandlerThreads;
 
         static void LooperListener(std::shared_ptr<LooperListenerArg> arg);
-		std::shared_ptr<sf::Thread> looperListenerThread;
+		std::shared_ptr<sf::Thread>                 looperListenerThread;
 
-        static void LooperMaster(Comm* comm);
-        sf::Thread LooperMasterThread;
+        sf::SocketSelector                          listenerSelector;
 
-        sf::SocketSelector ListeningSelector;
-        sf::SocketSelector ConnectingSelector;
-        sf::SocketSelector EstablishedSelector;
+        //
+        //connectionMutex synchronizes acces to connections vector.
+        //Used by Receive and Send
+        //
+        sf::Mutex                                   connectionsMutex;
+        sf::Mutex                                   SystemMutex;
 
-        sf::Mutex ListeningMutex;
-        sf::Mutex ConnectingMutex;
-        sf::Mutex EstablishedMutex;
-        sf::Mutex SystemMutex;
-
-        std::vector<std::shared_ptr<Connection> > Listening;
-        std::vector<std::shared_ptr<Connection> > Connecting;
-        std::vector<std::shared_ptr<Connection> > Established;
-
-        std::vector<std::shared_ptr<Connection> > connections;
-
-        std::queue<sf::Packet> SystemPackets;
+        std::vector<std::shared_ptr<Connection> >   connections;
+        std::queue<CommEvent>                       SystemPackets;
 
         bool NotDone;
         sf::Uint32 TotalConnectCount;

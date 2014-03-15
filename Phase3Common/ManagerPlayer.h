@@ -9,6 +9,9 @@ namespace bali{
 class ManagerPlayer
 {
 public:
+    void addPlayer(SPlayer player){
+        players.push_back(player);
+    }
 
     SPlayer getPlayerByCid(sf::Uint32 cid)
     {
