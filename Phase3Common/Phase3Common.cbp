@@ -58,6 +58,7 @@
 		</Linker>
 		<Unit filename="Comm.cpp" />
 		<Unit filename="Comm.h" />
+		<Unit filename="Common.h" />
 		<Unit filename="Configuration.cpp" />
 		<Unit filename="Configuration.h" />
 		<Unit filename="Game.cpp" />

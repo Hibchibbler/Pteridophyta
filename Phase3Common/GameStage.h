@@ -42,11 +42,28 @@ namespace bali
     public:
         GameStage(Game & game, sf::Uint32 uid);
         virtual ~GameStage();
+
+        //
+        //Derived class is responsible for
+        //calling GameStage::initialized() from
+        //their GameStage::initialize() routine, when initialization
+        //is complete.
+        //
         virtual sf::Uint32 initialize()=0;
+
+        //
+        //doRemoteEvent is responsible for receiving data from server.
+        //
         virtual sf::Uint32 doRemoteEvents(CommEvent & cevent)=0;
+
         virtual sf::Uint32 doWindowEvents(sf::Event & wevent)=0;
         virtual sf::Uint32 doLocalInputs()=0;
+
+        //
+        //doLoop is responsible for sending data to server.
+        //
         virtual sf::Uint32 doLoop()=0;
+
         virtual sf::Uint32 doDraw()=0;
         virtual sf::Uint32 cleanup()=0;
 

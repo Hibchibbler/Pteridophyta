@@ -68,7 +68,7 @@ sf::Uint32 StageClientStart::initialize()
 
     sfg::Button::Ptr startButton;
     startButton = sfg::Button::Create("Start");
-    startButton->GetSignal( sfg::Widget::OnLeftClick ).Connect( &StageClientStart::doStart, this );
+    startButton->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&StageClientStart::doStart, this) );
     table->Attach(startButton, sf::Rect<sf::Uint32>(0,4,2,1), 3);
 
 

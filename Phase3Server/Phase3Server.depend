@@ -360,7 +360,7 @@
 	<string>
 	<vector>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\sfgui.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\sfgui.hpp
 	<SFGUI/Bin.hpp>
 	<SFGUI/Box.hpp>
 	<SFGUI/Button.hpp>
@@ -392,41 +392,41 @@
 	<SFGUI/SpinButton.hpp>
 	<SFGUI/Renderer.hpp>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\bin.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\bin.hpp
 	<SFGUI/Config.hpp>
 	<SFGUI/Container.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\config.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\config.hpp
 	<iostream>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\container.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\container.hpp
 	<SFGUI/Config.hpp>
 	<SFGUI/Widget.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 	<vector>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\widget.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\widget.hpp
 	<SFGUI/Config.hpp>
 	<SFGUI/Object.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 	<SFGUI/RenderQueue.hpp>
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/Event.hpp>
 	<map>
 	<string>
+	<cstdint>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\object.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\object.hpp
 	<SFGUI/Config.hpp>
 	<SFGUI/Signal.hpp>
-	<SFGUI/NonCopyable.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\signal.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\signal.hpp
 	<SFGUI/Config.hpp>
-	<SFGUI/FastDelegate.hpp>
 	<map>
-	"Signal.inl"
+	<memory>
+	<functional>
 
 1382069487 c:\program files (x86)\sfgui\include\sfgui\fastdelegate.hpp
 	<memory.h>
@@ -444,18 +444,19 @@
 
 1382069487 c:\program files (x86)\sfgui\include\sfgui\sharedptr.inl
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\renderqueue.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\renderqueue.hpp
 	<SFGUI/Config.hpp>
 	<SFGUI/Primitive.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/OpenGL.hpp>
 	<vector>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\primitive.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\primitive.hpp
 	<SFGUI/Config.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 	<SFGUI/Signal.hpp>
+	<SFGUI/RendererViewport.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/OpenGL.hpp>
 
@@ -469,41 +470,43 @@
 	<OpenGL/gl.h>
 	<OpenGL/glu.h>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\box.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\box.hpp
 	<SFGUI/Container.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 	<list>
+	<cstdint>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\button.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\button.hpp
 	<SFGUI/Bin.hpp>
 	<SFGUI/Image.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 	<SFML/System/String.hpp>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\image.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\image.hpp
 	<SFGUI/Config.hpp>
 	<SFGUI/Widget.hpp>
 	<SFGUI/Misc.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 	<SFML/Graphics/Texture.hpp>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\misc.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\misc.hpp
 	<SFGUI/Config.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 	<SFML/System.hpp>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\context.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\context.hpp
 	<SFGUI/Config.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 	<SFGUI/Engine.hpp>
 	<SFGUI/Engines/BREW.hpp>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\engine.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\engine.hpp
 	<SFGUI/Config.hpp>
 	<SFGUI/Widget.hpp>
 	<SFGUI/Selector.hpp>
 	<SFGUI/ResourceManager.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<SFGUI/Parsers/ThemeParser/Parse.hpp>
+	<memory>
 	<SFML/Graphics/Drawable.hpp>
 	<string>
 	<map>
@@ -511,202 +514,210 @@
 	<stdexcept>
 	"Engine.inl"
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\selector.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\selector.hpp
 	<SFGUI/Config.hpp>
 	<SFGUI/Widget.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 	<string>
 	<stdexcept>
+	<cstdint>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\resourcemanager.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\resourcemanager.hpp
 	<SFGUI/Config.hpp>
 	<map>
 	<string>
+	<memory>
 	"ResourceManager.inl"
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\resourcemanager.inl
+1394926202 c:\program files (x86)\sfgui\include\sfgui\resourcemanager.inl
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\engine.inl
+1394926202 c:\program files (x86)\sfgui\include\sfgui\engine.inl
 	<sstream>
 	<iomanip>
 	<typeinfo>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\engines\brew.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\engines\brew.hpp
 	<SFGUI/Config.hpp>
 	<SFGUI/Engine.hpp>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\desktop.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\desktop.hpp
 	<SFGUI/Config.hpp>
 	<SFGUI/Context.hpp>
 	<SFGUI/Engine.hpp>
 	<SFML/Graphics/Rect.hpp>
 	<SFML/Graphics/View.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 	<string>
 	<deque>
 	"Desktop.inl"
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\desktop.inl
+1394926202 c:\program files (x86)\sfgui\include\sfgui\desktop.inl
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\entry.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\entry.hpp
 	<SFGUI/Widget.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 	<SFML/System/String.hpp>
 	<SFML/System/Clock.hpp>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\fixed.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\fixed.hpp
 	<SFGUI/Container.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 	<map>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\label.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\label.hpp
 	<SFGUI/Config.hpp>
 	<SFGUI/Widget.hpp>
 	<SFGUI/Misc.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 	<SFML/System/String.hpp>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\range.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\range.hpp
 	<SFGUI/Config.hpp>
 	<SFGUI/Widget.hpp>
 	<SFGUI/Adjustment.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
+	<cstdint>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\adjustment.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\adjustment.hpp
 	<SFGUI/Config.hpp>
 	<SFGUI/Object.hpp>
 	<SFGUI/Signal.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\scale.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\scale.hpp
 	<SFGUI/Config.hpp>
 	<SFGUI/Range.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\scrollbar.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\scrollbar.hpp
 	<SFGUI/Config.hpp>
 	<SFGUI/Range.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 	<SFML/System/Clock.hpp>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\scrolledwindow.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\scrolledwindow.hpp
 	<SFGUI/Bin.hpp>
 	<SFGUI/Adjustment.hpp>
 	<SFGUI/Scrollbar.hpp>
 	<SFGUI/Viewport.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
+	<cstdint>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\viewport.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\viewport.hpp
 	<SFGUI/Config.hpp>
 	<SFGUI/Bin.hpp>
 	<SFGUI/Adjustment.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\table.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\table.hpp
 	<SFGUI/Config.hpp>
 	<SFGUI/TableCell.hpp>
 	<SFGUI/TableOptions.hpp>
 	<SFGUI/Container.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 	<list>
 	<vector>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\tablecell.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\tablecell.hpp
 	<SFGUI/Widget.hpp>
 	<SFGUI/Container.hpp>
 	<SFML/Graphics/Rect.hpp>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\tableoptions.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\tableoptions.hpp
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\window.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\window.hpp
 	<SFGUI/Config.hpp>
 	<SFGUI/Bin.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/System/String.hpp>
+	<cstdint>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\togglebutton.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\togglebutton.hpp
 	<SFGUI/Config.hpp>
 	<SFGUI/Button.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\checkbutton.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\checkbutton.hpp
 	<SFGUI/Config.hpp>
 	<SFGUI/ToggleButton.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\radiobutton.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\radiobutton.hpp
 	<SFGUI/Config.hpp>
 	<SFGUI/CheckButton.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 	<set>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\progressbar.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\progressbar.hpp
 	<SFGUI/Config.hpp>
 	<SFGUI/Widget.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
+	<cstdint>
 	<SFML/System/String.hpp>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\separator.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\separator.hpp
 	<SFGUI/Config.hpp>
 	<SFGUI/Widget.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\frame.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\frame.hpp
 	<SFGUI/Bin.hpp>
 	<SFGUI/Misc.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 	<SFML/System/String.hpp>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\alignment.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\alignment.hpp
 	<SFGUI/Bin.hpp>
 	<SFGUI/Misc.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\notebook.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\notebook.hpp
 	<SFGUI/Container.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 	<deque>
+	<cstdint>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\spinner.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\spinner.hpp
 	<SFGUI/Widget.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 	<SFML/System.hpp>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\combobox.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\combobox.hpp
 	<SFGUI/Bin.hpp>
 	<SFGUI/Scrollbar.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 	<SFML/System/String.hpp>
 	<vector>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\canvas.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\canvas.hpp
 	<SFGUI/Config.hpp>
 	<SFGUI/Widget.hpp>
 	<SFGUI/RendererViewport.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\rendererviewport.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\rendererviewport.hpp
 	<SFGUI/Config.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 	<SFML/Graphics.hpp>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\spinbutton.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\spinbutton.hpp
 	<SFGUI/Entry.hpp>
 	<SFGUI/Adjustment.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 	<SFML/System/String.hpp>
 	<SFML/System/Clock.hpp>
 
-1382069487 c:\program files (x86)\sfgui\include\sfgui\renderer.hpp
+1394926202 c:\program files (x86)\sfgui\include\sfgui\renderer.hpp
 	<SFGUI/Config.hpp>
-	<SFGUI/SharedPtr.hpp>
+	<memory>
 	<SFGUI/Primitive.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/OpenGL.hpp>
 	<vector>
 	<map>
 	<list>
+	<cstdint>
 
 1382203720 c:\program files (x86)\box2d\include\box2d\box2d.h
 	<Box2D/Common/b2Settings.h>
@@ -1071,7 +1082,7 @@
 1394497601 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3server\stageserverstart.h
 	"GameStage.h"
 
-1394428987 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\gamestage.h
+1394996042 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\gamestage.h
 	<SFML/Graphics.hpp>
 	<string>
 	"common.h"
@@ -1105,4 +1116,9 @@
 
 1394516106 source:c:\users\hibchibbler\documents\phase3\pteridophyta\phase3server\stageserverstart.cpp
 	"StageServerStart.h"
+
+1394926202 c:\program files (x86)\sfgui\include\sfgui\parsers\themeparser\parse.hpp
+	<SFGUI/Config.hpp>
+	<string>
+	<vector>
 

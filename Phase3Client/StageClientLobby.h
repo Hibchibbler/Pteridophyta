@@ -26,11 +26,15 @@ namespace bali{
         sfg::Box::Ptr       box;//kept to add the spinner later.
         sfg::Button::Ptr    joinTeam1Button;//kept to hide later.
         sfg::Button::Ptr    joinTeam2Button;//kept to hide later.
-        sfg::Spinner::Ptr spinner;
-        sfg::Label::Ptr msg;
+        sfg::Spinner::Ptr   spinner;
+        sfg::Label::Ptr     msg;
+        sfg::Button::Ptr    readyButton;
 
-        void doJoinTeam1();
-        void doJoinTeam2();
+        sf::Clock           sendWhoIsClk;
+
+        static void doJoinTeam1(StageClientLobby* l);
+        static void doJoinTeam2(StageClientLobby* l);
+        static void doReady(StageClientLobby* l);
 
 
 

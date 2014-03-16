@@ -77,7 +77,7 @@ int Messages::sendWhoIsAck(Comm & comm, SPlayer player, ManagerPlayer & mp)
 
     sf::Uint32 numPlayers=0;
     for (int i = 0;i < mp.players.size();i++){
-        if (mp.players[i]->isReady() && mp.players[i]->isIdentified())
+        if (mp.players[i]->isIdentified())
             numPlayers++;
     }
     std::cout << "sendWhoIsAck (" << numPlayers << ")"<<std::endl;
@@ -85,7 +85,7 @@ int Messages::sendWhoIsAck(Comm & comm, SPlayer player, ManagerPlayer & mp)
     for (const auto &p : mp.players)
     {
 
-        if (p->isReady() && p->isIdentified()){
+        if (p->isIdentified()){
             std::cout << "\t" << p->name << std::endl;
             event.packet << p->name << p->team;
         }

@@ -9,6 +9,8 @@
 
 namespace bali{
 
+using namespace sfg;
+
 StageClientLobby::StageClientLobby(Game & game, sf::Uint32 uid)
     : GameStage(game, uid)
 {
@@ -24,6 +26,8 @@ sf::Uint32 StageClientLobby::initialize()
     ContextClient *ctx = ((ContextClient*)(g.gameContext));
     GameClient* gc = ((GameClient*)&g);
 
+
+
     gc->client.StartClient(5676,sf::IpAddress("192.168.1.13"));
     //sf::sleep(sf::seconds(6));
     std::cout << "Hi from StageClientLobby::initialize() =>" << std::endl;
@@ -35,15 +39,15 @@ sf::Uint32 StageClientLobby::initialize()
     gc->mp.player.name = ctx->name;
 
 
-    box =  sfg::Box::Create( sfg::Box::VERTICAL, 5.0f );
+    box =  sfg::Box::Create( sfg::Box::Orientation::VERTICAL, 5.0f );
 
-    sfg::Box::Ptr row = sfg::Box::Create( sfg::Box::HORIZONTAL, 5.0f );
+    sfg::Box::Ptr row = sfg::Box::Create( sfg::Box::Orientation::HORIZONTAL, 5.0f );
     row->Pack(sfg::Label::Create("Team 1"));
     row->Pack(sfg::Label::Create("Team 2"));
     box->Pack(row);
 
     for (int i = 0;i < 5;i++){
-        row = sfg::Box::Create( sfg::Box::HORIZONTAL, 5.0f );
+        row = sfg::Box::Create( sfg::Box::Orientation::HORIZONTAL, 5.0f );
         team1[i] = sfg::Entry::Create("");
         row->Pack(team1[i],true,true);
         team2[i] = sfg::Entry::Create("");
@@ -51,18 +55,25 @@ sf::Uint32 StageClientLobby::initialize()
         box->Pack(row);
     }
 
-    row = sfg::Box::Create( sfg::Box::HORIZONTAL, 5.0f );
+    row = sfg::Box::Create( sfg::Box::Orientation::HORIZONTAL, 5.0f );
 
     joinTeam1Button = sfg::Button::Create("Join Team 1");
-    joinTeam1Button->GetSignal( sfg::Widget::OnLeftClick ).Connect( &StageClientLobby::doJoinTeam1, this );
+    joinTeam1Button->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(StageClientLobby::doJoinTeam1, this) );
     row->Pack(joinTeam1Button);
 
     joinTeam2Button = sfg::Button::Create("Join Team 2");
-    joinTeam2Button->GetSignal( sfg::Widget::OnLeftClick ).Connect( &StageClientLobby::doJoinTeam2, this );
+    joinTeam2Button->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(StageClientLobby::doJoinTeam2, this) );
     row->Pack(joinTeam2Button);
     box->Pack(row);
 
-    row = sfg::Box::Create(sfg::Box::HORIZONTAL, 10.0f);
+    row = sfg::Box::Create( sfg::Box::Orientation::HORIZONTAL, 10.0f );
+    readyButton = sfg::Button::Create("Ready");
+    readyButton->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(StageClientLobby::doReady, this) );
+    readyButton->Show(false);//Don't show until team is joined.
+    row->Pack(readyButton);
+    box->Pack(row);
+
+    row = sfg::Box::Create(sfg::Box::Orientation::HORIZONTAL, 10.0f);
     spinner = sfg::Spinner::Create();
     spinner->Show(false);
     msg = sfg::Label::Create("Waiting for Host to start...");
@@ -85,50 +96,54 @@ sf::Uint32 StageClientLobby::initialize()
     return 0;
 }
 
-//sfg::Window::Ptr createNameDialog();
-void StageClientLobby::doJoinTeam1()
+void StageClientLobby::doReady(StageClientLobby* l)
 {
-    GameClient* gc = ((GameClient*)&g);
-    ContextClient* cc = ((ContextClient*)(g.gameContext));
+    GameClient* gc = ((GameClient*)&l->g);
+    ContextClient* cc = ((ContextClient*)(gc->gameContext));
 
-    gc->mp.player.stateClient = StatePlayerClient::SendWhoIs;
-//    //Send Id
-//    cc->team = 1;
-//    gc->mp.player.team = cc->team;
-//    gc->mp.player.stateClient = StatePlayerClient::SendId;
-//
-//    joinTeam1Button->Show(false);
-//    joinTeam2Button->Show(false);
-//
-//    spinner->Show(true);
-//    spinner->Start();
-//    msg->Show(true);
+    gc->mp.player.setReady();
+    gc->mp.player.stateClient = StatePlayerClient::SendReady;
+    l->readyButton->Show(false);
+
 }
 
-void StageClientLobby::doJoinTeam2()
+//sfg::Window::Ptr createNameDialog();
+void StageClientLobby::doJoinTeam1(StageClientLobby* l)
 {
-    GameClient* gc = ((GameClient*)&g);
-    ContextClient* cc = ((ContextClient*)(g.gameContext));
+    GameClient* gc = ((GameClient*)&l->g);
+    ContextClient* cc = ((ContextClient*)(gc->gameContext));
 
     //Send Id
-    if (!gc->mp.player.isIdentified() && !gc->mp.player.isReady())
-    {
-        cc->team = 2;
-        gc->mp.player.team = cc->team;
-        gc->mp.player.stateClient = StatePlayerClient::SendId;
+    cc->team = 1;
+    gc->mp.player.team = cc->team;
+    gc->mp.player.stateClient = StatePlayerClient::SendId;
 
-    }else if (gc->mp.player.isIdentified() && !gc->mp.player.isReady()){
-        gc->mp.player.stateClient = StatePlayerClient::SendReady;
-    }else{
-        finished(0);
-    }
+    l->joinTeam1Button->Show(false);
+    l->joinTeam2Button->Show(false);
 
-    joinTeam1Button->Show(true);
-    joinTeam2Button->Show(true);
 
-    spinner->Show(true);
-    spinner->Start();
-    msg->Show(true);
+    l->spinner->Show(true);
+    l->spinner->Start();
+    l->msg->Show(true);
+}
+
+void StageClientLobby::doJoinTeam2(StageClientLobby* l)
+{
+    GameClient* gc = ((GameClient*)&l->g);
+    ContextClient* cc = ((ContextClient*)(gc->gameContext));
+
+    //Send Id
+    cc->team = 2;
+    gc->mp.player.team = cc->team;
+    gc->mp.player.stateClient = StatePlayerClient::SendId;
+
+    l->joinTeam1Button->Show(false);
+    l->joinTeam2Button->Show(false);
+
+    l->spinner->Show(true);
+    l->spinner->Start();
+    l->msg->Show(true);
+
 }
 
 
@@ -175,7 +190,7 @@ sf::Uint32 StageClientLobby::doRemoteEvents(CommEvent & cevent)
             break;
     }case MsgId::IdAck:{
             std::cout << "Got IdAck" << std::endl;
-
+            readyButton->Show(true);
             gc->mp.player.setIdentity();
             gc->mp.player.stateClient = StatePlayerClient::Waiting;
 
@@ -194,10 +209,8 @@ sf::Uint32 StageClientLobby::doRemoteEvents(CommEvent & cevent)
     }case MsgId::Start:{
             std::cout << "Got Start" << std::endl;
             gc->mp.player.stateClient = StatePlayerClient::Established;
-            //
-            //This is where finished(0) is supposed to be, but we're doing it somewhere else for PoC
-            //
-            //finished(0);
+
+            finished(0);
 
             break;
         }
@@ -247,6 +260,12 @@ sf::Uint32 StageClientLobby::doLoop()
     }
     gc->mp.player.stateClient = s;
 
+    //Send WhoIs every 2 seconds to update lobby lists
+    if (sendWhoIsClk.getElapsedTime().asSeconds() > 2)
+    {
+        gc->mp.player.stateClient = StatePlayerClient::SendWhoIs;
+        sendWhoIsClk.restart();
+    }
     return 0;
 }
 sf::Uint32 StageClientLobby::doLocalInputs()
