@@ -24,7 +24,7 @@ Comm::~Comm()
 {
 }
 
-bool Comm::StartClient(sf::Uint16 port, sf::IpAddress addr)
+bool Comm::startClient(sf::Uint16 port, sf::IpAddress addr)
 {//We are creating a connecting client
     this->address = addr;
     this->port = port;
@@ -47,7 +47,7 @@ bool Comm::StartClient(sf::Uint16 port, sf::IpAddress addr)
         connections.push_back(newConn);
         connectionsMutex.unlock();
 
-        SendSystem(CommEventType::Connected, TotalConnectCount, std::string("Outgoing Connection Request was accepted."));
+        sendSystem(CommEventType::Connected, TotalConnectCount, std::string("Outgoing Connection Request was accepted."));
         TotalConnectCount++;
 
         std::shared_ptr<sf::Thread>
@@ -65,16 +65,16 @@ bool Comm::StartClient(sf::Uint16 port, sf::IpAddress addr)
 
     }else {
         if(s == sf::Socket::Disconnected)
-            SendSystem(CommEventType::Disconnect, TotalConnectCount, std::string("Failed to Connect to Remote Host"));
+            sendSystem(CommEventType::Disconnect, TotalConnectCount, std::string("Failed to Connect to Remote Host"));
         else
-            SendSystem(CommEventType::Error,  TotalConnectCount, std::string("Error on connect"));
+            sendSystem(CommEventType::Error,  TotalConnectCount, std::string("Error on connect"));
         return false;
     }
     return true;
 }
 
 //TODO: StartServer operates on the Established connections container
-bool Comm::StartServer(sf::Uint16 port)
+bool Comm::startServer(sf::Uint16 port)
 {//We are creating a listener
     TotalConnectCount = 0;
     NotDone = true;
@@ -94,7 +94,7 @@ bool Comm::StartServer(sf::Uint16 port)
     return true;
 }
 
-void Comm::Stop()
+void Comm::stop()
 {
     NotDone = false;
     std::cout << "waiting for Looper Thread to stop" << std::endl;
@@ -109,7 +109,7 @@ void Comm::Stop()
 }
 
  //Send operates on the connections container
-void Comm::Send(CommEvent &gpacket)
+void Comm::send(CommEvent &gpacket)
 {
     connectionsMutex.lock();
     std::vector<std::shared_ptr<Connection> >::iterator i = connections.begin();
@@ -118,7 +118,7 @@ void Comm::Send(CommEvent &gpacket)
 
         if (gpacket.connectionId == -1 || gpacket.connectionId == c->connectionId){
             c->sendMutex.lock();
-            c->SendQueue.push(gpacket.packet);
+            c->sendQueue.push(gpacket.packet);
             c->sendMutex.unlock();
         }
     }
@@ -126,7 +126,7 @@ void Comm::Send(CommEvent &gpacket)
 }
 
 //Receive operates on the connections container
-bool Comm::Receive(CommEvent &gpacket)
+bool Comm::receive(CommEvent &gpacket)
 {
     //first check for system messages
     SystemMutex.lock();
@@ -135,7 +135,6 @@ bool Comm::Receive(CommEvent &gpacket)
         gpacket = SystemPackets.front();
         SystemPackets.pop();
         SystemMutex.unlock();
-        //gpacket.connectionId = -1;
         return true;
     }
     SystemMutex.unlock();
@@ -150,11 +149,11 @@ bool Comm::Receive(CommEvent &gpacket)
         if (!c->error)
         {
             c->recvMutex.lock();
-            if (!c->RecvQueue.empty())
+            if (!c->recvQueue.empty())
             {
-                gpacket.packet = c->RecvQueue.front();
+                gpacket.packet = c->recvQueue.front();
                 gpacket.connectionId = c->connectionId;
-                c->RecvQueue.pop();
+                c->recvQueue.pop();
                 c->recvMutex.unlock();
                 connectionsMutex.unlock();
                 return true;
@@ -167,16 +166,22 @@ bool Comm::Receive(CommEvent &gpacket)
 }
 
 
-void Comm::SendSystem(CommEventType::CET cet, sf::Uint32 connectionId, std::string msg)
+void Comm::sendSystem(CommEventType::CET cet, sf::Uint32 connectionId, std::string msg)
 {
     //sf::Packet packet;
     CommEvent evt;
-    evt.connectionId = connectionId;
+    Comm::initializeCommEvent(evt, connectionId);
 
-    evt.packet << cet << msg;
+    *evt.packet << cet << msg;
     SystemMutex.lock();
     SystemPackets.push(evt);
     SystemMutex.unlock();
+}
+
+void Comm::initializeCommEvent(CommEvent & ce, sf::Uint32 cid)
+{
+    ce.connectionId = cid;
+    ce.packet = std::shared_ptr<sf::Packet>(new sf::Packet());
 }
 
 //
@@ -209,7 +214,7 @@ void Comm::LooperListener(std::shared_ptr<LooperListenerArg> arg)
                 comm->connections.push_back(newConn);
                 comm->connectionsMutex.unlock();
 
-                comm->SendSystem(CommEventType::Connected, comm->TotalConnectCount, std::string("accepted Connection Request"));
+                comm->sendSystem(CommEventType::Connected, comm->TotalConnectCount, std::string("accepted Connection Request"));
                 comm->TotalConnectCount++;
                 //
                 //Initialize a new client thread.
@@ -252,7 +257,7 @@ void Comm::LooperClientHandler(std::shared_ptr<LooperClientHandlerArg> arg)
         //the size will only increase, and so we will send the
         //number of packets we knew of at this point in time.
         conn->sendMutex.lock();
-        int sz = conn->SendQueue.size();
+        int sz = conn->sendQueue.size();
         conn->sendMutex.unlock();
 
         while(sz > 0)
@@ -260,26 +265,26 @@ void Comm::LooperClientHandler(std::shared_ptr<LooperClientHandlerArg> arg)
             std::cout << "Sending" << std::endl;
 
             conn->sendMutex.lock();
-            sf::Packet packet = conn->SendQueue.front();
-            conn->SendQueue.pop();
+            SPacket packet = conn->sendQueue.front();
+            conn->sendQueue.pop();
             conn->sendMutex.unlock();
 
-            sf::Socket::Status s = conn->Socket.send(packet);
+            sf::Socket::Status s = conn->Socket.send(*packet);
             if (s == sf::Socket::Done)
             {
-                //comm->SendSystem(CommEventType::Sent, conn->connectionId, std::string("Sent"));
+                //comm->sendSystem(CommEventType::Sent, conn->connectionId, std::string("Sent"));
             }else if (s == sf::Socket::NotReady)
             {
                 std::cout << "Not Ready To Send." << std::endl;
             }else if (s == sf::Socket::Disconnected)
             {
-                comm->SendSystem(CommEventType::Disconnect, conn->connectionId, std::string("Client disconnected"));
+                comm->sendSystem(CommEventType::Disconnect, conn->connectionId, std::string("Client disconnected"));
                 conn->isConnected = false;
                 break;
             }
             else
             {
-                comm->SendSystem(CommEventType::Error, conn->connectionId, std::string("Error on Send"));
+                comm->sendSystem(CommEventType::Error, conn->connectionId, std::string("Error on Send"));
                 conn->error = true;
                 conn->isConnected = false;
                 break;
@@ -291,22 +296,23 @@ void Comm::LooperClientHandler(std::shared_ptr<LooperClientHandlerArg> arg)
         {
             std::cout << "Receiving" << std::endl;
             CommEvent RecvPacket;
-            RecvPacket.connectionId = conn->connectionId;
+            Comm::initializeCommEvent(RecvPacket, conn->connectionId);
+
             sf::Socket::Status s;
-            s = conn->Socket.receive(RecvPacket.packet);
+            s = conn->Socket.receive(*RecvPacket.packet);
             if (s == sf::Socket::Done){
                 conn->recvMutex.lock();
-                conn->RecvQueue.push(RecvPacket.packet);
+                conn->recvQueue.push(RecvPacket.packet);
                 conn->recvMutex.unlock();
             }
             else if (s == sf::Socket::NotReady){
                 //std::cout << "Partial Receive?" << std::endl;
             }else if (s == sf::Socket::Status::Error){
-                comm->SendSystem(CommEventType::Error, RecvPacket.connectionId, std::string("Error on receive"));
+                comm->sendSystem(CommEventType::Error, RecvPacket.connectionId, std::string("Error on receive"));
                 conn->error = true;
                 conn->isConnected = false;
             }else if(s == sf::Socket::Disconnected){
-                comm->SendSystem(CommEventType::Disconnect, RecvPacket.connectionId, std::string("Client disconnected"));
+                comm->sendSystem(CommEventType::Disconnect, RecvPacket.connectionId, std::string("Client disconnected"));
                 conn->isConnected = false;
             }
         }

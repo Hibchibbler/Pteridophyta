@@ -28,7 +28,7 @@ sf::Uint32 StageClientLobby::initialize()
 
 
 
-    gc->client.StartClient(5676,sf::IpAddress("192.168.1.13"));
+    gc->client.startClient(5676,sf::IpAddress("192.168.1.13"));
     //sf::sleep(sf::seconds(6));
     std::cout << "Hi from StageClientLobby::initialize() =>" << std::endl;
     std::cout << ctx->name << ", "
@@ -158,7 +158,7 @@ sf::Uint32 StageClientLobby::doRemoteEvents(CommEvent & cevent)
 {
     GameClient* gc = ((GameClient*)&g);
     sf::Uint32 msgId;
-    cevent.packet >> msgId;
+    (*cevent.packet) >> msgId;
 
     switch (msgId){
      case MsgId::WhoIsAck:{
@@ -168,12 +168,20 @@ sf::Uint32 StageClientLobby::doRemoteEvents(CommEvent & cevent)
             sf::Uint32 t2o=0;
 
             sf::Uint32 np;
-            cevent.packet >> np;
+            (*cevent.packet) >> np;
+
+            //Clear all the slots, in preparation for update.
+            for (int i = 0;i < 5;i++)
+            {
+                team1[i]->SetText(sf::String(""));
+                team2[i]->SetText(sf::String(""));
+            }
+
             for (int i = 0;i < np;i++)
             {
                 std::string name;
                 sf::Uint32 team;
-                cevent.packet >> name >> team;
+                (*cevent.packet) >> name >> team;
                 if (team == 1)
                 {
                     std::cout << "Adding " << name << " to team 1" << std::endl;
@@ -261,7 +269,7 @@ sf::Uint32 StageClientLobby::doLoop()
     gc->mp.player.stateClient = s;
 
     //Send WhoIs every 2 seconds to update lobby lists
-    if (sendWhoIsClk.getElapsedTime().asSeconds() > 2)
+    if (sendWhoIsClk.getElapsedTime().asSeconds() > 1)
     {
         gc->mp.player.stateClient = StatePlayerClient::SendWhoIs;
         sendWhoIsClk.restart();

@@ -41,6 +41,7 @@ namespace bali
 //        static int sendMap              (Comm & comm, SPlayer player);//TODO: put functionality into IdAck
         static int sendStateOfUnion     (Comm & comm);
         static int sendStart            (Comm & comm);
+    private:
 
     };
 

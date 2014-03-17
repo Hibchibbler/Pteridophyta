@@ -28,7 +28,7 @@ sf::Uint32 GameClient::initialize()
     mt.initialize(mm);
     mw.initialize(mc, mm);
 
-    window.create(sf::VideoMode(900,800,32), "Bam");
+    window.create(sf::VideoMode(600,500,32), "Bam");
 
     return 0;
 }
@@ -36,9 +36,9 @@ sf::Uint32 GameClient::doEventProcessing()
 {
     //Do remote processing
     CommEvent event;
-    while (client.Receive(event)){
+    while (client.receive(event)){
         sf::Uint32 t;
-        event.packet >> t;
+        (*event.packet) >> t;
         switch (t){
             case CommEventType::Connected:{
                 //Local Host has connected to Server

@@ -32,7 +32,7 @@ sf::Uint32 StageServerLobby::doRemoteEvents(CommEvent & cevent)
     sf::Uint32 cid;
 
     cid = cevent.connectionId;
-    cevent.packet >> msgId;
+    (*cevent.packet) >> msgId;
 
     SPlayer p = gs->mp.getPlayerByCid(cid);
     if (p == nullptr){
@@ -47,8 +47,8 @@ sf::Uint32 StageServerLobby::doRemoteEvents(CommEvent & cevent)
             break;
         }case MsgId::Id:{
             std::cout << "Got Id" << std::endl;
-            cevent.packet >> p->name;
-            cevent.packet >> p->team;
+            (*cevent.packet) >> p->name;
+            (*cevent.packet) >> p->team;
 
             p->setIdentity();
 

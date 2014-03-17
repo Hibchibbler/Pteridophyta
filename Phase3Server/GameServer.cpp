@@ -24,16 +24,16 @@ sf::Uint32 GameServer::initialize()
     add(std::shared_ptr<GameStage>(new StageServerLobby(*this, 1)));//1 - uid for lobby stage
     add(std::shared_ptr<GameStage>(new StageServerMain(*this, 2)));//2 - uid for main stage
 
-    server.StartServer(5676);
+    server.startServer(5676);
     return 0;
 }
 sf::Uint32 GameServer::doEventProcessing()
 {
     //Do remote processing
     CommEvent event;
-    while (server.Receive(event)){
+    while (server.receive(event)){
         sf::Uint32 t;
-        event.packet >> t;
+        (*event.packet) >> t;
         switch (t){
             case CommEventType::Connected:{
                 //Server accepted a remote hosts connection request

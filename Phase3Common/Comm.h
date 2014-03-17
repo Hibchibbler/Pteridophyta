@@ -17,6 +17,9 @@ Daniel Ferguson
 
 namespace bali
 {
+
+    typedef std::shared_ptr<sf::Packet> SPacket;
+
     //class Connection contains information that is specific to a connection between two points.
     // * Queue's for reads and writes.
     // * Mutexes to synchronize access to the queues.
@@ -39,8 +42,8 @@ namespace bali
         bool error;
         sf::TcpSocket Socket;
         sf::Uint32 connectionId;
-        std::queue<sf::Packet> RecvQueue;
-        std::queue<sf::Packet> SendQueue;
+        std::queue<SPacket> recvQueue;
+        std::queue<SPacket> sendQueue;
         sf::Mutex sendMutex;
         sf::Mutex recvMutex;
         sf::SocketSelector selector;
@@ -69,17 +72,6 @@ namespace bali
 
 	};
 
-//	struct LooperClientHandlerContext
-//	{////FOLLOW UP ON  THIS
-//        LooperClientHandlerContext(Comm* cm, const std::shared_ptr<Connection> & cn){
-//            comm = cm;
-//            conn = cn;
-//        }
-//        Comm* comm;
-//		std::shared_ptr<Connection> conn;
-//        void LooperClientHandler();
-//	};
-
     //CommEvent is a structure containing
     // information, pertaining to a particular event, that is passed to the user.
     struct CommEventType{
@@ -94,6 +86,7 @@ namespace bali
         };
     };
 
+
     //Note
     //connectionId is used with the Comm interface to send messages to the serve, by way of a particular connection.
     //You specify the connectionId of the connection. The connectionId is local only. Not transmitted. There is no
@@ -106,7 +99,7 @@ namespace bali
         CommEvent(){
             connectionId = -1;
         }
-        sf::Packet packet;
+        SPacket packet;
         sf::Uint32 connectionId;
     private:
     };
@@ -118,12 +111,13 @@ namespace bali
         Comm();
         ~Comm();
         //void AddConnection(std::shared_ptr<Connection> client);
-        bool StartClient(sf::Uint16 port, sf::IpAddress addr);
-        bool StartServer(sf::Uint16 port);
-        void Stop();
-        void Send(CommEvent &p);
-        bool Receive(CommEvent &p);
+        bool startClient(sf::Uint16 port, sf::IpAddress addr);
+        bool startServer(sf::Uint16 port);
+        void stop();
+        void send(CommEvent &p);
+        bool receive(CommEvent &p);
 
+        static void initializeCommEvent (CommEvent & ce, sf::Uint32 cid);
     protected:
         sf::IpAddress                               address;
         sf::Uint16                                  port;
@@ -147,12 +141,13 @@ namespace bali
         std::vector<std::shared_ptr<Connection> >   connections;
         std::queue<CommEvent>                       SystemPackets;
 
-        bool NotDone;
-        sf::Uint32 TotalConnectCount;
+        bool                                        NotDone;
+        sf::Uint32                                  TotalConnectCount;
 
-        //SendSystem enqueues a CommEvent into the incoming queues - where the client of this class will
+        //sendSystem enqueues a CommEvent into the incoming queues - where the client of this class will
         // then be able to processes them along other subsystem events(sfml-window)
-        void SendSystem(CommEventType::CET cet, sf::Uint32 connectionId, std::string msg);
+        void sendSystem(CommEventType::CET cet, sf::Uint32 connectionId, std::string msg);
+
     };
 }
 
