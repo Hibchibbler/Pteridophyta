@@ -41,7 +41,7 @@ namespace bali
         bool isConnected;
         bool error;
         sf::TcpSocket Socket;
-        sf::Uint32 connectionId;
+        uint32_t connectionId;
         std::queue<SPacket> recvQueue;
         std::queue<SPacket> sendQueue;
         sf::Mutex sendMutex;
@@ -100,7 +100,7 @@ namespace bali
             connectionId = -1;
         }
         SPacket packet;
-        sf::Uint32 connectionId;
+        uint32_t connectionId;
     private:
     };
 
@@ -117,7 +117,7 @@ namespace bali
         void send(CommEvent &p);
         bool receive(CommEvent &p);
 
-        static void initializeCommEvent (CommEvent & ce, sf::Uint32 cid);
+        static void initializeCommEvent (CommEvent & ce, uint32_t cid);
     protected:
         sf::IpAddress                               address;
         sf::Uint16                                  port;
@@ -142,11 +142,11 @@ namespace bali
         std::queue<CommEvent>                       SystemPackets;
 
         bool                                        NotDone;
-        sf::Uint32                                  TotalConnectCount;
+        uint32_t                                  TotalConnectCount;
 
         //sendSystem enqueues a CommEvent into the incoming queues - where the client of this class will
         // then be able to processes them along other subsystem events(sfml-window)
-        void sendSystem(CommEventType::CET cet, sf::Uint32 connectionId, std::string msg);
+        void sendSystem(CommEventType::CET cet, uint32_t connectionId, std::string msg);
 
     };
 }

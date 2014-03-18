@@ -2,7 +2,7 @@
 
 namespace bali{
 
-StageServerMain::StageServerMain(Game & game, sf::Uint32 uid)
+StageServerMain::StageServerMain(Game & game, uint32_t uid)
     :  GameStage(game, uid)
 {
 
@@ -11,33 +11,33 @@ StageServerMain::~StageServerMain()
 {
 
 }
-sf::Uint32 StageServerMain::initialize()
+uint32_t StageServerMain::initialize()
 {
     initialized();
     return 0;
 }
-sf::Uint32 StageServerMain::doRemoteEvents(CommEvent & cevent)
+uint32_t StageServerMain::doRemoteEvents(CommEvent & cevent)
 {
     return 0;
 }
-sf::Uint32 StageServerMain::doWindowEvents(sf::Event & wevent)
+uint32_t StageServerMain::doWindowEvents(sf::Event & wevent)
 {
     return 0;
 }
-sf::Uint32 StageServerMain::doLocalInputs()
+uint32_t StageServerMain::doLocalInputs()
 {
     return 0;
 }
-sf::Uint32 StageServerMain::doLoop()
+uint32_t StageServerMain::doLoop()
 {
     //finished(0);
     return 0;
 }
-sf::Uint32 StageServerMain::doDraw()
+uint32_t StageServerMain::doDraw()
 {
     return 0;
 }
-sf::Uint32 StageServerMain::cleanup()
+uint32_t StageServerMain::cleanup()
 {
     return 0;
 }

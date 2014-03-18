@@ -13,7 +13,7 @@ public:
         players.push_back(player);
     }
 
-    SPlayer getPlayerByCid(sf::Uint32 cid)
+    SPlayer getPlayerByCid(uint32_t cid)
     {
         for (const auto& p: players)
         {
@@ -26,7 +26,7 @@ public:
         return SPlayer();
     }
 
-    bool removePlayerByCid(sf::Uint32 cid)
+    bool removePlayerByCid(uint32_t cid)
     {
         for (auto p = players.begin(); p != players.end();p++)
         {
@@ -39,7 +39,7 @@ public:
         return false;
     }
 
-//    void removeSpectatorByCid(sf::Uint32 cid)
+//    void removeSpectatorByCid(uint32_t cid)
 //    {
 //        for (auto s = spectators.begin(); s != spectators.end();s++)
 //        {

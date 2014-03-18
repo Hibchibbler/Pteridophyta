@@ -10,7 +10,7 @@ int main()
     game->initialize();
 
     while (!done){
-        sf::Uint32 ret;
+        uint32_t ret;
 
         ret = game->doEventProcessing();
         if (ret){

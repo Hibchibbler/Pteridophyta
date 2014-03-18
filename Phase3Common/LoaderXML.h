@@ -2,7 +2,7 @@
 #define LoaderXML_h_
 
 //This is a convienance macro for assigning attributes while parsing XML
-#define assignIfMatches(a1, a2)                     \
+#define ASSIGNIFMATCHES(a1, a2)                     \
         if (std::string(attribute[i]) == a1){       \
             a2 = attribute[i+1];                    \
             continue;                               \

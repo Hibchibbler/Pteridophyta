@@ -16,10 +16,10 @@ ManagerMap::~ManagerMap(){
 
 bool ManagerMap::initialize(ManagerConfiguration& cm){
 
-    for (auto i = 0; i < cm.configuration.client.maps.size();i++){
-        std::cout << "Loading Map " << cm.configuration.client.maps[i].name.c_str() << std::endl;
+    for (auto i = 0; i < cm.configuration.global.maps.size();i++){
+        std::cout << "Loading Map " << cm.configuration.global.maps[i].name.c_str() << std::endl;
         std::unique_ptr<Map> aMap(new Map());
-        LoaderMap::load(cm.configuration.client.maps[i].name.c_str(), aMap.get());
+        LoaderMap::load(cm.configuration.global.maps[i].name.c_str(), aMap.get());
         maps.push_back(std::move(aMap));
     }
     return true;

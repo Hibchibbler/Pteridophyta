@@ -9,7 +9,7 @@ namespace bali{
 class ImageTexite
 {
 public:
-    sf::Uint32 load(std::string fn, std::string n, sf::Uint32 tw, sf::Uint32 th, sf::Uint32 w, sf::Uint32 h){
+    uint32_t load(std::string fn, std::string n, uint32_t tw, uint32_t th, uint32_t w, uint32_t h){
         name = n;
         width = w;
         height = h;
@@ -23,7 +23,7 @@ public:
         sprite.setTexture(tex);
         return 0;
     }
-    sf::Uint32 unload(){
+    uint32_t unload(){
         return 0;
     }
     sf::Image img;
@@ -31,10 +31,10 @@ public:
     sf::Sprite sprite;
 
     std::string name;
-    sf::Uint32 width;
-    sf::Uint32 height;
-    sf::Uint32 tileWidth;
-    sf::Uint32 tileHeight;
+    uint32_t width;
+    uint32_t height;
+    uint32_t tileWidth;
+    uint32_t tileHeight;
 };
 
 class ManagerMap;

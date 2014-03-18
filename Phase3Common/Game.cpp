@@ -3,12 +3,12 @@
 
 namespace bali{
 
-sf::Uint32 Game::doEventProcessing()
+uint32_t Game::doEventProcessing()
 {
     return 0;
 }
 
-sf::Uint32 Game::doGameProcessing(){
+uint32_t Game::doGameProcessing(){
 
     //Initialize gameStage if it has not already been initialized.
     //This is only applicable to the very first stage.
@@ -36,13 +36,13 @@ sf::Uint32 Game::doGameProcessing(){
 
     return 0;
 }
-sf::Uint32 Game::initialize()
+uint32_t Game::initialize()
 {
 
     return 0;
 }
 
-sf::Uint32 Game::cleanup()
+uint32_t Game::cleanup()
 {
     gameStages.clear();
     curStageIndex = 0;

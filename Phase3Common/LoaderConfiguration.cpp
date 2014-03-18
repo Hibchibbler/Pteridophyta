@@ -55,55 +55,60 @@ void LoaderConfiguration::start_element(void *data, const char *element, const c
 
     std::string elementName = element;
 
-    if (elementName == "configuration"){
-        //configState = Configuration::CONFIG;//not used
-    }
-
     if (elementName == "client"){
         configuration->configLoadState = Configuration::CLIENT;
     }
+    else
+    if (elementName == "server"){
+        configuration->configLoadState = Configuration::CLIENT;
+    }
+    else
+    if (elementName == "global"){
+        configuration->configLoadState = Configuration::CLIENT;
+    }
 
-    if (elementName == "window"){
+    if (elementName == "window" && configuration->configLoadState == Configuration::CLIENT){
         for (size_t i = 0; attribute[i]; i += 2){
-            assignIfMatches("name", configuration->client.window.name);
-            assignIfMatches("mode", configuration->client.window.mode);
-            assignIfMatches("width", configuration->client.window.width);
-            assignIfMatches("height", configuration->client.window.height);
+            ASSIGNIFMATCHES("name", configuration->client.window.name);
+            ASSIGNIFMATCHES("mode", configuration->client.window.mode);
+            ASSIGNIFMATCHES("width", configuration->client.window.width);
+            ASSIGNIFMATCHES("height", configuration->client.window.height);
         }
     }
 
-    if (elementName == "map"){
+    if (elementName == "map" && configuration->configLoadState == Configuration::GLOBAL){
         for (size_t i = 0; attribute[i]; i += 2){
-            configuration->client.maps.push_back(CfgMap());
-            assignIfMatches("name", configuration->client.maps.back().name);
+            configuration->global.maps.push_back(Configuration::Map());
+            ASSIGNIFMATCHES("name", configuration->global.maps.back().name);
         }
     }
 
-    if (elementName == "physics"){
-        configuration->configLoadState = Configuration::PHYSICS;
-    }
-
-    if (elementName == "networking"){
-        configuration->configLoadState = Configuration::NETWORKING;
-    }
 
     if (elementName == "property"){
-        CfgProperty* property = NULL;
-        if (configuration->configLoadState == Configuration::CLIENT){
-            configuration->client.properties.push_back(CfgProperty());
+
+        Configuration::Property* property = NULL;
+        if (configuration->configLoadState == Configuration::CLIENT)
+        {
+            configuration->client.properties.push_back(Configuration::Property());
             property = &configuration->client.properties.back();
-        }else
-        if (configuration->configLoadState == Configuration::PHYSICS){
-            configuration->physics.properties.push_back(CfgProperty());
-            property = &configuration->physics.properties.back();
-        }else
-        if (configuration->configLoadState == Configuration::NETWORKING){
-            configuration->networking.properties.push_back(CfgProperty());
-            property = &configuration->networking.properties.back();
         }
+        else
+        if (configuration->configLoadState == Configuration::SERVER)
+        {
+            configuration->server.properties.push_back(Configuration::Property());
+            property = &configuration->server.properties.back();
+        }
+        else
+        if (configuration->configLoadState == Configuration::GLOBAL)
+        {
+            configuration->global.properties.push_back(Configuration::Property());
+            property = &configuration->global.properties.back();
+        }
+
+
         for (size_t i = 0; attribute[i]; i += 2){
-            assignIfMatches("name", property->name);
-            assignIfMatches("value", property->value);
+            ASSIGNIFMATCHES("name", property->name);
+            ASSIGNIFMATCHES("value", property->value);
             std::cout << "Unexpected attribute " << attribute[i] << "=" << attribute[i+1] << " in " << std::string(element) << std::endl;
         }
     }

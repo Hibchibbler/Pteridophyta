@@ -82,7 +82,7 @@ int Messages::sendWhoIsAck(Comm & comm, SPlayer player, ManagerPlayer & mp)
     (*event.packet) << CommEventType::Data;
     (*event.packet) << MsgId::WhoIsAck;
 
-    sf::Uint32 numPlayers=0;
+    uint32_t numPlayers=0;
     for (int i = 0;i < mp.players.size();i++){
         if (mp.players[i]->isIdentified())
             numPlayers++;

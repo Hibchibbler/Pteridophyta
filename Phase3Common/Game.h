@@ -18,7 +18,11 @@ namespace bali{
 
     };
     //Game is a list of GameStage's.
-    // Meant to be derived
+    //You can think of Game as a Flip book,
+    //and a GameStage as a page in the Flip book.
+    //Game is meant to be derived. It supplies the basic infrastructure
+    //to transition GameStage. Also, it has a pointer to a Context that is specific
+    //to either GameServer, or GameClient.
     class Game
     {
     public:
@@ -30,10 +34,10 @@ namespace bali{
 
         }
 
-        virtual sf::Uint32 initialize();
-        virtual sf::Uint32 doEventProcessing();
-        virtual sf::Uint32 doGameProcessing();
-        virtual sf::Uint32 cleanup();
+        virtual uint32_t initialize();
+        virtual uint32_t doEventProcessing();
+        virtual uint32_t doGameProcessing();
+        virtual uint32_t cleanup();
 
         void* getContext(){return gameContext;}
         void setContext(void* s){gameContext = s;}
@@ -49,7 +53,7 @@ namespace bali{
 
 
 
-        sf::Uint32 curStageIndex;
+        uint32_t curStageIndex;
         std::vector<std::shared_ptr<GameStage> > gameStages;
 
 

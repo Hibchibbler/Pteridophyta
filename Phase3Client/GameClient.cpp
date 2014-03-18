@@ -15,7 +15,7 @@ GameClient::~GameClient()
 {
 }
 
-sf::Uint32 GameClient::initialize()
+uint32_t GameClient::initialize()
 {
     setContext(new ContextClient());
 
@@ -32,12 +32,12 @@ sf::Uint32 GameClient::initialize()
 
     return 0;
 }
-sf::Uint32 GameClient::doEventProcessing()
+uint32_t GameClient::doEventProcessing()
 {
     //Do remote processing
     CommEvent event;
     while (client.receive(event)){
-        sf::Uint32 t;
+        uint32_t t;
         (*event.packet) >> t;
         switch (t){
             case CommEventType::Connected:{
@@ -82,14 +82,14 @@ sf::Uint32 GameClient::doEventProcessing()
     getCurrentStage()->doLocalInputs();
     return 0;
 }
-sf::Uint32 GameClient::doGameProcessing()
+uint32_t GameClient::doGameProcessing()
 {
     //doLoop
     //doDraw
     Game::doGameProcessing();
     return 0;
 }
-sf::Uint32 GameClient::cleanup()
+uint32_t GameClient::cleanup()
 {
     Game::cleanup();
     return 0;

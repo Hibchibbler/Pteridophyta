@@ -166,7 +166,7 @@ bool Comm::receive(CommEvent &gpacket)
 }
 
 
-void Comm::sendSystem(CommEventType::CET cet, sf::Uint32 connectionId, std::string msg)
+void Comm::sendSystem(CommEventType::CET cet, uint32_t connectionId, std::string msg)
 {
     //sf::Packet packet;
     CommEvent evt;
@@ -178,7 +178,7 @@ void Comm::sendSystem(CommEventType::CET cet, sf::Uint32 connectionId, std::stri
     SystemMutex.unlock();
 }
 
-void Comm::initializeCommEvent(CommEvent & ce, sf::Uint32 cid)
+void Comm::initializeCommEvent(CommEvent & ce, uint32_t cid)
 {
     ce.connectionId = cid;
     ce.packet = std::shared_ptr<sf::Packet>(new sf::Packet());

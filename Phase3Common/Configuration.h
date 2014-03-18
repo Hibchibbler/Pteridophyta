@@ -6,56 +6,49 @@
 
 namespace bali{
 
-
-
-class CfgProperty{
-public:
-    std::string name;
-    std::string value;
-};
-
-class Window{
-public:
-    std::string name;
-    std::string mode;
-    std::string width;
-    std::string height;
-};
-
-class CfgMap{
-public:
-    std::string name;
-};
-
-class Physics{
-public:
-    std::vector<CfgProperty> properties;
-};
-
-class Networking{
-public:
-    std::vector<CfgProperty> properties;
-};
-
-class Client{
-public:
-    std::vector<CfgProperty> properties;
-    std::vector<CfgMap> maps;
-    Window window;
-};
-
 class Configuration{
 public:
+    struct Property{
+        std::string name;
+        std::string value;
+    };
+
+    struct Window{
+        std::string name;
+        std::string mode;
+        std::string width;
+        std::string height;
+    };
+
+    struct Map{
+        std::string name;
+    };
+
+    struct Client{
+        std::vector<Property> properties;
+        Window window;
+    };
+
+    struct Server{
+        std::vector<Property> properties;
+    };
+
+    struct Global{
+        std::vector<Map> maps;
+        std::vector<Property> properties;
+    };
+
+
     enum LoadState{
         CLIENT,
-        PHYSICS,
-        NETWORKING
+        SERVER,
+        GLOBAL
     };
     int configLoadState;
 
     Client client;
-    Physics physics;
-    Networking networking;
+    Server server;
+    Global global;
 
 };
 

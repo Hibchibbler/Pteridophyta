@@ -25,7 +25,7 @@ namespace bali
 //        std::string ip;
 //
 //        std::string strval;
-//        sf::Uint32 uint32val;
+//        uint32_t uint32val;
 //
 //    };
 
@@ -40,7 +40,7 @@ namespace bali
     class GameStage
     {
     public:
-        GameStage(Game & game, sf::Uint32 uid);
+        GameStage(Game & game, uint32_t uid);
         virtual ~GameStage();
 
         //
@@ -49,41 +49,41 @@ namespace bali
         //their GameStage::initialize() routine, when initialization
         //is complete.
         //
-        virtual sf::Uint32 initialize()=0;
+        virtual uint32_t initialize()=0;
 
         //
         //doRemoteEvent is responsible for receiving data from server.
         //
-        virtual sf::Uint32 doRemoteEvents(CommEvent & cevent)=0;
+        virtual uint32_t doRemoteEvents(CommEvent & event)=0;
 
-        virtual sf::Uint32 doWindowEvents(sf::Event & wevent)=0;
-        virtual sf::Uint32 doLocalInputs()=0;
+        virtual uint32_t doWindowEvents(sf::Event & wevent)=0;
+        virtual uint32_t doLocalInputs()=0;
 
         //
         //doLoop is responsible for sending data to server.
         //
-        virtual sf::Uint32 doLoop()=0;
+        virtual uint32_t doLoop()=0;
 
-        virtual sf::Uint32 doDraw()=0;
-        virtual sf::Uint32 cleanup()=0;
+        virtual uint32_t doDraw()=0;
+        virtual uint32_t cleanup()=0;
 
         Game & getOwner();
-        void setId(sf::Uint32 id);
-        sf::Uint32 getId();
-        sf::Uint32 isDone();
-        sf::Uint32 isError();
-        sf::Uint32 isInit();
+        void setId(uint32_t id);
+        uint32_t getId();
+        uint32_t isDone();
+        uint32_t isError();
+        uint32_t isInit();
 
         void initialized(){init=1;}
-        void finished(sf::Uint32 e){err=e;done=1;}
+        void finished(uint32_t e){err=e;done=1;}
 
         //reference to owner
         Game & g;
 
-        sf::Uint32 id;
-        sf::Uint32 done;
-        sf::Uint32 err;
-        sf::Uint32 init;
+        uint32_t id;
+        uint32_t done;
+        uint32_t err;
+        uint32_t init;
 
 
     };

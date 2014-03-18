@@ -11,7 +11,7 @@ namespace bali{
 
 using namespace sfg;
 
-StageClientLobby::StageClientLobby(Game & game, sf::Uint32 uid)
+StageClientLobby::StageClientLobby(Game & game, uint32_t uid)
     : GameStage(game, uid)
 {
 
@@ -21,7 +21,7 @@ StageClientLobby::~StageClientLobby()
 {
 
 }
-sf::Uint32 StageClientLobby::initialize()
+uint32_t StageClientLobby::initialize()
 {
     ContextClient *ctx = ((ContextClient*)(g.gameContext));
     GameClient* gc = ((GameClient*)&g);
@@ -99,7 +99,7 @@ sf::Uint32 StageClientLobby::initialize()
 void StageClientLobby::doReady(StageClientLobby* l)
 {
     GameClient* gc = ((GameClient*)&l->g);
-    ContextClient* cc = ((ContextClient*)(gc->gameContext));
+    //ContextClient* cc = ((ContextClient*)(gc->gameContext));
 
     gc->mp.player.setReady();
     gc->mp.player.stateClient = StatePlayerClient::SendReady;
@@ -147,28 +147,28 @@ void StageClientLobby::doJoinTeam2(StageClientLobby* l)
 }
 
 
-sf::Uint32 StageClientLobby::doWindowEvents(sf::Event & event)
+uint32_t StageClientLobby::doWindowEvents(sf::Event & event)
 {
     GameClient* gc = ((GameClient*)&g);
     gc->desk.HandleEvent(event);
     return 0;
 }
 
-sf::Uint32 StageClientLobby::doRemoteEvents(CommEvent & cevent)
+uint32_t StageClientLobby::doRemoteEvents(CommEvent & event)
 {
     GameClient* gc = ((GameClient*)&g);
-    sf::Uint32 msgId;
-    (*cevent.packet) >> msgId;
+    uint32_t msgId;
+    (*event.packet) >> msgId;
 
     switch (msgId){
      case MsgId::WhoIsAck:{
             std::cout << "Got WhoIsAck" << std::endl;
             gc->mp.player.stateClient = StatePlayerClient::Waiting;
-            sf::Uint32 t1o=0;
-            sf::Uint32 t2o=0;
+            uint32_t t1o=0;
+            uint32_t t2o=0;
 
-            sf::Uint32 np;
-            (*cevent.packet) >> np;
+            uint32_t np;
+            (*event.packet) >> np;
 
             //Clear all the slots, in preparation for update.
             for (int i = 0;i < 5;i++)
@@ -180,8 +180,8 @@ sf::Uint32 StageClientLobby::doRemoteEvents(CommEvent & cevent)
             for (int i = 0;i < np;i++)
             {
                 std::string name;
-                sf::Uint32 team;
-                (*cevent.packet) >> name >> team;
+                uint32_t team;
+                (*event.packet) >> name >> team;
                 if (team == 1)
                 {
                     std::cout << "Adding " << name << " to team 1" << std::endl;
@@ -228,12 +228,12 @@ sf::Uint32 StageClientLobby::doRemoteEvents(CommEvent & cevent)
 
 
 
-sf::Uint32 StageClientLobby::doLoop()
+uint32_t StageClientLobby::doLoop()
 {
     GameClient* gc = ((GameClient*)&g);
 
     gc->desk.Update(1);
-    sf::Uint32 s = gc->mp.player.stateClient;
+    uint32_t s = gc->mp.player.stateClient;
 
     switch (s){
         case StatePlayerClient::Waiting:
@@ -276,13 +276,13 @@ sf::Uint32 StageClientLobby::doLoop()
     }
     return 0;
 }
-sf::Uint32 StageClientLobby::doLocalInputs()
+uint32_t StageClientLobby::doLocalInputs()
 {
     return 0;
 }
 
 
-sf::Uint32 StageClientLobby::doDraw()
+uint32_t StageClientLobby::doDraw()
 {
     GameClient* gc = ((GameClient*)&g);
 
@@ -294,7 +294,7 @@ sf::Uint32 StageClientLobby::doDraw()
     return 0;
 }
 
-sf::Uint32 StageClientLobby::cleanup()
+uint32_t StageClientLobby::cleanup()
 {
 
     return 0;

@@ -72,25 +72,25 @@ namespace bali
         }
 
         std::string name;
-        sf::Uint32 team;
-        sf::Uint32 connectionId;
+        uint32_t team;
+        uint32_t connectionId;
 
         //
         //These are for the lobby
         //
-        sf::Uint32 identified;
-        sf::Uint32 ready;
+        uint32_t identified;
+        uint32_t ready;
 
         union{
             //
             //State used by client
             //
-            sf::Uint32 stateClient;
+            uint32_t stateClient;
 
             //
             //State used by server
             //
-            sf::Uint32 stateServer;
+            uint32_t stateServer;
         };
 
     };

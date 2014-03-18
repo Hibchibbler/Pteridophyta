@@ -23,10 +23,10 @@ namespace bali
     public:
         GameServer();
         ~GameServer();
-        sf::Uint32 initialize();
-        sf::Uint32 doEventProcessing();
-        sf::Uint32 doGameProcessing();
-        sf::Uint32 cleanup();
+        uint32_t initialize();
+        uint32_t doEventProcessing();
+        uint32_t doGameProcessing();
+        uint32_t cleanup();
 
         Comm server;
 

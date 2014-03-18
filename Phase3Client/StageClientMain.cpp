@@ -6,13 +6,13 @@
 namespace bali{
 
 
-StageClientMain::StageClientMain(Game & game, sf::Uint32 uid)
+StageClientMain::StageClientMain(Game & game, uint32_t uid)
  :  GameStage(game, uid)
 {
 
 }
 
-sf::Uint32 StageClientMain::initialize()
+uint32_t StageClientMain::initialize()
 {
     ContextClient *ctx = ((ContextClient*)(g.gameContext));
 
@@ -28,17 +28,17 @@ sf::Uint32 StageClientMain::initialize()
     return 0;
 }
 
-sf::Uint32 StageClientMain::doRemoteEvents(CommEvent & cevent)
+uint32_t StageClientMain::doRemoteEvents(CommEvent & event)
 {
     return 0;
 }
 
-sf::Uint32 StageClientMain::doWindowEvents(sf::Event & wevent)
+uint32_t StageClientMain::doWindowEvents(sf::Event & wevent)
 {
     return 0;
 }
 
-sf::Uint32 StageClientMain::doLocalInputs()
+uint32_t StageClientMain::doLocalInputs()
 {
 //    sf::Vector2i mousePos = sf::Mouse::getPosition(g.window);
 //    sf::Vector2f mousePosWorld = g.window.mapPixelToCoords(mousePos);//,arenaView);
@@ -60,11 +60,11 @@ sf::Uint32 StageClientMain::doLocalInputs()
 //    }
     return 0;
 }
-sf::Uint32 StageClientMain::doLoop()
+uint32_t StageClientMain::doLoop()
 {
     return 0;
 }
-sf::Uint32 StageClientMain::doDraw()
+uint32_t StageClientMain::doDraw()
 {
     GameClient *clientGame = ((GameClient*)&g);
     clientGame->window.clear();
@@ -77,7 +77,7 @@ sf::Uint32 StageClientMain::doDraw()
 
     return 0;
 }
-sf::Uint32 StageClientMain::cleanup()
+uint32_t StageClientMain::cleanup()
 {
     return 0;
 }

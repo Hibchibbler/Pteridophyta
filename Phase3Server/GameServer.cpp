@@ -15,7 +15,7 @@ GameServer::~GameServer()
 
 }
 
-sf::Uint32 GameServer::initialize()
+uint32_t GameServer::initialize()
 {
     //Allocate memory for context
     setContext(new ContextServer());
@@ -27,12 +27,12 @@ sf::Uint32 GameServer::initialize()
     server.startServer(5676);
     return 0;
 }
-sf::Uint32 GameServer::doEventProcessing()
+uint32_t GameServer::doEventProcessing()
 {
     //Do remote processing
     CommEvent event;
     while (server.receive(event)){
-        sf::Uint32 t;
+        uint32_t t;
         (*event.packet) >> t;
         switch (t){
             case CommEventType::Connected:{
@@ -63,13 +63,13 @@ sf::Uint32 GameServer::doEventProcessing()
     }
     return 0;
 }
-sf::Uint32 GameServer::doGameProcessing()
+uint32_t GameServer::doGameProcessing()
 {
     //doLoop
     Game::doGameProcessing();
     return 0;
 }
-sf::Uint32 GameServer::cleanup()
+uint32_t GameServer::cleanup()
 {
     Game::cleanup();
     return 0;

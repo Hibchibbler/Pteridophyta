@@ -9,7 +9,7 @@
 
 namespace bali{
 
-StageServerLobby::StageServerLobby(Game & game, sf::Uint32 uid)
+StageServerLobby::StageServerLobby(Game & game, uint32_t uid)
     : GameStage(game, uid)
 {
 }
@@ -18,21 +18,21 @@ StageServerLobby::~StageServerLobby()
 {
 }
 
-sf::Uint32 StageServerLobby::initialize()
+uint32_t StageServerLobby::initialize()
 {
     initialized();
     return 0;
 }
 
-sf::Uint32 StageServerLobby::doRemoteEvents(CommEvent & cevent)
+uint32_t StageServerLobby::doRemoteEvents(CommEvent & event)
 {
     GameServer* gs = ((GameServer*)&g);
 
-    sf::Uint32 msgId;
-    sf::Uint32 cid;
+    uint32_t msgId;
+    uint32_t cid;
 
-    cid = cevent.connectionId;
-    (*cevent.packet) >> msgId;
+    cid = event.connectionId;
+    (*event.packet) >> msgId;
 
     SPlayer p = gs->mp.getPlayerByCid(cid);
     if (p == nullptr){
@@ -47,8 +47,8 @@ sf::Uint32 StageServerLobby::doRemoteEvents(CommEvent & cevent)
             break;
         }case MsgId::Id:{
             std::cout << "Got Id" << std::endl;
-            (*cevent.packet) >> p->name;
-            (*cevent.packet) >> p->team;
+            (*event.packet) >> p->name;
+            (*event.packet) >> p->team;
 
             p->setIdentity();
 
@@ -65,31 +65,31 @@ sf::Uint32 StageServerLobby::doRemoteEvents(CommEvent & cevent)
     return STAGE_SERVER_LOBBY_SUCCESS;
 }
 
-sf::Uint32 StageServerLobby::doLoop()
+uint32_t StageServerLobby::doLoop()
 {
     GameServer* gs = ((GameServer*)&g);
 
     return 0;
 }
 
-sf::Uint32 StageServerLobby::doWindowEvents(sf::Event & wevent)
+uint32_t StageServerLobby::doWindowEvents(sf::Event & wevent)
 {
 
     return 0;
 }
 
-sf::Uint32 StageServerLobby::doLocalInputs()
+uint32_t StageServerLobby::doLocalInputs()
 {
 
     return 0;
 }
 
-sf::Uint32 StageServerLobby::doDraw()
+uint32_t StageServerLobby::doDraw()
 {
     return 0;
 }
 
-sf::Uint32 StageServerLobby::cleanup()
+uint32_t StageServerLobby::cleanup()
 {
     return 0;
 }

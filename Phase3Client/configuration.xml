@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 	<client>
-		<properties>
-			<property name="foo" value="bar"/>
-			<property name="baz" value="biz"/>
-		</properties>
-		<window name="Phase 3" mode="windowed" width="800" height="800" />
-		<maps>
-			<map name="map1.tmx"/>
-		</maps>
+		<property name="foo" value="bar"/>
+		<property name="baz" value="biz"/>
+		<window name="Phase 3" mode="windowed" width="800" height="800" />		
 	</client>
-	<physics>
-		<properties>
-			<property name="bar" value="foo"/>
-		</properties>
-	</physics>
-	<networking>
-		<properties>
-			<property name="bar2" value="foo2"/>
-		</properties>
-	</networking>
+	<server>
+		<property name="port" value="5676"/>
+		<property name="password" value="" />
+	</server>
+	<global>
+		<map id="1" file="map1.tmx"/>
+		<map id="2" file="map2.tmx"/>
+		<map id="3" file="map3.tmx"/>
+		<property name="bing" value="bang"/>
+	</global>
 </configuration>

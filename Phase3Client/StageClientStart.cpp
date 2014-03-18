@@ -4,7 +4,7 @@
 
 namespace bali{
 
-StageClientStart::StageClientStart(Game & game, sf::Uint32 uid)
+StageClientStart::StageClientStart(Game & game, uint32_t uid)
  :  GameStage(game, uid)
 {
 
@@ -34,7 +34,7 @@ void StageClientStart::doStart()
 
     finished(0);
 }
-sf::Uint32 StageClientStart::initialize()
+uint32_t StageClientStart::initialize()
 {
 
     //Construct Start Menu GUI
@@ -88,27 +88,27 @@ sf::Uint32 StageClientStart::initialize()
     return 0;
 }
 
-sf::Uint32 StageClientStart::doRemoteEvents(CommEvent & cevent)
+uint32_t StageClientStart::doRemoteEvents(CommEvent & event)
 {
     return 0;
 }
 
-sf::Uint32 StageClientStart::doWindowEvents(sf::Event & wevent)
+uint32_t StageClientStart::doWindowEvents(sf::Event & wevent)
 {
     setupDesktop.HandleEvent(wevent);
     return 0;
 }
-sf::Uint32 StageClientStart::doLocalInputs()
+uint32_t StageClientStart::doLocalInputs()
 {
     return 0;
 }
 
-sf::Uint32 StageClientStart::doLoop()
+uint32_t StageClientStart::doLoop()
 {
     setupDesktop.Update(1.0f);
     return 0;
 }
-sf::Uint32 StageClientStart::doDraw()
+uint32_t StageClientStart::doDraw()
 {
     GameClient* clientGame = ((GameClient*)&g);
     clientGame->window.clear();
@@ -117,7 +117,7 @@ sf::Uint32 StageClientStart::doDraw()
     clientGame->window.display();
     return 0;
 }
-sf::Uint32 StageClientStart::cleanup()
+uint32_t StageClientStart::cleanup()
 {
 
     return 0;

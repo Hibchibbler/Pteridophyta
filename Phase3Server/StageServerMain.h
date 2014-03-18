@@ -8,16 +8,16 @@ namespace bali
     class StageServerMain : public GameStage
     {
     public:
-        StageServerMain(Game & game, sf::Uint32 uid);
+        StageServerMain(Game & game, uint32_t uid);
         ~StageServerMain();
 
-        sf::Uint32 initialize();
-        sf::Uint32 doRemoteEvents(CommEvent & cevent);
-        sf::Uint32 doWindowEvents(sf::Event & wevent);
-        sf::Uint32 doLocalInputs();
-        sf::Uint32 doLoop();
-        sf::Uint32 doDraw();
-        sf::Uint32 cleanup();
+        uint32_t initialize();
+        uint32_t doRemoteEvents(CommEvent & event);
+        uint32_t doWindowEvents(sf::Event & wevent);
+        uint32_t doLocalInputs();
+        uint32_t doLoop();
+        uint32_t doDraw();
+        uint32_t cleanup();
     private:
     };
 }//end namespace bali

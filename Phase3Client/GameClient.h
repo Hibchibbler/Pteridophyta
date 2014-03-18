@@ -21,14 +21,14 @@ namespace bali
     public:
         GameClient();
         ~GameClient();
-        sf::Uint32 initialize();
-        sf::Uint32 doEventProcessing();
-        sf::Uint32 doGameProcessing();
-        sf::Uint32 cleanup();
+        uint32_t initialize();
+        uint32_t doEventProcessing();
+        uint32_t doGameProcessing();
+        uint32_t cleanup();
 
         sf::RenderWindow window;
-        sf::Uint32 winHeight;
-        sf::Uint32 winWidth;
+        uint32_t winHeight;
+        uint32_t winWidth;
         sfg::SFGUI sfgui;
 
         Comm client;
