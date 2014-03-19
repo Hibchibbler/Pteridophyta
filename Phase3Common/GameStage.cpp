@@ -10,6 +10,7 @@ GameStage::GameStage(Game & game, uint32_t uid)
     done = 0;
     id = uid;
     init = 0;
+    err = 0;
 }
 GameStage::~GameStage()
 {

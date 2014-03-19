@@ -23,7 +23,7 @@ StageClientLobby::~StageClientLobby()
 }
 uint32_t StageClientLobby::initialize()
 {
-    ContextClient *ctx = ((ContextClient*)(g.gameContext));
+    ContextClient *ctx = ((ContextClient*)(g.getContext()));
     GameClient* gc = ((GameClient*)&g);
 
 
@@ -111,7 +111,7 @@ void StageClientLobby::doReady(StageClientLobby* l)
 void StageClientLobby::doJoinTeam1(StageClientLobby* l)
 {
     GameClient* gc = ((GameClient*)&l->g);
-    ContextClient* cc = ((ContextClient*)(gc->gameContext));
+    ContextClient* cc = ((ContextClient*)(gc->getContext()));
 
     //Send Id
     cc->team = 1;
@@ -130,7 +130,7 @@ void StageClientLobby::doJoinTeam1(StageClientLobby* l)
 void StageClientLobby::doJoinTeam2(StageClientLobby* l)
 {
     GameClient* gc = ((GameClient*)&l->g);
-    ContextClient* cc = ((ContextClient*)(gc->gameContext));
+    ContextClient* cc = ((ContextClient*)(gc->getContext()));
 
     //Send Id
     cc->team = 2;
@@ -167,6 +167,7 @@ uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
             uint32_t t1o=0;
             uint32_t t2o=0;
 
+            //Get number of (name,team) we're gunna get.
             uint32_t np;
             (*event.packet) >> np;
 
@@ -177,6 +178,7 @@ uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
                 team2[i]->SetText(sf::String(""));
             }
 
+            //Fill the slots with the names recieved in WhoIsAck payload
             for (int i = 0;i < np;i++)
             {
                 std::string name;

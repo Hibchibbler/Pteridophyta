@@ -39,6 +39,20 @@ public:
         return false;
     }
 
+    bool isAllPlayersReady()
+    {
+        for (auto p = players.begin(); p != players.end();p++)
+        {
+            if (!(*p)->isReady())
+                return false;
+        }
+        return true;
+    }
+
+    uint32_t getNumPlayers()
+    {
+        return players.size();
+    }
 //    void removeSpectatorByCid(uint32_t cid)
 //    {
 //        for (auto s = spectators.begin(); s != spectators.end();s++)

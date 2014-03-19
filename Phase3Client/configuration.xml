@@ -8,6 +8,8 @@
 	<server>
 		<property name="port" value="5676"/>
 		<property name="password" value="" />
+		<property name="minplayers" value="2" />
+		<property name="maxplayers" value="10" />
 	</server>
 	<global>
 		<map id="1" file="map1.tmx"/>

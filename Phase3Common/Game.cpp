@@ -3,6 +3,17 @@
 
 namespace bali{
 
+Game::Game(){
+    curStageIndex = 0;
+    context = NULL;
+}
+
+Game::~Game()
+{
+
+}
+
+
 uint32_t Game::doEventProcessing()
 {
     return 0;
@@ -11,29 +22,36 @@ uint32_t Game::doEventProcessing()
 uint32_t Game::doGameProcessing(){
 
     //Initialize gameStage if it has not already been initialized.
-    //This is only applicable to the very first stage.
     if (!getCurrentStage()->isInit())
-        getCurrentStage()->initialize();
-
-    //Check if current stage is done
-    if (getCurrentStage()->isDone())
     {
-        if (!getCurrentStage()->isError())
-        {
-            //Goto next stage
-            nextStage();
-
-            //initialize stage right after we transition to it.
-            getCurrentStage()->initialize();
-        }else{
-            //Done and Error reported from current Stage
-        }
+        std::cout << "Game::doGameProcessing(): GameStage (" << getCurrentStageIndex() << ") initialized" << std::endl;
+        getCurrentStage()->initialize();
     }
 
+    //Do flows if not done
+    const uint32_t NOERROR = 0;
+    if (!getCurrentStage()->isDone() && getCurrentStage()->isError() == NOERROR)
+    {
+        getCurrentStage()->doLoop();
+        getCurrentStage()->doDraw();
 
-    getCurrentStage()->doLoop();
-    getCurrentStage()->doDraw();
-
+    }else
+    {//Stage Finished
+        uint32_t e = getCurrentStage()->isError();
+        if (e == 0)
+        {
+            //No Error. Assume Done. Goto next stage
+            //But, cleanup first
+            std::cout << "Game::doGameProcessing(): GameStage (" << getCurrentStageIndex() << ") finished" << std::endl;
+            getCurrentStage()->cleanup();
+            nextStage();
+        }else{
+            //Error reported from current Stage
+            std::cout << "Game::doGameProcessing(): GameStage (" << getCurrentStageIndex() << ") error" << std::endl;
+            getCurrentStage()->cleanup();
+            return e;
+        }
+    }
     return 0;
 }
 uint32_t Game::initialize()

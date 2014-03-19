@@ -1032,14 +1032,14 @@
 	"ManagerWorld.h"
 	"ManagerPlayer.h"
 
-1395116371 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\game.h
+1395206116 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\game.h
 	<SFML/Graphics.hpp>
 	<SFGUI/SFGUI.hpp>
 	<vector>
 	<box2d/box2d.h>
 	"ManagerPlayer.h"
 
-1395106775 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\managerplayer.h
+1395208168 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\managerplayer.h
 	"Player.h"
 	<vector>
 	<memory>
@@ -1056,7 +1056,7 @@
 
 1394348657 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3server\contextserver.h
 
-1395106775 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\managertexture.h
+1395202315 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\managertexture.h
 	<SFML\graphics.hpp>
 
 1394318725 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\managerconfiguration.h
@@ -1082,7 +1082,7 @@
 1395191210 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3server\stageserverstart.h
 	"GameStage.h"
 
-1395191206 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\gamestage.h
+1395202951 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\gamestage.h
 	<SFML/Graphics.hpp>
 	<string>
 	"common.h"

@@ -14,7 +14,7 @@ StageClientMain::StageClientMain(Game & game, uint32_t uid)
 
 uint32_t StageClientMain::initialize()
 {
-    ContextClient *ctx = ((ContextClient*)(g.gameContext));
+    ContextClient *ctx = ((ContextClient*)(g.getContext()));
 
     std::cout << "Hi from StageClientMain::initialize() =>" << std::endl;
     std::cout << ctx->name << ", "

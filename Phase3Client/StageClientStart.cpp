@@ -24,7 +24,7 @@ void StageClientStart::doStart()
     std::string ip   = ipEntry->GetText();
     std::cout << "Hi " << name << std::endl;
 
-    ContextClient* gc = ((ContextClient*)(g.gameContext));
+    ContextClient* gc = ((ContextClient*)(g.getContext()));
     gc->name = name;
     gc->pass = pass;
     gc->port = port;

@@ -23,10 +23,10 @@ uint32_t GameClient::initialize()
     add(std::shared_ptr<GameStage>(new StageClientLobby(*this, 1)));//1 - uid for lobby stage
     add(std::shared_ptr<GameStage>(new StageClientMain(*this, 2)));//2 - uid for main stage
 
-    mc.initialize("configuration.xml");
-    mm.initialize(mc);
-    mt.initialize(mm);
-    mw.initialize(mc, mm);
+    //mc.initialize("configuration.xml");
+    //mm.initialize(mc);
+    //mt.initialize(mm);
+    //mw.initialize(mc, mm);
 
     window.create(sf::VideoMode(600,500,32), "Bam");
 

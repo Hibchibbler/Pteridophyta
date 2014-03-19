@@ -71,7 +71,14 @@ namespace bali
         void setId(uint32_t id);
         uint32_t getId();
         uint32_t isDone();
+
+        //
+        //isError() if returns > 0 then error, and value is defined
+        //by derived stage
+        //returns 0 if no error
+        //
         uint32_t isError();
+
         uint32_t isInit();
 
         void initialized(){init=1;}

@@ -58,7 +58,12 @@ uint32_t StageServerLobby::doRemoteEvent(CommEvent & event)
         }case MsgId::Ready:{
             std::cout << "Got Ready" << std::endl;
             p->setReady();
-            Messages::sendStart(gs->server);
+
+            const uint32_t MINPLAYERS = 4;
+            if (gs->mp.getNumPlayers() >= MINPLAYERS && gs->mp.isAllPlayersReady())
+            {
+                Messages::sendStart(gs->server);
+            }
             break;
         }
     }

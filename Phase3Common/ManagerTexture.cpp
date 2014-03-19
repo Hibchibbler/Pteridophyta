@@ -19,7 +19,7 @@ bool ManagerTexture::initialize(ManagerMap& mapMan)
     for (auto& m : mapMan.maps){
         for (auto& t : m->tileSets){
             std::cout << "Loading image " << t.image.source<<std::endl;
-            spriteSheets.push_back(ImageTexite());
+            spriteSheets.push_back(Texture());
             spriteSheets.back().load(t.image.source, t.name, atoi(t.tilewidth.c_str()), atoi(t.tileheight.c_str()), atoi(t.image.width.c_str()), atoi(t.image.height.c_str()));
         }
     }
