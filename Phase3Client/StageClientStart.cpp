@@ -88,7 +88,7 @@ uint32_t StageClientStart::initialize()
     return 0;
 }
 
-uint32_t StageClientStart::doRemoteEvents(CommEvent & event)
+uint32_t StageClientStart::doRemoteEvent(CommEvent & event)
 {
     return 0;
 }
@@ -113,7 +113,7 @@ uint32_t StageClientStart::doDraw()
     GameClient* clientGame = ((GameClient*)&g);
     clientGame->window.clear();
     clientGame->window.resetGLStates();
-    clientGame->sfgui.Display(((GameClient*)&g)->window);
+    clientGame->sfGui.Display(((GameClient*)&g)->window);
     clientGame->window.display();
     return 0;
 }

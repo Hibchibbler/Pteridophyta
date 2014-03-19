@@ -52,7 +52,7 @@ void LoaderMap::start_element(void *data, const char *element, const char **attr
     }
     else
     if (elementName == "tileset"){
-        map->tileSets.push_back(Tileset());
+        map->tileSets.push_back(Map::Tileset());
         for (size_t i = 0; attribute[i]; i += 2)
         {
             ASSIGNIFMATCHES("firstgid", map->tileSets.back().firstgid);
@@ -77,7 +77,7 @@ void LoaderMap::start_element(void *data, const char *element, const char **attr
     else
     if (elementName == "layer"){
         map->mapLoadState = Map::LAYER;
-        map->layers.push_back(Layer());
+        map->layers.push_back(Map::Layer());
         for (size_t i = 0; attribute[i]; i += 2)
         {
             ASSIGNIFMATCHES("name", map->layers.back().name);
@@ -88,11 +88,11 @@ void LoaderMap::start_element(void *data, const char *element, const char **attr
     }
     else
     if (elementName == "data"){
-        map->layers.back().data.push_back(Data());
+        map->layers.back().data.push_back(Map::Data());
     }
     else
     if (elementName == "tile"){
-        map->layers.back().data.back().tiles.push_back(Tile());
+        map->layers.back().data.back().tiles.push_back(Map::Tile());
         for (size_t i = 0; attribute[i]; i += 2)
         {
             ASSIGNIFMATCHES("gid", map->layers.back().data.back().tiles.back().gid);
@@ -102,7 +102,7 @@ void LoaderMap::start_element(void *data, const char *element, const char **attr
     else
     if (elementName == "objectgroup"){
         map->mapLoadState = Map::OBJECTGROUP;
-        map->objectGroups.push_back(ObjectGroup());
+        map->objectGroups.push_back(Map::ObjectGroup());
         for (size_t i = 0; attribute[i]; i += 2)
         {
             ASSIGNIFMATCHES("name", map->objectGroups.back().name);
@@ -114,19 +114,19 @@ void LoaderMap::start_element(void *data, const char *element, const char **attr
     }
     else
     if (elementName == "property"){
-        MapProperty * property = NULL;
+        Map::Property * property = NULL;
         if (map->mapLoadState== Map::MAP){
-            map->properties.push_back(MapProperty());
+            map->properties.push_back(Map::Property());
             property = &map->properties.back();
         }
         else
         if (map->mapLoadState == Map::LAYER){
-            map->layers.back().properties.push_back(MapProperty());
+            map->layers.back().properties.push_back(Map::Property());
             property = &map->layers.back().properties.back();
         }
         else
         if (map->mapLoadState == Map::OBJECTGROUP){
-            map->objectGroups.back().properties.push_back(MapProperty());
+            map->objectGroups.back().properties.push_back(Map::Property());
             property = &map->objectGroups.back().properties.back();
         }
 
@@ -139,7 +139,7 @@ void LoaderMap::start_element(void *data, const char *element, const char **attr
     }
     else
     if (elementName == "object"){
-        map->objectGroups.back().objects.push_back(Object());
+        map->objectGroups.back().objects.push_back(Map::Object());
         for (size_t i = 0; attribute[i]; i += 2)
         {
             ASSIGNIFMATCHES("x", map->objectGroups.back().objects.back().x);

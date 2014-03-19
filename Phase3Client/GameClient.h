@@ -29,7 +29,7 @@ namespace bali
         sf::RenderWindow window;
         uint32_t winHeight;
         uint32_t winWidth;
-        sfg::SFGUI sfgui;
+        sfg::SFGUI sfGui;
 
         Comm client;
 
@@ -39,7 +39,6 @@ namespace bali
         ManagerWorld mw;
         ManagerPlayer mp;
 
-        sfg::SFGUI sfGui;
         sfg::Desktop desk;
 
     private:

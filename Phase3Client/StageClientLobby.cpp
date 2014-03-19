@@ -154,7 +154,7 @@ uint32_t StageClientLobby::doWindowEvents(sf::Event & event)
     return 0;
 }
 
-uint32_t StageClientLobby::doRemoteEvents(CommEvent & event)
+uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
 {
     GameClient* gc = ((GameClient*)&g);
     uint32_t msgId;

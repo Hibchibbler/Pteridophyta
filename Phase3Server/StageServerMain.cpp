@@ -16,7 +16,7 @@ uint32_t StageServerMain::initialize()
     initialized();
     return 0;
 }
-uint32_t StageServerMain::doRemoteEvents(CommEvent & cevent)
+uint32_t StageServerMain::doRemoteEvent(CommEvent & cevent)
 {
     return 0;
 }

@@ -28,7 +28,7 @@ uint32_t StageClientMain::initialize()
     return 0;
 }
 
-uint32_t StageClientMain::doRemoteEvents(CommEvent & event)
+uint32_t StageClientMain::doRemoteEvent(CommEvent & event)
 {
     return 0;
 }

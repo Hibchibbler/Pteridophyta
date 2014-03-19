@@ -56,7 +56,7 @@ uint32_t GameServer::doEventProcessing()
             case CommEventType::Data:{
                 //Delegate this event to the current stage
                 std::cout << "Data." <<std::endl;
-                getCurrentStage()->doRemoteEvents(event);
+                getCurrentStage()->doRemoteEvent(event);
                 break;
             }
         }

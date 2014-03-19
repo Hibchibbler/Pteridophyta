@@ -24,7 +24,7 @@ uint32_t StageServerLobby::initialize()
     return 0;
 }
 
-uint32_t StageServerLobby::doRemoteEvents(CommEvent & event)
+uint32_t StageServerLobby::doRemoteEvent(CommEvent & event)
 {
     GameServer* gs = ((GameServer*)&g);
 

@@ -17,7 +17,7 @@ namespace bali
         ~StageServerLobby();
 
         uint32_t initialize();
-        uint32_t doRemoteEvents(CommEvent & event);
+        uint32_t doRemoteEvent(CommEvent & event);
         uint32_t doWindowEvents(sf::Event & wevent);
         uint32_t doLocalInputs();
         uint32_t doLoop();

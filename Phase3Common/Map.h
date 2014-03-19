@@ -7,97 +7,87 @@
 namespace bali{
 
 
-class Image
-{
-  public:
-      std::string source;
-      std::string trans;
-      std::string width;
-      std::string height;
-};
-class Tileset
-{
-public:
-    std::string name;
-    std::string firstgid;
-    std::string tilewidth;
-    std::string tileheight;
-    Image image;
-};
 
-class Point
-{
-public:
-    float x;
-    float y;
-};
-
-class Ellipse
-{
-public:
-};
-
-class Polygon
-{
-public:
-    std::vector<Point> points;
-};
-
-class Object
-{
-public:
-    std::string x;
-    std::string y;
-    std::string width;
-    std::string height;
-    Ellipse ellipse;
-    Polygon polygon;
-};
-
-class Tile
-{
-public:
-    std::string gid;
-};
-
-class Data
-{
-public:
-    std::vector<Tile> tiles;
-};
-
-class MapProperty
-{
-public:
-    std::string name;
-    std::string value;
-};
-class ObjectGroup
-{
-public:
-    std::string name;
-    std::string width;
-    std::string height;
-    std::vector<MapProperty> properties;
-    std::vector<Object> objects;
-};
-
-
-
-class Layer
-{
-public:
-    std::string name;
-    std::string width;
-    std::string height;
-
-    std::vector<Data> data;
-    std::vector<MapProperty> properties;
-};
 
 class Map
 {
 public:
+    struct Image
+    {
+        std::string source;
+        std::string trans;
+        std::string width;
+        std::string height;
+    };
+    struct Tileset
+    {
+        std::string name;
+        std::string firstgid;
+        std::string tilewidth;
+        std::string tileheight;
+        Image image;
+    };
+
+    struct Point
+    {
+        float x;
+        float y;
+    };
+
+    struct Ellipse
+    {
+    };
+
+    struct Polygon
+    {
+        std::vector<Point> points;
+    };
+
+    struct Object
+    {
+        std::string x;
+        std::string y;
+        std::string width;
+        std::string height;
+        Ellipse ellipse;
+        Polygon polygon;
+    };
+
+    struct Tile
+    {
+        std::string gid;
+    };
+
+    struct Data
+    {
+        std::vector<Tile> tiles;
+    };
+
+    struct Property
+    {
+        std::string name;
+        std::string value;
+    };
+    struct ObjectGroup
+    {
+        std::string name;
+        std::string width;
+        std::string height;
+        std::vector<Property> properties;
+        std::vector<Object> objects;
+    };
+
+
+
+    struct Layer
+    {
+        std::string name;
+        std::string width;
+        std::string height;
+
+        std::vector<Data> data;
+        std::vector<Property> properties;
+    };
     enum LoadState{
         MAP,
         LAYER,
@@ -112,7 +102,7 @@ public:
     std::string tilewidth;
     std::string tileheight;
 
-    std::vector<MapProperty> properties;
+    std::vector<Property> properties;
     std::vector<Tileset> tileSets;
     std::vector<Layer> layers;
     std::vector<ObjectGroup> objectGroups;

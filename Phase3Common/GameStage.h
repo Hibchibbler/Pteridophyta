@@ -54,7 +54,7 @@ namespace bali
         //
         //doRemoteEvent is responsible for receiving data from server.
         //
-        virtual uint32_t doRemoteEvents(CommEvent & event)=0;
+        virtual uint32_t doRemoteEvent(CommEvent & event)=0;
 
         virtual uint32_t doWindowEvents(sf::Event & wevent)=0;
         virtual uint32_t doLocalInputs()=0;
