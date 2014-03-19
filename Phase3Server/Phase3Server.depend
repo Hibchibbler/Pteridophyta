@@ -1032,11 +1032,10 @@
 	"ManagerWorld.h"
 	"ManagerPlayer.h"
 
-1395206116 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\game.h
+1395210656 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\game.h
 	<SFML/Graphics.hpp>
 	<SFGUI/SFGUI.hpp>
 	<vector>
-	<box2d/box2d.h>
 	"ManagerPlayer.h"
 
 1395208168 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\managerplayer.h
@@ -1062,13 +1061,14 @@
 1394318725 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\managerconfiguration.h
 	"Configuration.h"
 
-1395120659 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\configuration.h
+1395211180 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\configuration.h
 	<string>
 	<vector>
 
-1394318664 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\managermap.h
+1395211425 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\managermap.h
 	"Map.h"
 	<memory>
+	<map>
 
 1395194077 c:\users\hibchibbler\documents\phase3\pteridophyta\phase3common\map.h
 	"LoaderXML.h"
@@ -1100,7 +1100,7 @@
 	<iostream>
 	"GameServer.h"
 
-1395191210 source:c:\users\hibchibbler\documents\phase3\pteridophyta\phase3server\stageserverlobby.cpp
+1395208355 source:c:\users\hibchibbler\documents\phase3\pteridophyta\phase3server\stageserverlobby.cpp
 	"StageServerLobby.h"
 	"Comm.h"
 	"ManagerPlayer.h"
