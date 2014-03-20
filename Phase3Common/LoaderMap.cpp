@@ -57,8 +57,8 @@ void LoaderMap::start_element(void *data, const char *element, const char **attr
         {
             ASSIGNIFMATCHES("firstgid", map->tileSets.back().firstgid);
             ASSIGNIFMATCHES("name", map->tileSets.back().name);
-            ASSIGNIFMATCHES("tilewidth", map->tileSets.back().tilewidth);
-            ASSIGNIFMATCHES("tileheight", map->tileSets.back().tileheight);
+            ASSIGNIFMATCHES("tilewidth", map->tileSets.back().tileWidth);
+            ASSIGNIFMATCHES("tileheight", map->tileSets.back().tileHeight);
             std::cout << "Unexpected attribute " << attribute[i] << "=" << attribute[i+1] << " in " << std::string(element) << std::endl;
         }
 

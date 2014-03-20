@@ -17,10 +17,10 @@ ManagerMap::~ManagerMap(){
 bool ManagerMap::initialize(ManagerConfiguration& cm){
 
     for (auto i = 0; i < cm.configuration.global.maps.size();i++){
-        std::cout << "Loading Map " << cm.configuration.global.maps[i].name.c_str() << std::endl;
+        std::cout << "Loading Map " << cm.configuration.global.maps[i].filePath.c_str() << std::endl;
         std::unique_ptr<Map> aMap(new Map());
-        LoaderMap::load(cm.configuration.global.maps[i].name.c_str(), aMap.get());
-        maps.push_back(std::move(aMap));
+        LoaderMap::load(cm.configuration.global.maps[i].filePath.c_str(), aMap.get());
+        maps[cm.configuration.global.maps[i].id] = std::move(aMap);
     }
     return true;
 }

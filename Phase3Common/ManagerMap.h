@@ -3,6 +3,7 @@
 
 #include "Map.h"
 #include <memory>
+#include <map>
 
 
 namespace bali{
@@ -11,7 +12,7 @@ namespace bali{
 class ManagerConfiguration;
 class ManagerMap{
 public:
-    typedef std::vector<std::unique_ptr<Map> > Maps;
+    typedef std::map<std::string, std::unique_ptr<Map> > Maps;
 
     ManagerMap();
     ~ManagerMap();

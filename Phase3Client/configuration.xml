@@ -12,9 +12,8 @@
 		<property name="maxplayers" value="10" />
 	</server>
 	<global>
-		<map id="1" file="map1.tmx"/>
-		<map id="2" file="map2.tmx"/>
-		<map id="3" file="map3.tmx"/>
+		<map id="1" filepath="map1.tmx"/>
+		<map id="2" filepath="map2.tmx"/>
 		<property name="bing" value="bang"/>
 	</global>
 </configuration>

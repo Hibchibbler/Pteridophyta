@@ -21,7 +21,8 @@ public:
     };
 
     struct Map{
-        std::string name;
+        std::string id;
+        std::string filePath;
     };
 
     struct Client{

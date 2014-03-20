@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFGUI/SFGUI.hpp>
 #include <vector>
-#include <box2d/box2d.h>
+//#include <box2d/box2d.h>//notyet
 #include "ManagerPlayer.h"
 
 namespace bali{

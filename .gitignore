@@ -1,3 +1,11 @@
+#Generally
 *.o
 *.exe
 *.dll
+
+#Phase3Common
+*.a
+
+#Code::Blocks
+*.depend
+*.layout

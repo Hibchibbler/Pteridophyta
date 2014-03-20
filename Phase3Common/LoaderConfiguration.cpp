@@ -60,11 +60,11 @@ void LoaderConfiguration::start_element(void *data, const char *element, const c
     }
     else
     if (elementName == "server"){
-        configuration->configLoadState = Configuration::CLIENT;
+        configuration->configLoadState = Configuration::SERVER;
     }
     else
     if (elementName == "global"){
-        configuration->configLoadState = Configuration::CLIENT;
+        configuration->configLoadState = Configuration::GLOBAL;
     }
 
     if (elementName == "window" && configuration->configLoadState == Configuration::CLIENT){
@@ -77,9 +77,10 @@ void LoaderConfiguration::start_element(void *data, const char *element, const c
     }
 
     if (elementName == "map" && configuration->configLoadState == Configuration::GLOBAL){
+        configuration->global.maps.push_back(Configuration::Map());
         for (size_t i = 0; attribute[i]; i += 2){
-            configuration->global.maps.push_back(Configuration::Map());
-            ASSIGNIFMATCHES("name", configuration->global.maps.back().name);
+            ASSIGNIFMATCHES("id", configuration->global.maps.back().id);
+            ASSIGNIFMATCHES("filepath", configuration->global.maps.back().filePath);
         }
     }
 
