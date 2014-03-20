@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
 	<Workspace title="Workspace">
-		<Project filename="Phase3Client/Phase3Client.cbp">
-			<Depends filename="Phase3Common/Phase3Common.cbp" />
+		<Project filename="Client/Phase3Client.cbp">
+			<Depends filename="Common/Phase3Common.cbp" />
 		</Project>
-		<Project filename="Phase3Server/Phase3Server.cbp">
-			<Depends filename="Phase3Common/Phase3Common.cbp" />
+		<Project filename="Server/Phase3Server.cbp">
+			<Depends filename="Common/Phase3Common.cbp" />
 		</Project>
-		<Project filename="Phase3Common/Phase3Common.cbp" />
+		<Project filename="Common/Phase3Common.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

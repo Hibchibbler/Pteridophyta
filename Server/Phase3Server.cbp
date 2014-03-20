@@ -2,7 +2,7 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Phase3Server" />
+		<Option title="Server" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
@@ -16,7 +16,7 @@
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add library="..\Phase3Common\libPhase3Common.a" />
+					<Add library="..\Common\libPhase3Common.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -41,7 +41,7 @@
 			<Add directory="C:/Program Files (x86)/Lua/5.1/include" />
 			<Add directory="C:/Program Files (x86)/box2d/include" />
 			<Add directory="C:/Program Files (x86)/expat 2.1.0/source/lib" />
-			<Add directory="../Phase3Common" />
+			<Add directory="../Common" />
 		</Compiler>
 		<Linker>
 			<Add library="sfml-graphics" />
