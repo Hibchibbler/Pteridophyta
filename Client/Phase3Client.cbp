@@ -42,7 +42,7 @@
 			<Add directory="C:/Program Files (x86)/Lua/5.1/include" />
 			<Add directory="C:/Program Files (x86)/box2d/include" />
 			<Add directory="C:/Program Files (x86)/expat 2.1.0/source/lib" />
-			<Add directory="../Phase3Common/" />
+			<Add directory="../Common/" />
 		</Compiler>
 		<Linker>
 			<Add library="sfml-graphics" />
