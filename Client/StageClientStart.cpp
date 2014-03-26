@@ -103,7 +103,7 @@ uint32_t StageClientStart::doLocalInputs()
     return 0;
 }
 
-uint32_t StageClientStart::doLoop()
+uint32_t StageClientStart::doUpdate()
 {
     setupDesktop.Update(1.0f);
     return 0;

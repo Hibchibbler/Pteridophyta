@@ -6,7 +6,7 @@
 
 #include "ContextServer.h"
 
-#include "ManagerTexture.h"
+//#include "ManagerTexture.h"
 #include "ManagerConfiguration.h"
 #include "ManagerMap.h"
 #include "ManagerWorld.h"
@@ -32,7 +32,7 @@ namespace bali
 
         ManagerConfiguration mc;
         ManagerMap mm;
-        ManagerTexture mt;
+        //ManagerTexture mt;
         ManagerWorld mw;
         ManagerPlayer mp;
     private:

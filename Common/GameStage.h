@@ -12,25 +12,6 @@ namespace bali
 {
     class Game;
 
-//    class StageContext{
-//    public:
-//
-//        StageContext(){
-//
-//        }
-//
-//        std::string name;
-//        std::string pass;
-//        std::string port;
-//        std::string ip;
-//
-//        std::string strval;
-//        uint32_t uint32val;
-//
-//    };
-
-
-
     //GameStage represents an discrete, unique block of functionality. It represents the most course grain
     // unit of game functionality.
     //Splash Screen, Lobby, Main game view, and credits are examples of what represents a GameStage.
@@ -60,9 +41,9 @@ namespace bali
         virtual uint32_t doLocalInputs()=0;
 
         //
-        //doLoop is responsible for sending data to server.
+        //doUpdate is responsible for sending data to server.
         //
-        virtual uint32_t doLoop()=0;
+        virtual uint32_t doUpdate()=0;
 
         virtual uint32_t doDraw()=0;
         virtual uint32_t cleanup()=0;

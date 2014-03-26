@@ -6,7 +6,7 @@
 
 namespace bali{
 
-class Texture
+class TileSet
 {
 public:
     uint32_t load(std::string fn, std::string n, uint32_t tw, uint32_t th, uint32_t w, uint32_t h){
@@ -46,7 +46,8 @@ public:
     bool initialize(ManagerMap& mapMan);
     bool load(char* cfgfn);
 
-    std::vector<Texture> spriteSheets;
+
+    std::map<std::string, TileSet> tileSets;
 };
 
 

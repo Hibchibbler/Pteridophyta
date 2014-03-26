@@ -1,0 +1,55 @@
+There is a global gravity that rotates with fixed increments, and at fixed rates
+Each cavern has its own local gravity that can be modified permanantly.
+The gravity experienced in a cavern is the sum of the global gravity, and the local gravity.
+Levels designed to make cavern traversal dependent on specific angles of gravity.
+SKill/Item that allows permanently gravitational modifications.
+
+
+
+
+Fundamentals:
+Define Complexity:
+	Fun
+	HOw many mechanics: 7		
+		Points - to win
+		Monster Protectorate - to protect point, resource, either, neither, whatever
+		Resources - to power up
+			Filling a bucket at team base.
+			
+		Player Power Level
+		Gravity
+		
+		Coop
+		
+
+		Terrain/Level Design
+		
+	HOw long does a game run: 60 minutes
+	
+
+
+*HOw Simple of game do we want?
+*Just Gravity, two teams, deathmatch.  How fun is that?
+	*
+
+
+*Versus, or Coop?
+	*Could Versus be
+
+*Gravity
+	*The Nature of Gravity
+		*Friend, or Enemy?
+	*Gravity as an Item.
+		*They don't work while holding them?
+	*Gravity as an innate ability.
+	*HOw your Gravity Affects you.
+	*How your Gravity Affects others.
+	*HOw their Gravity affects you.
+*Coin
+*Star
+*Base
+*Team
+*Monster Protectorates
+
+----------
+caverns - radically swap orientations, frantically trying to kill monsters, and opponents. Gravity is the enemy, not an ability.

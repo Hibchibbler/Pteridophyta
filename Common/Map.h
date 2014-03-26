@@ -2,6 +2,7 @@
 #define Map_h_
 
 #include "LoaderXML.h"
+#include <SFML\graphics.hpp>
 #include <vector>
 #include <string>
 namespace bali{
@@ -12,19 +13,37 @@ namespace bali{
 class Map
 {
 public:
-    struct Image
+
+
+    class TileSet
     {
-        std::string             source;
-        std::string             trans;
-        std::string             width;
-        std::string             height;
-    };
-    struct Tileset
-    {
+    public:
+        struct Image
+        {
+            std::string             source;
+            std::string             trans;
+            uint32_t                width;
+            uint32_t                height;
+        };
+        uint32_t load(){
+            img.loadFromFile(image.source);
+            img.createMaskFromColor(sf::Color::Cyan,0);
+            tex.loadFromImage(img);
+            tex.setSmooth(false);
+            sprite.setTexture(tex);
+            return 0;
+        }
+        uint32_t unload(){
+            return 0;
+        }
+        sf::Image               img;
+        sf::Texture             tex;
+        sf::Sprite              sprite;
+
         std::string             name;
-        std::string             firstgid;
-        std::string             tileWidth;
-        std::string             tileHeight;
+        uint32_t                firstgid;
+        uint32_t                tileWidth;
+        uint32_t                tileHeight;
         Image                   image;
     };
 
@@ -45,17 +64,17 @@ public:
 
     struct Object
     {
-        std::string             x;
-        std::string             y;
-        std::string             width;
-        std::string             height;
+        uint32_t                x;
+        uint32_t                y;
+        uint32_t                width;
+        uint32_t                height;
         Ellipse                 ellipse;
         Polygon                 polygon;
     };
 
     struct Tile
     {
-        std::string             gid;
+        uint32_t                gid;
     };
 
     struct Data
@@ -71,8 +90,8 @@ public:
     struct ObjectGroup
     {
         std::string             name;
-        std::string             width;
-        std::string             height;
+        uint32_t                width;
+        uint32_t                height;
         std::vector<Property>   properties;
         std::vector<Object>     objects;
     };
@@ -82,8 +101,8 @@ public:
     struct Layer
     {
         std::string             name;
-        std::string             width;
-        std::string             height;
+        uint32_t                width;
+        uint32_t                height;
 
         std::vector<Data>       data;
         std::vector<Property>   properties;
@@ -97,13 +116,13 @@ public:
 
     std::string                 version;
     std::string                 orientation;
-    std::string                 width;
-    std::string                 height;
-    std::string                 tilewidth;
-    std::string                 tileheight;
+    uint32_t                    width;
+    uint32_t                    height;
+    uint32_t                    tilewidth;
+    uint32_t                    tileheight;
 
     std::vector<Property>       properties;
-    std::vector<Tileset>        tileSets;
+    std::vector<TileSet>        tileSets;
     std::vector<Layer>          layers;
     std::vector<ObjectGroup>    objectGroups;
 

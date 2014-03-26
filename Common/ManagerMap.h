@@ -12,7 +12,7 @@ namespace bali{
 class ManagerConfiguration;
 class ManagerMap{
 public:
-    typedef std::map<std::string, std::unique_ptr<Map> > Maps;
+    //typedef std::map<std::string, std::shared_ptr<Map> > Maps;
 
     ManagerMap();
     ~ManagerMap();
@@ -21,7 +21,8 @@ public:
     bool cleanup();
 
 
-    Maps maps;
+    //Maps maps;
+    std::shared_ptr<Map> map;
 };
 
 

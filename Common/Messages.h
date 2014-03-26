@@ -25,6 +25,7 @@ namespace bali
     class Player;
     typedef std::shared_ptr<Player> SPlayer;
     class ManagerPlayer;
+    class ManagerConfiguration;
     class Messages
     {
     public:
@@ -36,7 +37,7 @@ namespace bali
         static int sendId               (Comm & comm, Player & player);
     //Server messages
         static int sendWhoIsAck         (Comm & comm, SPlayer player, ManagerPlayer & mp);
-        static int sendIdAck            (Comm & comm, SPlayer player, ManagerPlayer & mp);
+        static int sendIdAck            (Comm & comm, SPlayer player, ManagerPlayer & mp, ManagerConfiguration& mc);
         static int sendIdNack           (Comm & comm, SPlayer player);
 //        static int sendMap              (Comm & comm, SPlayer player);//TODO: put functionality into IdAck
         static int sendStateOfUnion     (Comm & comm);

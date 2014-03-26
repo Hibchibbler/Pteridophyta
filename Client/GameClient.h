@@ -6,7 +6,7 @@
 #include "Comm.h"
 
 #include "ContextClient.h"
-#include "ManagerTexture.h"
+//#include "ManagerTexture.h"
 #include "ManagerConfiguration.h"
 #include "ManagerMap.h"
 #include "ManagerWorld.h"
@@ -27,19 +27,19 @@ namespace bali
         uint32_t cleanup();
 
         sf::RenderWindow window;
-        uint32_t winHeight;
-        uint32_t winWidth;
         sfg::SFGUI sfGui;
 
         Comm client;
 
         ManagerConfiguration mc;
         ManagerMap mm;
-        ManagerTexture mt;
+        //ManagerTexture mt;
         ManagerWorld mw;
         ManagerPlayer mp;
 
         sfg::Desktop desk;
+
+        sf::VertexArray layer1;
 
     private:
     };

@@ -10,6 +10,11 @@ namespace bali{
         std::string port;
         std::string ip;
         int team;
+        std::string layerName;
+
+        //Resolution picks
+        uint32_t screenWidth;
+        uint32_t screenHeight;
     };
 
 }//end namespace bali

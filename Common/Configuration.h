@@ -16,8 +16,8 @@ public:
     struct Window{
         std::string name;
         std::string mode;
-        std::string width;
-        std::string height;
+        uint32_t    width;
+        uint32_t    height;
     };
 
     struct Map{

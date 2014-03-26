@@ -52,14 +52,14 @@ uint32_t StageServerLobby::doRemoteEvent(CommEvent & event)
 
             p->setIdentity();
 
-            Messages::sendIdAck(gs->server, p, gs->mp);
+            Messages::sendIdAck(gs->server, p, gs->mp, gs->mc);
             //Messages::sendIdNack(gs->server, p);
             break;
         }case MsgId::Ready:{
             std::cout << "Got Ready" << std::endl;
             p->setReady();
 
-            const uint32_t MINPLAYERS = 4;
+            const uint32_t MINPLAYERS = 1;
             if (gs->mp.getNumPlayers() >= MINPLAYERS && gs->mp.isAllPlayersReady())
             {
                 Messages::sendStart(gs->server);
@@ -70,7 +70,7 @@ uint32_t StageServerLobby::doRemoteEvent(CommEvent & event)
     return STAGE_SERVER_LOBBY_SUCCESS;
 }
 
-uint32_t StageServerLobby::doLoop()
+uint32_t StageServerLobby::doUpdate()
 {
     GameServer* gs = ((GameServer*)&g);
 

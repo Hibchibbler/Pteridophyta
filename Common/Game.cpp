@@ -32,7 +32,7 @@ uint32_t Game::doGameProcessing(){
     const uint32_t NOERROR = 0;
     if (!getCurrentStage()->isDone() && getCurrentStage()->isError() == NOERROR)
     {
-        getCurrentStage()->doLoop();
+        getCurrentStage()->doUpdate();
         getCurrentStage()->doDraw();
 
     }else

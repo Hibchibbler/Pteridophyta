@@ -2,6 +2,7 @@
 #include "Comm.h"
 #include "Player.h"
 #include "ManagerPlayer.h"
+#include "ManagerConfiguration.h"
 #include <iostream>
 
 namespace bali{
@@ -103,7 +104,7 @@ int Messages::sendWhoIsAck(Comm & comm, SPlayer player, ManagerPlayer & mp)
     return 0;
 }
 
-int Messages::sendIdAck(Comm & comm, SPlayer player, ManagerPlayer & mp)
+int Messages::sendIdAck(Comm & comm, SPlayer player, ManagerPlayer & mp, ManagerConfiguration& mc)
 {
     std::cout << "Sent IdAck" << std::endl;
     CommEvent event;
@@ -111,6 +112,11 @@ int Messages::sendIdAck(Comm & comm, SPlayer player, ManagerPlayer & mp)
 
     (*event.packet) << CommEventType::Data;
     (*event.packet) << MsgId::IdAck;
+
+    //server will send layer name as found in configuration.xml
+    //this layer name indicates which layer, in the tmx file to use for the level.
+    (*event.packet) << mc.configuration.global.maps.front().id;
+
     comm.send(event);
     return 0;
 }

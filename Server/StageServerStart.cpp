@@ -28,7 +28,7 @@ uint32_t StageServerStart::doLocalInputs()
 {
     return 0;
 }
-uint32_t StageServerStart::doLoop()
+uint32_t StageServerStart::doUpdate()
 {
     finished(0);
     return 0;

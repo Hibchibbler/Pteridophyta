@@ -30,7 +30,6 @@ uint32_t StageClientLobby::initialize()
 
     gc->client.startClient(5676,sf::IpAddress("192.168.1.13"));
     //sf::sleep(sf::seconds(6));
-    std::cout << "Hi from StageClientLobby::initialize() =>" << std::endl;
     std::cout << ctx->name << ", "
               << ctx->pass << ", "
               << ctx->port << ", "
@@ -157,6 +156,7 @@ uint32_t StageClientLobby::doWindowEvents(sf::Event & event)
 uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
 {
     GameClient* gc = ((GameClient*)&g);
+    ContextClient* cc = ((ContextClient*)(gc->getContext()));
     uint32_t msgId;
     (*event.packet) >> msgId;
 
@@ -186,12 +186,10 @@ uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
                 (*event.packet) >> name >> team;
                 if (team == 1)
                 {
-                    std::cout << "Adding " << name << " to team 1" << std::endl;
                     team1[t1o]->SetText(sf::String(name));
                     t1o++;
                 }else
                 {
-                    std::cout << "Adding " << name << " to team 2" << std::endl;
                     team2[t2o]->SetText(sf::String(name));
                     t2o++;
                 }
@@ -199,7 +197,11 @@ uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
 
             break;
     }case MsgId::IdAck:{
-            std::cout << "Got IdAck" << std::endl;
+            std::cout << "Got IdAck, " ;
+            std::string layerName;
+            (*event.packet) >> layerName;
+            std::cout << "Layer: " << layerName << std::endl;
+            cc->layerName = layerName;
             readyButton->Show(true);
             gc->mp.player.setIdentity();
             gc->mp.player.stateClient = StatePlayerClient::Waiting;
@@ -230,7 +232,7 @@ uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
 
 
 
-uint32_t StageClientLobby::doLoop()
+uint32_t StageClientLobby::doUpdate()
 {
     GameClient* gc = ((GameClient*)&g);
 

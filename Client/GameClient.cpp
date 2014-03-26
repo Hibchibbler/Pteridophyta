@@ -4,6 +4,7 @@
 #include "StageClientMain.h"
 
 namespace bali{
+#define CLIENTCONTEXT ((ContextClient*)getContext())
 
 GameClient::GameClient()
     : Game()
@@ -19,16 +20,21 @@ uint32_t GameClient::initialize()
 {
     setContext(new ContextClient());
 
-    add(std::shared_ptr<GameStage>(new StageClientStart(*this, 0)));//0 - uid for start stage
-    add(std::shared_ptr<GameStage>(new StageClientLobby(*this, 1)));//1 - uid for lobby stage
-    add(std::shared_ptr<GameStage>(new StageClientMain(*this, 2)));//2 - uid for main stage
+    add(std::make_shared<StageClientStart>(*this, 0));//0 - uid for start stage
+    add(std::make_shared<StageClientLobby>(*this, 1));//1 - uid for lobby stage
+    add(std::make_shared<StageClientMain>(*this, 2));//2 - uid for main stage
 
     mc.initialize("configuration.xml");
     mm.initialize(mc);
-    mt.initialize(mm);
+    //mt.initialize(mm);
     mw.initialize(mc, mm);
 
-    window.create(sf::VideoMode(600,500,32), "Bam");
+    CLIENTCONTEXT->screenWidth = mc.configuration.client.window.width;
+    CLIENTCONTEXT->screenHeight = mc.configuration.client.window.height;
+
+    window.create(sf::VideoMode(mc.configuration.client.window.width,
+                                mc.configuration.client.window.height,
+                                32), "Bam");
 
     return 0;
 }
@@ -69,9 +75,9 @@ uint32_t GameClient::doEventProcessing()
         getCurrentStage()->doWindowEvents(wevent);
         if (wevent.type == sf::Event::Resized)
         {
-            winWidth = wevent.size.width;
-            winHeight = wevent.size.height;
-            std::cout << winWidth << ", " << winHeight << std::endl;
+            CLIENTCONTEXT->screenWidth = wevent.size.width;
+            CLIENTCONTEXT->screenHeight = wevent.size.height;
+            std::cout << "GameClient::Resize  " << CLIENTCONTEXT->screenWidth << ", " << CLIENTCONTEXT->screenHeight << std::endl;
         }else if (wevent.type == sf::Event::Closed)
         {
             window.close();
@@ -84,7 +90,7 @@ uint32_t GameClient::doEventProcessing()
 }
 uint32_t GameClient::doGameProcessing()
 {
-    //doLoop
+    //doUpdate
     //doDraw
     Game::doGameProcessing();
     return 0;

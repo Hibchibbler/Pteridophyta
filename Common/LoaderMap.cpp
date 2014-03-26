@@ -3,7 +3,7 @@
 
 #include <string>
 #include <iostream>
-#define DBG
+#undef DBG
 
 namespace bali{
 
@@ -41,24 +41,24 @@ void LoaderMap::start_element(void *data, const char *element, const char **attr
         map->mapLoadState = Map::MAP;
         for (size_t i = 0; attribute[i]; i += 2)
         {
-            ASSIGNIFMATCHES("version", map->version);
-            ASSIGNIFMATCHES("orientation", map->orientation);
-            ASSIGNIFMATCHES("width", map->width);
-            ASSIGNIFMATCHES("height", map->height);
-            ASSIGNIFMATCHES("tilewidth", map->tilewidth);
-            ASSIGNIFMATCHES("tileheight", map->tileheight);
+            ASSIGNIFMATCHESSTR("version", map->version);
+            ASSIGNIFMATCHESSTR("orientation", map->orientation);
+            ASSIGNIFMATCHESINT("width", map->width);
+            ASSIGNIFMATCHESINT("height", map->height);
+            ASSIGNIFMATCHESINT("tilewidth", map->tilewidth);
+            ASSIGNIFMATCHESINT("tileheight", map->tileheight);
             std::cout << "Unexpected attribute " << attribute[i] << "=" << attribute[i+1] << " in " << std::string(element) << std::endl;
         }
     }
     else
     if (elementName == "tileset"){
-        map->tileSets.push_back(Map::Tileset());
+        map->tileSets.push_back(Map::TileSet());
         for (size_t i = 0; attribute[i]; i += 2)
         {
-            ASSIGNIFMATCHES("firstgid", map->tileSets.back().firstgid);
-            ASSIGNIFMATCHES("name", map->tileSets.back().name);
-            ASSIGNIFMATCHES("tilewidth", map->tileSets.back().tileWidth);
-            ASSIGNIFMATCHES("tileheight", map->tileSets.back().tileHeight);
+            ASSIGNIFMATCHESINT("firstgid", map->tileSets.back().firstgid);
+            ASSIGNIFMATCHESSTR("name", map->tileSets.back().name);
+            ASSIGNIFMATCHESINT("tilewidth", map->tileSets.back().tileWidth);
+            ASSIGNIFMATCHESINT("tileheight", map->tileSets.back().tileHeight);
             std::cout << "Unexpected attribute " << attribute[i] << "=" << attribute[i+1] << " in " << std::string(element) << std::endl;
         }
 
@@ -67,10 +67,10 @@ void LoaderMap::start_element(void *data, const char *element, const char **attr
     if (elementName == "image"){
         for (size_t i = 0; attribute[i]; i += 2)
         {
-            ASSIGNIFMATCHES("source", map->tileSets.back().image.source);
-            ASSIGNIFMATCHES("trans", map->tileSets.back().image.trans);
-            ASSIGNIFMATCHES("width", map->tileSets.back().image.width);
-            ASSIGNIFMATCHES("height", map->tileSets.back().image.height);
+            ASSIGNIFMATCHESSTR("source", map->tileSets.back().image.source);
+            ASSIGNIFMATCHESSTR("trans", map->tileSets.back().image.trans);
+            ASSIGNIFMATCHESINT("width", map->tileSets.back().image.width);
+            ASSIGNIFMATCHESINT("height", map->tileSets.back().image.height);
             std::cout << "Unexpected attribute " << attribute[i] << "=" << attribute[i+1] << " in " << std::string(element) << std::endl;
         }
     }
@@ -80,9 +80,9 @@ void LoaderMap::start_element(void *data, const char *element, const char **attr
         map->layers.push_back(Map::Layer());
         for (size_t i = 0; attribute[i]; i += 2)
         {
-            ASSIGNIFMATCHES("name", map->layers.back().name);
-            ASSIGNIFMATCHES("width", map->layers.back().width);
-            ASSIGNIFMATCHES("height", map->layers.back().height);
+            ASSIGNIFMATCHESSTR("name", map->layers.back().name);
+            ASSIGNIFMATCHESINT("width", map->layers.back().width);
+            ASSIGNIFMATCHESINT("height", map->layers.back().height);
             std::cout << "Unexpected attribute " << attribute[i] << "=" << attribute[i+1] << " in " << std::string(element) << std::endl;
         }
     }
@@ -95,7 +95,7 @@ void LoaderMap::start_element(void *data, const char *element, const char **attr
         map->layers.back().data.back().tiles.push_back(Map::Tile());
         for (size_t i = 0; attribute[i]; i += 2)
         {
-            ASSIGNIFMATCHES("gid", map->layers.back().data.back().tiles.back().gid);
+            ASSIGNIFMATCHESINT("gid", map->layers.back().data.back().tiles.back().gid);
             std::cout << "Unexpected attribute " << attribute[i] << "=" << attribute[i+1] << " in " << std::string(element) << std::endl;
         }
     }
@@ -105,9 +105,9 @@ void LoaderMap::start_element(void *data, const char *element, const char **attr
         map->objectGroups.push_back(Map::ObjectGroup());
         for (size_t i = 0; attribute[i]; i += 2)
         {
-            ASSIGNIFMATCHES("name", map->objectGroups.back().name);
-            ASSIGNIFMATCHES("width", map->objectGroups.back().width);
-            ASSIGNIFMATCHES("height", map->objectGroups.back().height);
+            ASSIGNIFMATCHESSTR("name", map->objectGroups.back().name);
+            ASSIGNIFMATCHESINT("width", map->objectGroups.back().width);
+            ASSIGNIFMATCHESINT("height", map->objectGroups.back().height);
             std::cout << "Unexpected attribute " << attribute[i] << "=" << attribute[i+1] << " in " << std::string(element) << std::endl;
         }
 
@@ -132,8 +132,8 @@ void LoaderMap::start_element(void *data, const char *element, const char **attr
 
         for (size_t i = 0; attribute[i]; i += 2)
         {
-            ASSIGNIFMATCHES("name", property->name);
-            ASSIGNIFMATCHES("value", property->value);
+            ASSIGNIFMATCHESSTR("name", property->name);
+            ASSIGNIFMATCHESSTR("value", property->value);
             std::cout << "Unexpected attribute " << attribute[i] << "=" << attribute[i+1] << " in " << std::string(element) << std::endl;
         }
     }
@@ -142,10 +142,10 @@ void LoaderMap::start_element(void *data, const char *element, const char **attr
         map->objectGroups.back().objects.push_back(Map::Object());
         for (size_t i = 0; attribute[i]; i += 2)
         {
-            ASSIGNIFMATCHES("x", map->objectGroups.back().objects.back().x);
-            ASSIGNIFMATCHES("y", map->objectGroups.back().objects.back().y);
-            ASSIGNIFMATCHES("width", map->objectGroups.back().objects.back().width);
-            ASSIGNIFMATCHES("height", map->objectGroups.back().objects.back().height);
+            ASSIGNIFMATCHESINT("x", map->objectGroups.back().objects.back().x);
+            ASSIGNIFMATCHESINT("y", map->objectGroups.back().objects.back().y);
+            ASSIGNIFMATCHESINT("width", map->objectGroups.back().objects.back().width);
+            ASSIGNIFMATCHESINT("height", map->objectGroups.back().objects.back().height);
             std::cout << "Unexpected attribute " << attribute[i] << "=" << attribute[i+1] << " in " << std::string(element) << std::endl;
         }
     }else{

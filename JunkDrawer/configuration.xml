@@ -12,7 +12,7 @@
 		<property name="maxplayers" value="10" />
 	</server>
 	<global>
-		<map id="layer_1" filepath="UNIVERSE.tmx"/>
+		<map id="map3" filepath="..\Assets\map3.tmx"/>
 		<property name="bing" value="bang"/>
 	</global>
 </configuration>

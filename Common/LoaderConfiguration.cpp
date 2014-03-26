@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <stdlib.h>
 
 namespace bali{
 
@@ -69,18 +70,18 @@ void LoaderConfiguration::start_element(void *data, const char *element, const c
 
     if (elementName == "window" && configuration->configLoadState == Configuration::CLIENT){
         for (size_t i = 0; attribute[i]; i += 2){
-            ASSIGNIFMATCHES("name", configuration->client.window.name);
-            ASSIGNIFMATCHES("mode", configuration->client.window.mode);
-            ASSIGNIFMATCHES("width", configuration->client.window.width);
-            ASSIGNIFMATCHES("height", configuration->client.window.height);
+            ASSIGNIFMATCHESSTR("name", configuration->client.window.name);
+            ASSIGNIFMATCHESSTR("mode", configuration->client.window.mode);
+            ASSIGNIFMATCHESINT("width", configuration->client.window.width);
+            ASSIGNIFMATCHESINT("height", configuration->client.window.height);
         }
     }
 
     if (elementName == "map" && configuration->configLoadState == Configuration::GLOBAL){
         configuration->global.maps.push_back(Configuration::Map());
         for (size_t i = 0; attribute[i]; i += 2){
-            ASSIGNIFMATCHES("id", configuration->global.maps.back().id);
-            ASSIGNIFMATCHES("filepath", configuration->global.maps.back().filePath);
+            ASSIGNIFMATCHESSTR("id", configuration->global.maps.back().id);
+            ASSIGNIFMATCHESSTR("filepath", configuration->global.maps.back().filePath);
         }
     }
 
@@ -108,8 +109,8 @@ void LoaderConfiguration::start_element(void *data, const char *element, const c
 
 
         for (size_t i = 0; attribute[i]; i += 2){
-            ASSIGNIFMATCHES("name", property->name);
-            ASSIGNIFMATCHES("value", property->value);
+            ASSIGNIFMATCHESSTR("name", property->name);
+            ASSIGNIFMATCHESSTR("value", property->value);
             std::cout << "Unexpected attribute " << attribute[i] << "=" << attribute[i+1] << " in " << std::string(element) << std::endl;
         }
     }

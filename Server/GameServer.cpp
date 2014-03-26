@@ -24,6 +24,11 @@ uint32_t GameServer::initialize()
     add(std::shared_ptr<GameStage>(new StageServerLobby(*this, 1)));//1 - uid for lobby stage
     add(std::shared_ptr<GameStage>(new StageServerMain(*this, 2)));//2 - uid for main stage
 
+    mc.initialize("configuration.xml");
+    mm.initialize(mc);
+    //mt.initialize(mm);
+    mw.initialize(mc, mm);
+
     server.startServer(5676);
     return 0;
 }
@@ -65,7 +70,7 @@ uint32_t GameServer::doEventProcessing()
 }
 uint32_t GameServer::doGameProcessing()
 {
-    //doLoop
+    //doUpdate
     Game::doGameProcessing();
     return 0;
 }

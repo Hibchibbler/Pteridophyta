@@ -77,8 +77,6 @@
 		<Unit filename="ManagerMap.h" />
 		<Unit filename="ManagerPlayer.cpp" />
 		<Unit filename="ManagerPlayer.h" />
-		<Unit filename="ManagerTexture.cpp" />
-		<Unit filename="ManagerTexture.h" />
 		<Unit filename="ManagerWorld.cpp" />
 		<Unit filename="ManagerWorld.h" />
 		<Unit filename="Map.h" />

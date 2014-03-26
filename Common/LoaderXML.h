@@ -2,12 +2,16 @@
 #define LoaderXML_h_
 
 //This is a convienance macro for assigning attributes while parsing XML
-#define ASSIGNIFMATCHES(a1, a2)                     \
+#define ASSIGNIFMATCHESSTR(a1, a2)                     \
         if (std::string(attribute[i]) == a1){       \
             a2 = attribute[i+1];                    \
             continue;                               \
         }
-
+#define ASSIGNIFMATCHESINT(a1, a2)                 \
+        if (std::string(attribute[i]) == a1){       \
+            a2 = atoi(attribute[i+1]);              \
+            continue;                               \
+        }
 
 namespace bali{
 
