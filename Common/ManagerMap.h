@@ -21,6 +21,8 @@ public:
     bool cleanup();
 
 
+    uint32_t getTileSetIndexByGid(uint32_t gid);
+    uint32_t getFirstNonZeroGidInLayer(uint32_t layer);
     //Maps maps;
     std::shared_ptr<Map> map;
 };

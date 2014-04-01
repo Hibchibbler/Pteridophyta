@@ -3,8 +3,10 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <vector>
 #include "common.h"
 #include "Comm.h"
+#include "Component.h"
 
 #define CONTEXT_ELEMENTS 8
 
@@ -21,7 +23,7 @@ namespace bali
     class GameStage
     {
     public:
-        GameStage(Game & game, uint32_t uid);
+        GameStage(Game* game, uint32_t uid);
         virtual ~GameStage();
 
         //
@@ -48,7 +50,7 @@ namespace bali
         virtual uint32_t doDraw()=0;
         virtual uint32_t cleanup()=0;
 
-        Game & getOwner();
+        Game* getOwner();
         void setId(uint32_t id);
         uint32_t getId();
         uint32_t isDone();
@@ -66,7 +68,12 @@ namespace bali
         void finished(uint32_t e){err=e;done=1;}
 
         //reference to owner
-        Game & g;
+        Game* g;
+
+        uint32_t addComponent(SComponent component){
+            components.push_back(component);
+        }
+        std::vector<SComponent> components;
 
         uint32_t id;
         uint32_t done;

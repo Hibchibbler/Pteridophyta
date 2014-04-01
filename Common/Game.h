@@ -34,8 +34,8 @@ namespace bali{
         virtual uint32_t doGameProcessing();
         virtual uint32_t cleanup();
 
-        void* getContext(){return context;}
-        void setContext(void* s){context = s;}
+//        void* getContext(){return context;}
+//        void setContext(void* s){context = s;}
 
     protected:
 

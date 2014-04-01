@@ -1,42 +1,29 @@
-#include "ManagerTexture.h"
+#include "ManagerTile.h"
 #include "ManagerMap.h"
 #include <iostream>
 #include <string>
 namespace bali{
 
-ManagerTexture::ManagerTexture()
+ManagerTile::ManagerTile()
 {
 
 
 }
 
-ManagerTexture::~ManagerTexture()
+ManagerTile::~ManagerTile()
 {
 
 }
-bool ManagerTexture::initialize(ManagerMap& mapMan)
+bool ManagerTile::initialize(ManagerMap& mapMan)
 {
-    for (auto& m : mapMan.maps){
-        for (auto& t : m.second->tileSets){
-            std::cout << "Loading image " << t.image.source<<std::endl;
-            tileSets[t.name] = TileSet();
-            tileSets[t.name].load(t.image.source, t.name, atoi(t.tileWidth.c_str()), atoi(t.tileHeight.c_str()), atoi(t.image.width.c_str()), atoi(t.image.height.c_str()));
-            //spriteSheets.push_back(Spritesheet());
-            //spriteSheets.back().load(t.image.source, t.name, atoi(t.tileWidth.c_str()), atoi(t.tileHeight.c_str()), atoi(t.image.width.c_str()), atoi(t.image.height.c_str()));
-        }
-    }
-    return false;
-}
-
-bool ManagerTexture::load(char* cfgfn)
-{
-//    cfg::ConfigurationLoader::load(cfgfn,&configuration);
-//    tmx::TMXLoader::load(configuration.client.maps[0].name.c_str(), &tmxMap);
 
     return false;
 }
 
-//int ManagerTexture::load()
+
+
+
+//int ManagerTile::load()
 //{
 ////    font.loadFromFile("Assets\\digital-7mono.ttf");
 ////    spriteSheet.load("Assets\\FloorTiles.png");
@@ -48,13 +35,13 @@ bool ManagerTexture::load(char* cfgfn)
 //}
 //
 //
-//sf::Font & ManagerTexture::getFont()
+//sf::Font & ManagerTile::getFont()
 //{
 //    return font;
 //}
 //
 //
-//sf::Sprite & ManagerTexture::getSprite(int i)
+//sf::Sprite & ManagerTile::getSprite(int i)
 //{
 //    switch (i)
 //    {
@@ -165,7 +152,7 @@ bool ManagerTexture::load(char* cfgfn)
 //}
 //
 //
-//sf::Texture & ManagerTexture::getTexture(int i)
+//sf::Texture & ManagerTile::getTexture(int i)
 //{
 //    switch (i)
 //    {

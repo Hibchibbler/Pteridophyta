@@ -53,22 +53,9 @@ public:
     {
         return players.size();
     }
-//    void removeSpectatorByCid(uint32_t cid)
-//    {
-//        for (auto s = spectators.begin(); s != spectators.end();s++)
-//        {
-//            if ((*s)->connectionId == cid)
-//            {
-//                spectators.erase(s);
-//                break;
-//            }
-//        }
-//    }
 
-
-    std::vector<SPlayer> players;
-//    std::vector<SPlayer> spectators;
-    Player player;
+    std::vector<SPlayer> players;//Server Side Player State
+    Player               player; //Client Side Player State
 private:
 };
 };//end namespace bali

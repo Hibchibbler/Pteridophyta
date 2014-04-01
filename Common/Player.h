@@ -12,12 +12,8 @@ namespace bali
         enum cstate{
             Waiting,
             SendWhoIs,
-            WaitWhoIsAck,
             SendId,
-            WaitIdAck,
-            WaitMap,
             SendReady,
-            WaitStart,
             Established
         };
     };
@@ -30,9 +26,6 @@ namespace bali
             SendIdNack,
             SendMap,
             SendStart,
-            WaitWhoIs,
-            WaitId,
-            WaitReady,
             Established
         };
     };
@@ -72,24 +65,21 @@ namespace bali
         }
 
         std::string name;
+        std::string pass;
+        uint32_t server_port;
+        std::string server_ip;
+
         uint32_t team;
+
+
+
         uint32_t connectionId;
 
-        //
-        //These are for the lobby
-        //
         uint32_t identified;
         uint32_t ready;
 
         union{
-            //
-            //State used by client
-            //
             uint32_t stateClient;
-
-            //
-            //State used by server
-            //
             uint32_t stateServer;
         };
 

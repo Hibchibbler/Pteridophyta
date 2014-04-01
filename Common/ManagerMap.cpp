@@ -51,6 +51,37 @@ bool ManagerMap::cleanup(){
     return true;
 }
 
+uint32_t ManagerMap::getTileSetIndexByGid(uint32_t gid)
+{
+    //Find the tileset to which this gid refers.
+    //iterate through each tileset and check if gid is between the firstgid and lastgid. if so
+    //then set tileset as current.
+    uint32_t maxTileSetGid=0;
 
+    for (int currentTileSet = 0; currentTileSet < map->tileSets.size(); currentTileSet++)
+    {
+        uint32_t firstTileSetGid = map->tileSets[currentTileSet].firstgid;
+        uint32_t maxTileSetGidW = map->tileSets[currentTileSet].image.width  / map->tileSets[currentTileSet].tileWidth;
+        uint32_t maxTileSetGidH = map->tileSets[currentTileSet].image.height / map->tileSets[currentTileSet].tileHeight;
+        maxTileSetGid  += maxTileSetGidW*maxTileSetGidH;
 
+        if (firstTileSetGid <= gid && gid <= maxTileSetGid)
+        {//t is the tileSet index we want
+            return currentTileSet;
+        }
+    }
+    return -1;
+}
+
+uint32_t ManagerMap::getFirstNonZeroGidInLayer(uint32_t layer)
+{
+    for (int j = 0;j < map->layers[layer].data[0].tiles.size();j++)
+    {
+        if (map->layers[layer].data[0].tiles[j].gid != 0)
+        {
+            return map->layers[layer].data[0].tiles[j].gid;
+        }
+    }
+    return -1;
+}
 }//end namespace bali

@@ -4,7 +4,7 @@
 
 namespace bali{
 
-GameStage::GameStage(Game & game, uint32_t uid)
+GameStage::GameStage(Game* game, uint32_t uid)
     : g(game) //reference to owner being set.
 {
     done = 0;
@@ -39,7 +39,7 @@ uint32_t GameStage::getId()
      return init;
  }
 
-Game & GameStage::getOwner()
+Game* GameStage::getOwner()
 {
     return g;
 }

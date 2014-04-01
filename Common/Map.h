@@ -96,8 +96,6 @@ public:
         std::vector<Object>     objects;
     };
 
-
-
     struct Layer
     {
         std::string             name;
