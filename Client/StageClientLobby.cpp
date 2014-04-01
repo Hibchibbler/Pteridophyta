@@ -74,7 +74,6 @@ uint32_t StageClientLobby::initialize()
     row->Pack(spinner);
     row->Pack(msg);
     box->Pack(row);
-    //joinButton->GetSignal( sfg::Widget::OnLeftClick ).Connect( &StageStart::doJoin, this );
 
     mywindow = sfg::Window::Create();
     mywindow->SetTitle("Lobby");
@@ -102,7 +101,7 @@ void StageClientLobby::doJoinTeam1(StageClientLobby* l)
 {
     ContextClient* cc = GET_CLIENT_CONTEXT(l->g);
 
-    //Send Id
+    //Send Id - declare team 1
     cc->mp.player.team = 1;
     cc->mp.player.stateClient = StatePlayerClient::SendId;
 
@@ -118,7 +117,7 @@ void StageClientLobby::doJoinTeam2(StageClientLobby* l)
 {
     ContextClient* cc = GET_CLIENT_CONTEXT(l->g);
 
-    //Send Id
+    //Send Id - declare team 2
     cc->mp.player.team = 2;
     cc->mp.player.stateClient = StatePlayerClient::SendId;
 
@@ -183,10 +182,10 @@ uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
             break;
     }case MsgId::IdAck:{
             std::cout << "Got IdAck, " ;
-            std::string layerName;
-            (*event.packet) >> layerName;
-            std::cout << "Layer: " << layerName << std::endl;
-            cc->layerName = layerName;
+            std::string mapName;
+            (*event.packet) >> mapName;
+            std::cout << "Map: " << mapName << std::endl;
+            cc->mapName = mapName;
             readyButton->Show(true);
             cc->mp.player.setIdentity();
             cc->mp.player.stateClient = StatePlayerClient::Waiting;
@@ -218,7 +217,7 @@ uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
 
 uint32_t StageClientLobby::doUpdate()
 {
-    ContextClient* cc = (GET_CLIENT_CONTEXT(g));
+    ContextClient* cc = GET_CLIENT_CONTEXT(g);
 
     cc->desk.Update(1);
     uint32_t s = cc->mp.player.stateClient;
@@ -228,18 +227,15 @@ uint32_t StageClientLobby::doUpdate()
             //Waiting for some reply.
             break;
         case StatePlayerClient::SendWhoIs:
-            //std::cout << "Sent WhoIs." << std::endl;
             Messages::sendWhoIs(cc->client, cc->mp.player);
             s = StatePlayerClient::Waiting;
             break;
         case StatePlayerClient::SendId:{
-            //std::cout << "Sent Id." << std::endl;
             Messages::sendId(cc->client, cc->mp.player);
             s = StatePlayerClient::Waiting;
             break;
         }
         case StatePlayerClient::SendReady:
-            //std::cout << "Sent Ready." << std::endl;
             Messages::sendReady(cc->client, cc->mp.player);
 
             //
@@ -256,7 +252,7 @@ uint32_t StageClientLobby::doUpdate()
     }
     cc->mp.player.stateClient = s;
 
-    //Send WhoIs every 2 seconds to update lobby lists
+    //Send WhoIs every 1 seconds to update lobby lists
     if (sendWhoIsClk.getElapsedTime().asSeconds() > 1)
     {
         cc->mp.player.stateClient = StatePlayerClient::SendWhoIs;
@@ -266,16 +262,14 @@ uint32_t StageClientLobby::doUpdate()
 }
 uint32_t StageClientLobby::doLocalInputs()
 {
-    ContextClient* cc = (GET_CLIENT_CONTEXT(g));
+    ContextClient* cc = GET_CLIENT_CONTEXT(g);
     return 0;
 }
 
 
 uint32_t StageClientLobby::doDraw()
 {
-//    GameClient* gc = ((GameClient*)g);
-//    ContextClient* cc = &gc->cc;
-    ContextClient* cc = (GET_CLIENT_CONTEXT(g));
+    ContextClient* cc = GET_CLIENT_CONTEXT(g);
 
     cc->window.clear();
     cc->window.resetGLStates();
@@ -287,7 +281,7 @@ uint32_t StageClientLobby::doDraw()
 
 uint32_t StageClientLobby::cleanup()
 {
-    ContextClient* cc = (GET_CLIENT_CONTEXT(g));
+    ContextClient* cc = GET_CLIENT_CONTEXT(g);
     return 0;
 }
 

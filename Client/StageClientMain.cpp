@@ -29,7 +29,7 @@ uint32_t StageClientMain::initialize()
               << cc->mp.player.server_port << ", "
               << cc->mp.player.server_ip   <<  ", "
               << cc->mp.player.team << ", "
-              << cc->layerName << std::endl;
+              << cc->mapName << std::endl;
 
     mainView.setSize(cc->screenWidth, cc->screenHeight);
 
@@ -125,7 +125,6 @@ uint32_t StageClientMain::doUpdate()
 uint32_t StageClientMain::initializeLayer(uint32_t layer, std::shared_ptr<sf::VertexArray> newLayer)
 {
     //N.B. - assuming width == height in a lot of places
-    GameClient*                 gc              = ((GameClient*)g);
     ContextClient*              cc              = GET_CLIENT_CONTEXT(g);
     ManagerMap*                 mm              = &cc->mm;
     std::shared_ptr<Map>        map             = mm->map;
@@ -135,7 +134,6 @@ uint32_t StageClientMain::initializeLayer(uint32_t layer, std::shared_ptr<sf::Ve
 
     for (int index = 0; index < tiles.size();index++)
     {
-
         //current gid
         uint32_t gid = tiles[index].gid;
         if (gid == 0)
@@ -220,9 +218,6 @@ uint32_t StageClientMain::doDraw()
     tsi = cc->mm.getTileSetIndexByGid(gid);
     va  = layers[1];
     cc->window.draw(*va, &cc->mm.map->tileSets[tsi].tex);
-
-
-
 
 
     cc->window.display();

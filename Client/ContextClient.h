@@ -12,14 +12,16 @@ namespace bali{
     class ContextClient{
     public:
 
-        std::string layerName;
+        std::string mapName;
 
         //Resolution picks
         uint32_t screenWidth;
         uint32_t screenHeight;
 
         sf::RenderWindow window;
+
         sfg::SFGUI sfGui;
+        sfg::Desktop desk;
 
         Comm client;
 
@@ -28,8 +30,6 @@ namespace bali{
         ManagerTile mt;
         ManagerWorld mw;
         ManagerPlayer mp;
-
-        sfg::Desktop desk;
     };
 
 }//end namespace bali
