@@ -24,7 +24,7 @@ uint32_t StageClientLobby::initialize()
 {
     ContextClient& cc = (GET_CLIENT_CONTEXT(g));
 
-    cc.client.startClient(5676,sf::IpAddress("192.168.1.13"));
+    cc.net.startClient(5676,sf::IpAddress("192.168.1.13"));
     //sf::sleep(sf::seconds(6));
     std::cout << cc.mp.player.name << ", "
               << cc.mp.player.pass << ", "
@@ -227,16 +227,16 @@ uint32_t StageClientLobby::doUpdate()
             //Waiting for some reply.
             break;
         case StatePlayerClient::SendWhoIs:
-            Messages::sendWhoIs(cc.client, cc.mp.player);
+            Messages::sendWhoIs(cc.net, cc.mp.player);
             s = StatePlayerClient::Waiting;
             break;
         case StatePlayerClient::SendId:{
-            Messages::sendId(cc.client, cc.mp.player);
+            Messages::sendId(cc.net, cc.mp.player);
             s = StatePlayerClient::Waiting;
             break;
         }
         case StatePlayerClient::SendReady:
-            Messages::sendReady(cc.client, cc.mp.player);
+            Messages::sendReady(cc.net, cc.mp.player);
 
             //
             //The player is ready when we recieve Ready from client.

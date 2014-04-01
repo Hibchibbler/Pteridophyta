@@ -40,7 +40,7 @@ uint32_t GameClient::doEventProcessing()
 {
     //Do remote processing
     CommEvent event;
-    while (cc.client.receive(event)){
+    while (cc.net.receive(event)){
         uint32_t t;
         (*event.packet) >> t;
         switch (t){

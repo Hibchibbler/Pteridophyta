@@ -25,14 +25,14 @@ uint32_t GameServer::initialize()
     cs.mm.initialize(cs.mc);
     cs.mw.initialize(cs.mc, cs.mm);
 
-    cs.server.startServer(5676);
+    cs.net.startServer(5676);
     return 0;
 }
 uint32_t GameServer::doEventProcessing()
 {
     //Do remote processing
     CommEvent event;
-    while (cs.server.receive(event)){
+    while (cs.net.receive(event)){
         uint32_t t;
         (*event.packet) >> t;
         switch (t){

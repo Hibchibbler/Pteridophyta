@@ -1,22 +1,14 @@
 #ifndef ContextServer_h_
 #define ContextServer_h_
 
-#include "Comm.h"
-#include "ManagerConfiguration.h"
-#include "ManagerMap.h"
-#include "ManagerWorld.h"
-#include "ManagerPlayer.h"
+#include "Context.h"
+
 
 namespace bali{
 
-    class ContextServer{
+    class ContextServer : public Context{
     public:
-        Comm server;
 
-        ManagerConfiguration mc;
-        ManagerMap mm;
-        ManagerWorld mw;
-        ManagerPlayer mp;
     };
 
 }//end namespace bali

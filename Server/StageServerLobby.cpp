@@ -43,7 +43,7 @@ uint32_t StageServerLobby::doRemoteEvent(CommEvent & event)
     switch (msgId){
         case MsgId::WhoIs:{
             std::cout << "Got WhoIs" << std::endl;
-            Messages::sendWhoIsAck(cs->server, p, cs->mp);
+            Messages::sendWhoIsAck(cs->net, p, cs->mp);
             break;
         }case MsgId::Id:{
             std::cout << "Got Id" << std::endl;
@@ -52,8 +52,8 @@ uint32_t StageServerLobby::doRemoteEvent(CommEvent & event)
 
             p->setIdentity();
 
-            Messages::sendIdAck(cs->server, p, cs->mp, cs->mc);
-            //Messages::sendIdNack(gs->server, p);
+            Messages::sendIdAck(cs->net, p, cs->mp, cs->mc);
+            //Messages::sendIdNack(gs->net, p);
             break;
         }case MsgId::Ready:{
             std::cout << "Got Ready" << std::endl;
@@ -62,7 +62,7 @@ uint32_t StageServerLobby::doRemoteEvent(CommEvent & event)
             const uint32_t MINPLAYERS = 1;
             if (cs->mp.getNumPlayers() >= MINPLAYERS && cs->mp.isAllPlayersReady())
             {
-                Messages::sendStart(cs->server);
+                Messages::sendStart(cs->net);
             }
             break;
         }
