@@ -12,8 +12,6 @@ namespace bali{
 class ManagerConfiguration;
 class ManagerMap{
 public:
-    //typedef std::map<std::string, std::shared_ptr<Map> > Maps;
-
     ManagerMap();
     ~ManagerMap();
     bool initialize(ManagerConfiguration& cm);
@@ -24,7 +22,7 @@ public:
     uint32_t getTileSetIndexByGid(uint32_t gid);
     uint32_t getFirstNonZeroGidInLayer(uint32_t layer);
     //Maps maps;
-    std::shared_ptr<Map> map;
+    Map map;
 };
 
 

@@ -5,7 +5,6 @@ namespace bali{
 
 Game::Game(){
     curStageIndex = 0;
-    context = NULL;
 }
 
 Game::~Game()

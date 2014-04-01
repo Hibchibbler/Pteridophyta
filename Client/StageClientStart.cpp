@@ -24,11 +24,11 @@ void StageClientStart::doStart()
     std::string ip   = ipEntry->GetText();
     std::cout << "Hi " << name << std::endl;
 
-    ContextClient* cc = GET_CLIENT_CONTEXT(g);
-    cc->mp.player.name = name;
-    cc->mp.player.pass = pass;
-    cc->mp.player.server_port = atoi(port.c_str());
-    cc->mp.player.server_ip = ip;
+    ContextClient& cc = GET_CLIENT_CONTEXT(g);
+    cc.mp.player.name = name;
+    cc.mp.player.pass = pass;
+    cc.mp.player.server_port = atoi(port.c_str());
+    cc.mp.player.server_ip = ip;
 
     setupWindow->Show(false);
 
@@ -110,11 +110,11 @@ uint32_t StageClientStart::doUpdate()
 }
 uint32_t StageClientStart::doDraw()
 {
-    ContextClient* cc = GET_CLIENT_CONTEXT(g);
-    cc->window.clear();
-    cc->window.resetGLStates();
-    cc->sfGui.Display(cc->window);
-    cc->window.display();
+    ContextClient& cc = GET_CLIENT_CONTEXT(g);
+    cc.window.clear();
+    cc.window.resetGLStates();
+    cc.sfGui.Display(cc.window);
+    cc.window.display();
     return 0;
 }
 uint32_t StageClientStart::cleanup()
