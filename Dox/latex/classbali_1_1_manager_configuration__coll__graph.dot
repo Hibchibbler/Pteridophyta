@@ -1,0 +1,17 @@
+digraph "bali::ManagerConfiguration"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="bali::ManagerConfiguration",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" configuration" ];
+  Node2 [label="bali::Configuration",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbali_1_1_configuration.html"];
+  Node3 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" server" ];
+  Node3 [label="bali::Configuration\l::Server",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structbali_1_1_configuration_1_1_server.html"];
+  Node4 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" client" ];
+  Node4 [label="bali::Configuration\l::Client",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structbali_1_1_configuration_1_1_client.html"];
+  Node5 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" window" ];
+  Node5 [label="bali::Configuration\l::Window",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structbali_1_1_configuration_1_1_window.html"];
+  Node6 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" global" ];
+  Node6 [label="bali::Configuration\l::Global",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structbali_1_1_configuration_1_1_global.html"];
+}

@@ -1,13 +1,17 @@
 #include "StageClientMain.h"
+#include "Util.h"
 #include "GameClient.h"
+#include "ManagerTile.h"
+#include "CompBkgnd.h"
 #include <SFML\Graphics.hpp>
 #include <iostream>
 #include <stdlib.h>
+#include <memory>
 
 namespace bali{
 
 
-StageClientMain::StageClientMain(Game & game, uint32_t uid)
+StageClientMain::StageClientMain(Game* game, uint32_t uid)
  :  GameStage(game, uid)
 {
 
@@ -15,19 +19,45 @@ StageClientMain::StageClientMain(Game & game, uint32_t uid)
 
 uint32_t StageClientMain::initialize()
 {
-    ContextClient *ctx = ((ContextClient*)(g.getContext()));
+    ContextClient* cc = GET_CLIENT_CONTEXT(g);
 
-    std::cout << ctx->name << ", "
-              << ctx->pass << ", "
-              << ctx->port << ", "
-              << ctx->ip   <<  ", "
-              << ctx->team << ", "
-              << ctx->layerName << std::endl;
+    const uint32_t MAX_LAYERS=50;
+    layers.reserve(MAX_LAYERS);
 
-    mainView.setSize(ctx->screenWidth, ctx->screenHeight);
+    std::cout << cc->mp.player.name << ", "
+              << cc->mp.player.pass << ", "
+              << cc->mp.player.server_port << ", "
+              << cc->mp.player.server_ip   <<  ", "
+              << cc->mp.player.team << ", "
+              << cc->layerName << std::endl;
 
-    const uint32_t LAYER_0 = 0;
-    initializeLayer(LAYER_0);
+    mainView.setSize(cc->screenWidth, cc->screenHeight);
+
+
+    //Load all layers. We assume layers contain static content.
+    uint32_t numLayers = cc->mm.map->layers.size();
+    for (int i = 0;i < numLayers;i++)
+    {
+        std::shared_ptr<sf::VertexArray> newLayer = std::make_shared<sf::VertexArray>(sf::PrimitiveType::Quads);
+        initializeLayer(i, newLayer);
+        layers.push_back(newLayer);
+    }
+
+//    std::shared_ptr<Component> comp;
+//    comp = std::make_shared<CompBackgnd>();
+//    addComponent(comp);
+
+//    comp = std::make_shared<CompDynObjects>();
+//    addComponent(comp);
+//
+//    comp = std::make_shared<CompForegnd>();
+//    addComponent(comp);
+//
+//    comp = std::make_shared<CompHUD>();
+//    addComponent(comp);
+//
+//    comp = std::make_shared<CompMiniMap>();
+//    addComponent(comp);
 
 
 
@@ -44,12 +74,12 @@ uint32_t StageClientMain::doRemoteEvent(CommEvent & event)
 
 uint32_t StageClientMain::doWindowEvents(sf::Event & wevent)
 {
-    ContextClient *ctx = ((ContextClient*)(g.getContext()));
+    ContextClient *cc = GET_CLIENT_CONTEXT(g);
     switch (wevent.type)
     {
         case sf::Event::Resized:
-            //ctx is set in parent handler
-            mainView.setSize(ctx->screenWidth, ctx->screenHeight);
+            //cc is set in parent handler
+            mainView.setSize(cc->screenWidth, cc->screenHeight);
             break;
 
     }
@@ -58,101 +88,48 @@ uint32_t StageClientMain::doWindowEvents(sf::Event & wevent)
 
 uint32_t StageClientMain::doLocalInputs()
 {
-    GameClient* gc = (GameClient*)&g;
-    ContextClient *ctx = ((ContextClient*)(g.getContext()));
-    sf::Vector2i mousePos = sf::Mouse::getPosition(gc->window);
-    sf::Vector2f mousePosWorld = gc->window.mapPixelToCoords(mousePos);//,mainView);
+    ContextClient *cc = GET_CLIENT_CONTEXT(g);
 
+    sf::Vector2i mousePos = sf::Mouse::getPosition(cc->window);
+    sf::Vector2f mousePosWorld = cc->window.mapPixelToCoords(mousePos);//,mainView);
 
+    const float MAIN_VIEW_MOVE_AMOUNT = 25.0f;
     if (localInputClock.getElapsedTime().asSeconds() > 0.1)
     {
-        sf::Vector2i mousePosB = sf::Mouse::getPosition();
-
-        sf::IntRect screenRect((mainView.getCenter().x - mainView.getSize().x/2),(mainView.getCenter().y - mainView.getSize().y/2),mainView.getSize().x,mainView.getSize().y);
-
-        if (screenRect.contains(mousePosB.x, mousePosB.y))
-        {
-            mouseInView=false;
-        }else
-        {
-            mouseInView=true;
-        }
-        if (mouseInView)
-        {
-            if (mousePosWorld.x > (mainView.getCenter().x+(ctx->screenWidth/4)*1) ){
-                mainView.move(100.0f, 0);
-            }else if (mousePosWorld.x < (mainView.getCenter().x-(ctx->screenWidth/4)*1) ){
-                mainView.move(-100.0f, 0);
-            }
-            if (mousePosWorld.y > (mainView.getCenter().y+(ctx->screenHeight/4)*1) ){
-                mainView.move(0, 100.0f);
-            }else if (mousePosWorld.y < (mainView.getCenter().y-(ctx->screenHeight/4)*1) ){
-                mainView.move(0, -100.0f);
-            }
-        }
+//        if (mousePosWorld.x > (mainView.getCenter().x+(ctx->screenWidth/4)*1) ){
+//            mainView.move(MAIN_VIEW_MOVE_AMOUNT, 0);
+//        }else if (mousePosWorld.x < (mainView.getCenter().x-(ctx->screenWidth/4)*1) ){
+//            mainView.move(-MAIN_VIEW_MOVE_AMOUNT, 0);
+//        }
+//        if (mousePosWorld.y > (mainView.getCenter().y+(ctx->screenHeight/4)*1) ){
+//            mainView.move(0, MAIN_VIEW_MOVE_AMOUNT);
+//        }else if (mousePosWorld.y < (mainView.getCenter().y-(ctx->screenHeight/4)*1) ){
+//            mainView.move(0, -MAIN_VIEW_MOVE_AMOUNT);
+//        }
         localInputClock.restart();
     }
     return 0;
 }
 uint32_t StageClientMain::doUpdate()
 {
-    GameClient *cg = ((GameClient*)&g);
-    ContextClient *ctx = ((ContextClient*)(g.getContext()));
+    ContextClient *cc = GET_CLIENT_CONTEXT(g);
+
+    for (auto& c: components)
+    {
+        c->doUpdate();
+    }
 
     return 0;
 }
 
-
-
-//this algorithm assumes '0' as first index
-//
-bool indexToPos(int index, int & r, int & c, int tiles_wide, int tile_width, int tile_height)
-{
-    r = (index % tiles_wide) * tile_width;
-    c = (index / tiles_wide) * tile_height;
-    return true;
-}
-void posToIndex(sf::Vector2f pos, int & index, int tiles_wide, int tile_width, int tile_height)
-{
-    int w,h;
-    w = tile_width;
-    h = tile_height;
-    int gridCoordX = (((int)pos.x / w) * w);
-    int gridCoordY = (((int)pos.y / h) * h);
-    int mapCoordX = gridCoordX / w;
-    int mapCoordY = gridCoordY / h;
-    index = mapCoordX + (mapCoordY*tiles_wide);
-}
-
-
-uint32_t getTileSetIndexByGid(uint32_t gid, const std::shared_ptr<Map> & map)
-{
-    //Find the tileset to which this gid refers.
-    //iterate through each tileset and check if gid is between the firstgid and lastgid. if so
-    //then set tileset as current.
-    uint32_t maxTileSetGid=0;
-
-    for (int currentTileSet = 0; currentTileSet < map->tileSets.size(); currentTileSet++)
-    {
-        uint32_t maxTileSetGidW = map->tileSets[currentTileSet].image.width  / map->tileSets[currentTileSet].tileWidth;
-        uint32_t maxTileSetGidH = map->tileSets[currentTileSet].image.height / map->tileSets[currentTileSet].tileHeight;
-        maxTileSetGid  += maxTileSetGidW*maxTileSetGidH;
-
-        if (map->tileSets[currentTileSet].firstgid <= gid && gid <= maxTileSetGid)
-        {//t is the tileSet index we want
-            return currentTileSet;
-        }
-    }
-    return -1;
-}
-
-uint32_t StageClientMain::initializeLayer(uint32_t layer)
+uint32_t StageClientMain::initializeLayer(uint32_t layer, std::shared_ptr<sf::VertexArray> newLayer)
 {
     //N.B. - assuming width == height in a lot of places
-    GameClient*                 gc              = ((GameClient*)&g);
-    std::shared_ptr<Map>        map             = gc->mm.map;
+    GameClient*                 gc              = ((GameClient*)g);
+    ContextClient*              cc              = GET_CLIENT_CONTEXT(g);
+    ManagerMap*                 mm              = &cc->mm;
+    std::shared_ptr<Map>        map             = mm->map;
     std::vector<Map::Tile>&     tiles           = map->layers[layer].data[0].tiles;
-                                gc->layer1      = sf::VertexArray(sf::PrimitiveType::Quads);
     uint32_t                    mapWidth        = map->width;
     int                         numTileSets     = map->tileSets.size();
 
@@ -161,9 +138,11 @@ uint32_t StageClientMain::initializeLayer(uint32_t layer)
 
         //current gid
         uint32_t gid = tiles[index].gid;
+        if (gid == 0)
+            continue;
 
         //Find the tileset to which this gid refers. - gid MUST be valid
-        uint32_t currentTileSet  = getTileSetIndexByGid(gid, map);
+        uint32_t currentTileSet  = mm->getTileSetIndexByGid(gid);
 
         //Get all the things we need from this tileset.
         uint32_t firstGid        = map->tileSets[currentTileSet].firstgid;
@@ -179,41 +158,74 @@ uint32_t StageClientMain::initializeLayer(uint32_t layer)
 
         //This is where we map the current gid to the upper left corner of a region in a sprite sheet.
         //Convert current gid to the upper left corner(x,y) of a sub rect that represents a particular sprite.
-        int y,x;
-        indexToPos(lid, y, x, imageWidth, tileWidth,tileHeight);//parameter 4 is how many tiles wide the sprite sheet is.
+        sf::Vector2i pos;
+        pos = indexToPosition(lid,  imageWidth, tileWidth,tileHeight);//parameter 4 is how many tiles wide the sprite sheet is.
 
         //Then, Set the sub rect for the sprite
-        map->tileSets[currentTileSet].sprite.setTextureRect(sf::IntRect(y,x,tileWidth,tileHeight));
+        map->tileSets[currentTileSet].sprite.setTextureRect(sf::IntRect(pos.x,pos.y,tileWidth,tileHeight));
 
         //This is where we use the implied position in an array to map to a screen position.
         //Convert index to the upper left corner(x,y) of a tile sized region on the screen.
         //Index represents the implied position of the tile in the tiles vector.
         //In a TMX file, there is <Layer><Data><Tile><Tile>...<Tile></Data></Layer>
-        int r1, c1;
-        float x1,y1;
-        indexToPos(index, r1, c1, mapWidth, tileWidth, tileHeight);//parameter 4 is how many tiles wide the map is.
-        x1 = (float)c1;
-        y1 = (float)r1;
+        pos = indexToPosition(index, mapWidth, tileWidth, tileHeight);//parameter 4 is how many tiles wide the map is.
+
 
         //Add a quad the size of a tile. and specify the texture coordinates using the sub rect specified earlier.
-        addStraightQuad(gc->layer1, sf::FloatRect(y1,x1, tileWidth,tileHeight), map->tileSets[currentTileSet].sprite.getTextureRect());
+        addStraightQuad(newLayer, sf::FloatRect((float)pos.x,(float)pos.y, tileWidth,tileHeight), map->tileSets[currentTileSet].sprite.getTextureRect());
     }
     return 0;
 }
 
 uint32_t StageClientMain::doDraw()
 {
-    GameClient *gc = ((GameClient*)&g);
-    //ContextClient *ctx = ((ContextClient*)(g.getContext()));
+    ContextClient *cc = GET_CLIENT_CONTEXT(g);
 
-    gc->window.clear();
-    gc->window.resetGLStates();
+    cc->window.clear();
+    cc->window.resetGLStates();
 
+
+    for (auto& c: components)
+    {
+        c->doDraw();
+    }
     ////
-    gc->window.setView(mainView);
-    gc->window.draw(gc->layer1, &gc->mm.map->tileSets[0].tex);
+    cc->window.setView(mainView);
 
-    gc->window.display();
+    //Let's assume layer0 in tmx is background
+    //we then draw dynamic stuff, like players, monsters, and explosions
+    //and then layer1 in tmx is foreground
+
+
+    //Background
+    std::shared_ptr<sf::VertexArray> va;
+    uint32_t gid, tsi;
+    gid = cc->mm.getFirstNonZeroGidInLayer(0);
+    tsi = cc->mm.getTileSetIndexByGid(gid);
+    va  = layers[0];
+    cc->window.draw(*va, &cc->mm.map->tileSets[tsi].tex);
+
+    //Dynamic
+    std::shared_ptr<sf::VertexArray> dynamics = std::make_shared<sf::VertexArray>(sf::PrimitiveType::Quads);
+
+    ManagerTile::SubSprite ss = cc->mt.getPlayer();
+    cc->mm.map->tileSets[ss.tsi].sprite.setTextureRect(ss.irect);
+
+    sf::FloatRect fr(ss.irect.left, ss.irect.top, ss.irect.width, ss.irect.height);
+    addStraightQuad(dynamics ,fr, cc->mm.map->tileSets[ss.tsi].sprite.getTextureRect());
+    cc->window.draw(*dynamics, &cc->mm.map->tileSets[ss.tsi].tex);
+
+    //Foreground
+    gid = cc->mm.getFirstNonZeroGidInLayer(1);
+    tsi = cc->mm.getTileSetIndexByGid(gid);
+    va  = layers[1];
+    cc->window.draw(*va, &cc->mm.map->tileSets[tsi].tex);
+
+
+
+
+
+    cc->window.display();
 
     return 0;
 }
@@ -223,23 +235,23 @@ uint32_t StageClientMain::cleanup()
 }
 
 
-uint32_t StageClientMain::addStraightQuad(sf::VertexArray & v, sf::FloatRect c, sf::IntRect t)
+uint32_t StageClientMain::addStraightQuad(std::shared_ptr<sf::VertexArray> v, sf::FloatRect c, sf::IntRect t)
 {
-    v.append(sf::Vertex(sf::Vector2f(c.left, c.top),
-                        sf::Vector2f(t.left, t.top)
-                       ));
+    v->append(sf::Vertex(sf::Vector2f(c.left, c.top),
+                         sf::Vector2f(t.left, t.top)
+                         ));
 
-    v.append(sf::Vertex(sf::Vector2f(c.left+c.width, c.top),
-                        sf::Vector2f(t.left+t.width, t.top)
-                       ));
+    v->append(sf::Vertex(sf::Vector2f(c.left+c.width, c.top),
+                         sf::Vector2f(t.left+t.width, t.top)
+                        ));
 
-    v.append(sf::Vertex(sf::Vector2f(c.left+c.width, c.top+c.height),
-                        sf::Vector2f(t.left+t.width, t.top+t.height)
-                       ));
+    v->append(sf::Vertex(sf::Vector2f(c.left+c.width, c.top+c.height),
+                         sf::Vector2f(t.left+t.width, t.top+t.height)
+                        ));
 
-    v.append(sf::Vertex(sf::Vector2f(c.left, c.top+c.height),
-                        sf::Vector2f(t.left, t.top+t.height)
-                       ));
+    v->append(sf::Vertex(sf::Vector2f(c.left, c.top+c.height),
+                         sf::Vector2f(t.left, t.top+t.height)
+                        ));
 
     return 0;
 }

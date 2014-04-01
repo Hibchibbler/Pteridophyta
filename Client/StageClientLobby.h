@@ -9,7 +9,7 @@ namespace bali{
     {
 
     public:
-        StageClientLobby(Game & game, uint32_t uid);
+        StageClientLobby(Game* game, uint32_t uid);
         ~StageClientLobby();
 
         uint32_t initialize();

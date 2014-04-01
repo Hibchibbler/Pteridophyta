@@ -2,21 +2,15 @@
 #define GameServer_h_
 
 #include "Game.h"
-#include "Comm.h"
-
 #include "ContextServer.h"
-
-//#include "ManagerTexture.h"
-#include "ManagerConfiguration.h"
-#include "ManagerMap.h"
-#include "ManagerWorld.h"
-#include "ManagerPlayer.h"
 
 #define GAME_SERVER_SUCCESS 0
 #define GAME_SERVER_ERROR   1
 
 namespace bali
 {
+    #define GET_SERVER_CONTEXT(g) &(((GameServer*)g)->cs)
+
     //this is a server-side game object
     class GameServer : public Game
     {
@@ -28,15 +22,8 @@ namespace bali
         uint32_t doGameProcessing();
         uint32_t cleanup();
 
-        Comm server;
-
-        ManagerConfiguration mc;
-        ManagerMap mm;
-        //ManagerTexture mt;
-        ManagerWorld mw;
-        ManagerPlayer mp;
+        ContextServer cs;
     private:
-
     };
 }
 #endif // GameServer_h_

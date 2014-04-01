@@ -1,0 +1,89 @@
+\hypertarget{classbali_1_1_comm}{\section{bali\-:\-:Comm Class Reference}
+\label{classbali_1_1_comm}\index{bali\-::\-Comm@{bali\-::\-Comm}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classbali_1_1_comm_ae569bdd763975a2497e35c8008d0ac66}{bool {\bfseries start\-Client} (sf\-::\-Uint16 port, sf\-::\-Ip\-Address addr)}\label{classbali_1_1_comm_ae569bdd763975a2497e35c8008d0ac66}
+
+\item 
+\hypertarget{classbali_1_1_comm_a2a761a2615ae44e713d45b5eec53c4d0}{bool {\bfseries start\-Server} (sf\-::\-Uint16 port)}\label{classbali_1_1_comm_a2a761a2615ae44e713d45b5eec53c4d0}
+
+\item 
+\hypertarget{classbali_1_1_comm_aa33c2f2b39719598e5ae773df3353259}{void {\bfseries stop} ()}\label{classbali_1_1_comm_aa33c2f2b39719598e5ae773df3353259}
+
+\item 
+\hypertarget{classbali_1_1_comm_a37a8581d204065f5f575322ddd4c26c6}{void {\bfseries send} (\hyperlink{classbali_1_1_comm_event}{Comm\-Event} \&p)}\label{classbali_1_1_comm_a37a8581d204065f5f575322ddd4c26c6}
+
+\item 
+\hypertarget{classbali_1_1_comm_a4849c7d714e7f35ea2d5f021f488102a}{bool {\bfseries receive} (\hyperlink{classbali_1_1_comm_event}{Comm\-Event} \&p)}\label{classbali_1_1_comm_a4849c7d714e7f35ea2d5f021f488102a}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classbali_1_1_comm_a132144d7c1d8045f2dd37907e0f3f3fb}{static void {\bfseries initialize\-Comm\-Event} (\hyperlink{classbali_1_1_comm_event}{Comm\-Event} \&ce, uint32\-\_\-t cid)}\label{classbali_1_1_comm_a132144d7c1d8045f2dd37907e0f3f3fb}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classbali_1_1_comm_aaee60040345e4fd5d24615d4c0bf4ba8}{void {\bfseries send\-System} (Comm\-Event\-Type\-::\-C\-E\-T cet, uint32\-\_\-t connection\-Id, std\-::string msg)}\label{classbali_1_1_comm_aaee60040345e4fd5d24615d4c0bf4ba8}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classbali_1_1_comm_a973b2b3e8f10efbb3bdf3fe92b7d2a77}{static void {\bfseries Looper\-Client\-Handler} (std\-::shared\-\_\-ptr$<$ \hyperlink{structbali_1_1_looper_client_handler_arg}{Looper\-Client\-Handler\-Arg} $>$ arg)}\label{classbali_1_1_comm_a973b2b3e8f10efbb3bdf3fe92b7d2a77}
+
+\item 
+\hypertarget{classbali_1_1_comm_aafc2bc3e63415c465b28604746101daf}{static void {\bfseries Looper\-Listener} (std\-::shared\-\_\-ptr$<$ \hyperlink{structbali_1_1_looper_listener_arg}{Looper\-Listener\-Arg} $>$ arg)}\label{classbali_1_1_comm_aafc2bc3e63415c465b28604746101daf}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classbali_1_1_comm_ace98abb49d2799a7ad8c7411ce70eb32}{sf\-::\-Ip\-Address {\bfseries address}}\label{classbali_1_1_comm_ace98abb49d2799a7ad8c7411ce70eb32}
+
+\item 
+\hypertarget{classbali_1_1_comm_a552df864b32f3a75a59f7259902c97e2}{sf\-::\-Uint16 {\bfseries port}}\label{classbali_1_1_comm_a552df864b32f3a75a59f7259902c97e2}
+
+\item 
+\hypertarget{classbali_1_1_comm_a35b19f78f7f9bcbb19cf7a3ddc7b2f2e}{sf\-::\-Tcp\-Listener {\bfseries listener}}\label{classbali_1_1_comm_a35b19f78f7f9bcbb19cf7a3ddc7b2f2e}
+
+\item 
+\hypertarget{classbali_1_1_comm_a33af654daa0cd527065229186166a127}{std\-::vector$<$ std\-::shared\-\_\-ptr\\*
+$<$ sf\-::\-Thread $>$ $>$ {\bfseries looper\-Client\-Handler\-Threads}}\label{classbali_1_1_comm_a33af654daa0cd527065229186166a127}
+
+\item 
+\hypertarget{classbali_1_1_comm_a319338a5d0cf706d268c1d421ab0cce9}{std\-::shared\-\_\-ptr$<$ sf\-::\-Thread $>$ {\bfseries looper\-Listener\-Thread}}\label{classbali_1_1_comm_a319338a5d0cf706d268c1d421ab0cce9}
+
+\item 
+\hypertarget{classbali_1_1_comm_a180de5883191dfb0deb57c5c0245591e}{sf\-::\-Socket\-Selector {\bfseries listener\-Selector}}\label{classbali_1_1_comm_a180de5883191dfb0deb57c5c0245591e}
+
+\item 
+\hypertarget{classbali_1_1_comm_ada07144b322e39803a798298d9f3313e}{sf\-::\-Mutex {\bfseries connections\-Mutex}}\label{classbali_1_1_comm_ada07144b322e39803a798298d9f3313e}
+
+\item 
+\hypertarget{classbali_1_1_comm_a05763fae86e2f0d070445d8967af6cb4}{sf\-::\-Mutex {\bfseries System\-Mutex}}\label{classbali_1_1_comm_a05763fae86e2f0d070445d8967af6cb4}
+
+\item 
+\hypertarget{classbali_1_1_comm_a38d0d5bba3951bc7af7870457904f950}{std\-::vector$<$ std\-::shared\-\_\-ptr\\*
+$<$ \hyperlink{classbali_1_1_connection}{Connection} $>$ $>$ {\bfseries connections}}\label{classbali_1_1_comm_a38d0d5bba3951bc7af7870457904f950}
+
+\item 
+\hypertarget{classbali_1_1_comm_a98417b951cfe5f886e47fd1f75a27528}{std\-::queue$<$ \hyperlink{classbali_1_1_comm_event}{Comm\-Event} $>$ {\bfseries System\-Packets}}\label{classbali_1_1_comm_a98417b951cfe5f886e47fd1f75a27528}
+
+\item 
+\hypertarget{classbali_1_1_comm_ab8e13d6b2c3fec0313f18a9e0e83d234}{bool {\bfseries Not\-Done}}\label{classbali_1_1_comm_ab8e13d6b2c3fec0313f18a9e0e83d234}
+
+\item 
+\hypertarget{classbali_1_1_comm_a95fa80b87795af147746fb9152b443de}{uint32\-\_\-t {\bfseries Total\-Connect\-Count}}\label{classbali_1_1_comm_a95fa80b87795af147746fb9152b443de}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Common/Comm.\-h\item 
+Common/Comm.\-cpp\end{DoxyCompactItemize}

@@ -1,0 +1,6 @@
+digraph "Client" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  dir_922c588100a187620fdc1533bc178f73 [shape=box, label="Client", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_922c588100a187620fdc1533bc178f73.html"];
+}

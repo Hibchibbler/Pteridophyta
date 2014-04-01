@@ -9,7 +9,7 @@ namespace bali
     class StageClientStart : public GameStage
     {
     public:
-        StageClientStart(Game & game, uint32_t uid);
+        StageClientStart(Game* game, uint32_t uid);
         ~StageClientStart();
 
         uint32_t initialize();

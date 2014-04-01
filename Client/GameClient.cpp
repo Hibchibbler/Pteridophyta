@@ -4,7 +4,7 @@
 #include "StageClientMain.h"
 
 namespace bali{
-#define CLIENTCONTEXT ((ContextClient*)getContext())
+
 
 GameClient::GameClient()
     : Game()
@@ -18,23 +18,21 @@ GameClient::~GameClient()
 
 uint32_t GameClient::initialize()
 {
-    setContext(new ContextClient());
+    add(std::make_shared<StageClientStart>(this, 0));//0 - uid for start stage
+    add(std::make_shared<StageClientLobby>(this, 1));//1 - uid for lobby stage
+    add(std::make_shared<StageClientMain>(this, 2));//2 - uid for main stage
 
-    add(std::make_shared<StageClientStart>(*this, 0));//0 - uid for start stage
-    add(std::make_shared<StageClientLobby>(*this, 1));//1 - uid for lobby stage
-    add(std::make_shared<StageClientMain>(*this, 2));//2 - uid for main stage
+    cc.mc.initialize("configuration.xml");
+    cc.mm.initialize(cc.mc);
+    cc.mt.initialize(cc.mm);
+    cc.mw.initialize(cc.mc, cc.mm);
 
-    mc.initialize("configuration.xml");
-    mm.initialize(mc);
-    //mt.initialize(mm);
-    mw.initialize(mc, mm);
+    cc.screenWidth = cc.mc.configuration.client.window.width;
+    cc.screenHeight = cc.mc.configuration.client.window.height;
 
-    CLIENTCONTEXT->screenWidth = mc.configuration.client.window.width;
-    CLIENTCONTEXT->screenHeight = mc.configuration.client.window.height;
-
-    window.create(sf::VideoMode(mc.configuration.client.window.width,
-                                mc.configuration.client.window.height,
-                                32), "Bam");
+    cc.window.create(sf::VideoMode(cc.mc.configuration.client.window.width,
+                                   cc.mc.configuration.client.window.height,
+                                   32), "Bam");
 
     return 0;
 }
@@ -42,14 +40,14 @@ uint32_t GameClient::doEventProcessing()
 {
     //Do remote processing
     CommEvent event;
-    while (client.receive(event)){
+    while (cc.client.receive(event)){
         uint32_t t;
         (*event.packet) >> t;
         switch (t){
             case CommEventType::Connected:{
                 //Local Host has connected to Server
                 std::cout << "Connected." << std::endl;
-                mp.player.connectionId = event.connectionId;
+                cc.mp.player.connectionId = event.connectionId;
                 break;
             }case CommEventType::Disconnect:{
                 //Local Host is disconnected from Server
@@ -70,17 +68,17 @@ uint32_t GameClient::doEventProcessing()
     }
 
     sf::Event wevent;
-    while (window.pollEvent(wevent))
+    while (cc.window.pollEvent(wevent))
     {
         getCurrentStage()->doWindowEvents(wevent);
         if (wevent.type == sf::Event::Resized)
         {
-            CLIENTCONTEXT->screenWidth = wevent.size.width;
-            CLIENTCONTEXT->screenHeight = wevent.size.height;
-            std::cout << "GameClient::Resize  " << CLIENTCONTEXT->screenWidth << ", " << CLIENTCONTEXT->screenHeight << std::endl;
+            cc.screenWidth = wevent.size.width;
+            cc.screenHeight = wevent.size.height;
+            std::cout << "GameClient::Resize  " << cc.screenWidth << ", " << cc.screenHeight << std::endl;
         }else if (wevent.type == sf::Event::Closed)
         {
-            window.close();
+            cc.window.close();
             return 1;
         }
     }

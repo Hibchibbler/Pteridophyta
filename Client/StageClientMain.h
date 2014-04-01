@@ -9,7 +9,7 @@ namespace bali
     class StageClientMain : public GameStage
     {
     public:
-        StageClientMain(Game & game, uint32_t uid);
+        StageClientMain(Game* game, uint32_t uid);
         ~StageClientMain(){}
 
         uint32_t initialize();
@@ -20,12 +20,13 @@ namespace bali
         uint32_t doDraw();
         uint32_t cleanup();
     private:
-        uint32_t initializeLayer(uint32_t layer);
-        uint32_t addStraightQuad(sf::VertexArray & v, sf::FloatRect c, sf::IntRect t);
+        uint32_t initializeLayer(uint32_t layer, std::shared_ptr<sf::VertexArray> newLayer);
+        uint32_t addStraightQuad(std::shared_ptr<sf::VertexArray> v, sf::FloatRect c, sf::IntRect t);
 
         sf::View mainView;
         sf::Clock localInputClock;
         uint32_t mouseInView =true;
+        std::vector<std::shared_ptr<sf::VertexArray> > layers;
     };
 }//end namespace bali
 #endif // StageClientMain_h_

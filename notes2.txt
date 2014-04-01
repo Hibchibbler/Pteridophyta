@@ -1,0 +1,97 @@
+World rotates a fix increment at a fixed rate.
+Levels designed to make cavern traversal dependent on current angle.
+SKill/Item that allows short, permanentlygravitational modifications.
+
+
+
+Fundamentals:
+Define Complexity:
+	Fun
+	HOw many mechanics: 7		
+		Points - to win
+		Monster Protectorate - to protect point, resource, 				       either, neither, whatever
+		Resources - to power up
+			Filling a bucket at team base.
+			
+		Player Power Level
+		Gravity
+
+		Versus
+		Coop
+
+		Terrain/Level Design
+		
+	HOw long does a game run: 20 minutes
+	
+
+
+*HOw Simple of game do we want?
+*Just Gravity, two teams, deathmatch.  How fun is that?
+	*
+
+
+*Versus, or Coop?
+	*Could Versus be
+
+*Gravity
+	*The Nature of Gravity
+		*Friend, or Enemy?
+	*Gravity as an Item.
+		*They don't work while holding them?
+	*Gravity as an innate ability.
+	*HOw your Gravity Affects you.
+	*How your Gravity Affects others.
+	*HOw their Gravity affects you.
+*Coin
+*Star
+*Base
+*Team
+*Monster Protectorates
+
+----------
+caverns - radically swap orientations, frantically trying to kill monsters, and opponents. Gravity is the enemy, not an ability.
+
+
+
+
+load layer data (gids)
+based on map width, map height...
+tile width, tile height.
+
+load tilesets
+
+
+
+So...
+HUD
+Main Screen
+Mini Map
+
+Background level.
+Characters
+
+Collision
+
+
+
+
+
+
+
+
+
+
+
+
+
+4375
+
+
+
+
+Fried Rice # 32
+
+
+Zab Thai
+#72 LARGE
+#73 large - medium

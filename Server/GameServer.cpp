@@ -17,26 +17,22 @@ GameServer::~GameServer()
 
 uint32_t GameServer::initialize()
 {
-    //Allocate memory for context
-    setContext(new ContextServer());
+    add(std::shared_ptr<GameStage>(new StageServerStart(this, 0)));//0 - uid for setup stage
+    add(std::shared_ptr<GameStage>(new StageServerLobby(this, 1)));//1 - uid for lobby stage
+    add(std::shared_ptr<GameStage>(new StageServerMain(this, 2)));//2 - uid for main stage
 
-    add(std::shared_ptr<GameStage>(new StageServerStart(*this, 0)));//0 - uid for setup stage
-    add(std::shared_ptr<GameStage>(new StageServerLobby(*this, 1)));//1 - uid for lobby stage
-    add(std::shared_ptr<GameStage>(new StageServerMain(*this, 2)));//2 - uid for main stage
+    cs.mc.initialize("configuration.xml");
+    cs.mm.initialize(cs.mc);
+    cs.mw.initialize(cs.mc, cs.mm);
 
-    mc.initialize("configuration.xml");
-    mm.initialize(mc);
-    //mt.initialize(mm);
-    mw.initialize(mc, mm);
-
-    server.startServer(5676);
+    cs.server.startServer(5676);
     return 0;
 }
 uint32_t GameServer::doEventProcessing()
 {
     //Do remote processing
     CommEvent event;
-    while (server.receive(event)){
+    while (cs.server.receive(event)){
         uint32_t t;
         (*event.packet) >> t;
         switch (t){
@@ -46,13 +42,13 @@ uint32_t GameServer::doEventProcessing()
 
                 SPlayer newPlayer(new Player);
                 newPlayer->connectionId = event.connectionId;//cid;
-                mp.addPlayer(newPlayer);
+                cs.mp.addPlayer(newPlayer);
 
                 break;
             }case CommEventType::Disconnect:{
                 //Server is no longer connected to a remote host
                 std::cout << "Disconnected." << std::endl;
-                mp.removePlayerByCid(event.connectionId);
+                cs.mp.removePlayerByCid(event.connectionId);
                 break;
             }case CommEventType::Error:
                 //An error has occured in the Server

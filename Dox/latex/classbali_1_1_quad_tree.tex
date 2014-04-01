@@ -1,0 +1,68 @@
+\hypertarget{classbali_1_1_quad_tree}{\section{bali\-:\-:Quad\-Tree Class Reference}
+\label{classbali_1_1_quad_tree}\index{bali\-::\-Quad\-Tree@{bali\-::\-Quad\-Tree}}
+}
+
+
+Collaboration diagram for bali\-:\-:Quad\-Tree\-:
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classbali_1_1_quad_tree_a64282c1910507d5d41b93769a557ce0d}{typedef void($\ast$ {\bfseries visit\-Func} )(\hyperlink{classbali_1_1_node}{Node} $\ast$node)}\label{classbali_1_1_quad_tree_a64282c1910507d5d41b93769a557ce0d}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classbali_1_1_quad_tree_aa5c83dfc5cc3d48bf616ccddb3d6d32d}{{\bfseries Quad\-Tree} (\hyperlink{classbali_1_1_a_a_b_b}{A\-A\-B\-B} b, int max\-\_\-depth)}\label{classbali_1_1_quad_tree_aa5c83dfc5cc3d48bf616ccddb3d6d32d}
+
+\item 
+\hypertarget{classbali_1_1_quad_tree_a81585ab207e0a07a21faed03297ab3af}{bool {\bfseries cleanup} ()}\label{classbali_1_1_quad_tree_a81585ab207e0a07a21faed03297ab3af}
+
+\item 
+\hypertarget{classbali_1_1_quad_tree_a821750aa616bc47404b1ab49d27ed9d3}{bool {\bfseries cleanup} (\hyperlink{classbali_1_1_node}{Node} $\ast$$\ast$node)}\label{classbali_1_1_quad_tree_a821750aa616bc47404b1ab49d27ed9d3}
+
+\item 
+\hypertarget{classbali_1_1_quad_tree_a2dd623bbd803b1e4a09745a4f1c25d51}{bool {\bfseries visit\-All} (visit\-Func vf)}\label{classbali_1_1_quad_tree_a2dd623bbd803b1e4a09745a4f1c25d51}
+
+\item 
+\hypertarget{classbali_1_1_quad_tree_a36268f7134c0581c02eb41d5c05ef66d}{bool {\bfseries visit\-All} (\hyperlink{classbali_1_1_node}{Node} $\ast$$\ast$node, visit\-Func vf)}\label{classbali_1_1_quad_tree_a36268f7134c0581c02eb41d5c05ef66d}
+
+\item 
+\hypertarget{classbali_1_1_quad_tree_aecf3bb3b4e1453e5660f41b55cfeb0e2}{std\-::vector$<$ \hyperlink{classbali_1_1_x_y}{X\-Y} $>$ {\bfseries search} (\hyperlink{classbali_1_1_a_a_b_b}{A\-A\-B\-B} search\-Rect)}\label{classbali_1_1_quad_tree_aecf3bb3b4e1453e5660f41b55cfeb0e2}
+
+\item 
+\hypertarget{classbali_1_1_quad_tree_a73afdaf96545841fda9579dbdb1968a3}{bool {\bfseries search} (\hyperlink{classbali_1_1_node}{Node} $\ast$node, \hyperlink{classbali_1_1_a_a_b_b}{A\-A\-B\-B} search\-Rect, std\-::vector$<$ \hyperlink{classbali_1_1_x_y}{X\-Y} $>$ \&points)}\label{classbali_1_1_quad_tree_a73afdaf96545841fda9579dbdb1968a3}
+
+\item 
+\hypertarget{classbali_1_1_quad_tree_ad5201e22e625642c7460aca991b350b6}{bool {\bfseries insert} (\hyperlink{classbali_1_1_x_y}{X\-Y} point)}\label{classbali_1_1_quad_tree_ad5201e22e625642c7460aca991b350b6}
+
+\item 
+\hypertarget{classbali_1_1_quad_tree_aae54db7cd4de5018fde8db2e892f6fa4}{bool {\bfseries insert} (\hyperlink{classbali_1_1_node}{Node} $\ast$$\ast$node, \hyperlink{classbali_1_1_x_y}{X\-Y} point)}\label{classbali_1_1_quad_tree_aae54db7cd4de5018fde8db2e892f6fa4}
+
+\item 
+\hypertarget{classbali_1_1_quad_tree_ad2b1833338947540b11d3dde95a4de0a}{void {\bfseries sub\-Divide} (\hyperlink{classbali_1_1_node}{Node} $\ast$$\ast$node)}\label{classbali_1_1_quad_tree_ad2b1833338947540b11d3dde95a4de0a}
+
+\item 
+\hypertarget{classbali_1_1_quad_tree_a2aee8324cbfdf23503c188266c8dfd79}{\hyperlink{classbali_1_1_node}{Node} $\ast$ {\bfseries new\-Node} (\hyperlink{classbali_1_1_a_a_b_b}{A\-A\-B\-B} b, int depth)}\label{classbali_1_1_quad_tree_a2aee8324cbfdf23503c188266c8dfd79}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classbali_1_1_quad_tree_acf5aa2f30fc9797130332c426dd4c588}{\hyperlink{classbali_1_1_a_a_b_b}{A\-A\-B\-B} {\bfseries top\-Level\-Boundary}}\label{classbali_1_1_quad_tree_acf5aa2f30fc9797130332c426dd4c588}
+
+\item 
+\hypertarget{classbali_1_1_quad_tree_a11812b48d9339d4509b8b274a5a65534}{\hyperlink{classbali_1_1_node}{Node} $\ast$ {\bfseries the\-Root}}\label{classbali_1_1_quad_tree_a11812b48d9339d4509b8b274a5a65534}
+
+\item 
+\hypertarget{classbali_1_1_quad_tree_a84c4b35f2d04a971f48f4d91a70300c8}{int {\bfseries max\-Depth}}\label{classbali_1_1_quad_tree_a84c4b35f2d04a971f48f4d91a70300c8}
+
+\item 
+\hypertarget{classbali_1_1_quad_tree_a2e38d3edd3d55792ab4ed6cbb941efd7}{const int {\bfseries Point\-Cap} = 1}\label{classbali_1_1_quad_tree_a2e38d3edd3d55792ab4ed6cbb941efd7}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+Common/Quadtree.\-h\end{DoxyCompactItemize}

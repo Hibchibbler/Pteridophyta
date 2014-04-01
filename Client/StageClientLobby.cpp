@@ -11,31 +11,25 @@ namespace bali{
 
 using namespace sfg;
 
-StageClientLobby::StageClientLobby(Game & game, uint32_t uid)
+StageClientLobby::StageClientLobby(Game* game, uint32_t uid)
     : GameStage(game, uid)
 {
-
 }
 
 StageClientLobby::~StageClientLobby()
 {
-
 }
+
 uint32_t StageClientLobby::initialize()
 {
-    ContextClient *ctx = ((ContextClient*)(g.getContext()));
-    GameClient* gc = ((GameClient*)&g);
+    ContextClient& cc = *(GET_CLIENT_CONTEXT(g));
 
-
-
-    gc->client.startClient(5676,sf::IpAddress("192.168.1.13"));
+    cc.client.startClient(5676,sf::IpAddress("192.168.1.13"));
     //sf::sleep(sf::seconds(6));
-    std::cout << ctx->name << ", "
-              << ctx->pass << ", "
-              << ctx->port << ", "
-              << ctx->ip << std::endl;
-
-    gc->mp.player.name = ctx->name;
+    std::cout << cc.mp.player.name << ", "
+              << cc.mp.player.pass << ", "
+              << cc.mp.player.server_port << ", "
+              << cc.mp.player.server_ip << std::endl;
 
 
     box =  sfg::Box::Create( sfg::Box::Orientation::VERTICAL, 5.0f );
@@ -87,9 +81,7 @@ uint32_t StageClientLobby::initialize()
     mywindow->SetPosition(sf::Vector2f(100.0f,100.0f));
     mywindow->Add(box);
 
-    gc->desk.Add(mywindow);
-
-
+    cc.desk.Add(mywindow);
 
     initialized();
     return 0;
@@ -97,29 +89,25 @@ uint32_t StageClientLobby::initialize()
 
 void StageClientLobby::doReady(StageClientLobby* l)
 {
-    GameClient* gc = ((GameClient*)&l->g);
-    //ContextClient* cc = ((ContextClient*)(gc->gameContext));
+    ContextClient* cc = GET_CLIENT_CONTEXT(l->g);
 
-    gc->mp.player.setReady();
-    gc->mp.player.stateClient = StatePlayerClient::SendReady;
+    cc->mp.player.setReady();
+    cc->mp.player.stateClient = StatePlayerClient::SendReady;
     l->readyButton->Show(false);
 
 }
 
-//sfg::Window::Ptr createNameDialog();
+
 void StageClientLobby::doJoinTeam1(StageClientLobby* l)
 {
-    GameClient* gc = ((GameClient*)&l->g);
-    ContextClient* cc = ((ContextClient*)(gc->getContext()));
+    ContextClient* cc = GET_CLIENT_CONTEXT(l->g);
 
     //Send Id
-    cc->team = 1;
-    gc->mp.player.team = cc->team;
-    gc->mp.player.stateClient = StatePlayerClient::SendId;
+    cc->mp.player.team = 1;
+    cc->mp.player.stateClient = StatePlayerClient::SendId;
 
     l->joinTeam1Button->Show(false);
     l->joinTeam2Button->Show(false);
-
 
     l->spinner->Show(true);
     l->spinner->Start();
@@ -128,13 +116,11 @@ void StageClientLobby::doJoinTeam1(StageClientLobby* l)
 
 void StageClientLobby::doJoinTeam2(StageClientLobby* l)
 {
-    GameClient* gc = ((GameClient*)&l->g);
-    ContextClient* cc = ((ContextClient*)(gc->getContext()));
+    ContextClient* cc = GET_CLIENT_CONTEXT(l->g);
 
     //Send Id
-    cc->team = 2;
-    gc->mp.player.team = cc->team;
-    gc->mp.player.stateClient = StatePlayerClient::SendId;
+    cc->mp.player.team = 2;
+    cc->mp.player.stateClient = StatePlayerClient::SendId;
 
     l->joinTeam1Button->Show(false);
     l->joinTeam2Button->Show(false);
@@ -148,22 +134,21 @@ void StageClientLobby::doJoinTeam2(StageClientLobby* l)
 
 uint32_t StageClientLobby::doWindowEvents(sf::Event & event)
 {
-    GameClient* gc = ((GameClient*)&g);
-    gc->desk.HandleEvent(event);
+    ContextClient* cc = (GET_CLIENT_CONTEXT(g));
+    cc->desk.HandleEvent(event);
     return 0;
 }
 
 uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
 {
-    GameClient* gc = ((GameClient*)&g);
-    ContextClient* cc = ((ContextClient*)(gc->getContext()));
+    ContextClient* cc = (GET_CLIENT_CONTEXT(g));
     uint32_t msgId;
     (*event.packet) >> msgId;
 
     switch (msgId){
      case MsgId::WhoIsAck:{
             std::cout << "Got WhoIsAck" << std::endl;
-            gc->mp.player.stateClient = StatePlayerClient::Waiting;
+            cc->mp.player.stateClient = StatePlayerClient::Waiting;
             uint32_t t1o=0;
             uint32_t t2o=0;
 
@@ -203,13 +188,13 @@ uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
             std::cout << "Layer: " << layerName << std::endl;
             cc->layerName = layerName;
             readyButton->Show(true);
-            gc->mp.player.setIdentity();
-            gc->mp.player.stateClient = StatePlayerClient::Waiting;
+            cc->mp.player.setIdentity();
+            cc->mp.player.stateClient = StatePlayerClient::Waiting;
 
             break;
     }case MsgId::IdNack:{
             std::cout << "Got IdNack" << std::endl;
-            gc->mp.player.stateClient = StatePlayerClient::SendWhoIs;
+            cc->mp.player.stateClient = StatePlayerClient::SendWhoIs;
 
             joinTeam1Button->Show(true);
             joinTeam2Button->Show(true);
@@ -220,7 +205,7 @@ uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
             break;
     }case MsgId::Start:{
             std::cout << "Got Start" << std::endl;
-            gc->mp.player.stateClient = StatePlayerClient::Established;
+            cc->mp.player.stateClient = StatePlayerClient::Established;
 
             finished(0);
 
@@ -231,13 +216,12 @@ uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
 }
 
 
-
 uint32_t StageClientLobby::doUpdate()
 {
-    GameClient* gc = ((GameClient*)&g);
+    ContextClient* cc = (GET_CLIENT_CONTEXT(g));
 
-    gc->desk.Update(1);
-    uint32_t s = gc->mp.player.stateClient;
+    cc->desk.Update(1);
+    uint32_t s = cc->mp.player.stateClient;
 
     switch (s){
         case StatePlayerClient::Waiting:
@@ -245,62 +229,65 @@ uint32_t StageClientLobby::doUpdate()
             break;
         case StatePlayerClient::SendWhoIs:
             //std::cout << "Sent WhoIs." << std::endl;
-            Messages::sendWhoIs(gc->client, gc->mp.player);
-            s = StatePlayerClient::Waiting;//WaitWhoIsAck;
+            Messages::sendWhoIs(cc->client, cc->mp.player);
+            s = StatePlayerClient::Waiting;
             break;
         case StatePlayerClient::SendId:{
             //std::cout << "Sent Id." << std::endl;
-            Messages::sendId(gc->client, gc->mp.player);
-            s = StatePlayerClient::Waiting;//WaitIdAck;
+            Messages::sendId(cc->client, cc->mp.player);
+            s = StatePlayerClient::Waiting;
             break;
         }
         case StatePlayerClient::SendReady:
             //std::cout << "Sent Ready." << std::endl;
-            Messages::sendReady(gc->client, gc->mp.player);
+            Messages::sendReady(cc->client, cc->mp.player);
 
             //
             //The player is ready when we recieve Ready from client.
             //And player is identified.
             //
-            if (gc->mp.player.isIdentified())
-                gc->mp.player.setReady();
+            if (cc->mp.player.isIdentified())
+                cc->mp.player.setReady();
             else
                 std::cout << "Ready received, but not identified yet." << std::endl;
 
-            s = StatePlayerClient::Waiting;//WaitStart;
+            s = StatePlayerClient::Waiting;
             break;
     }
-    gc->mp.player.stateClient = s;
+    cc->mp.player.stateClient = s;
 
     //Send WhoIs every 2 seconds to update lobby lists
     if (sendWhoIsClk.getElapsedTime().asSeconds() > 1)
     {
-        gc->mp.player.stateClient = StatePlayerClient::SendWhoIs;
+        cc->mp.player.stateClient = StatePlayerClient::SendWhoIs;
         sendWhoIsClk.restart();
     }
     return 0;
 }
 uint32_t StageClientLobby::doLocalInputs()
 {
+    ContextClient* cc = (GET_CLIENT_CONTEXT(g));
     return 0;
 }
 
 
 uint32_t StageClientLobby::doDraw()
 {
-    GameClient* gc = ((GameClient*)&g);
+//    GameClient* gc = ((GameClient*)g);
+//    ContextClient* cc = &gc->cc;
+    ContextClient* cc = (GET_CLIENT_CONTEXT(g));
 
-    gc->window.clear();
-    gc->window.resetGLStates();
+    cc->window.clear();
+    cc->window.resetGLStates();
 
-    gc->sfGui.Display(gc->window);
-    gc->window.display();
+    cc->sfGui.Display(cc->window);
+    cc->window.display();
     return 0;
 }
 
 uint32_t StageClientLobby::cleanup()
 {
-
+    ContextClient* cc = (GET_CLIENT_CONTEXT(g));
     return 0;
 }
 

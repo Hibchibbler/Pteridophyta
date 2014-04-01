@@ -58,6 +58,7 @@
 			<Add directory="C:/Program Files (x86)/Box2d/lib" />
 			<Add directory="C:/Program Files (x86)/Expat 2.1.0/bin" />
 		</Linker>
+		<Unit filename="CompBkgnd.h" />
 		<Unit filename="ContextClient.h" />
 		<Unit filename="GameClient.cpp" />
 		<Unit filename="GameClient.h" />

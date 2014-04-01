@@ -8,7 +8,7 @@ namespace bali
     class StageServerMain : public GameStage
     {
     public:
-        StageServerMain(Game & game, uint32_t uid);
+        StageServerMain(Game* game, uint32_t uid);
         ~StageServerMain();
 
         uint32_t initialize();

@@ -13,7 +13,7 @@ namespace bali
     class StageServerLobby : public GameStage
     {
     public:
-        StageServerLobby(Game & game, uint32_t uid);
+        StageServerLobby(Game* game, uint32_t uid);
         ~StageServerLobby();
 
         uint32_t initialize();
