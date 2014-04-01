@@ -9,7 +9,7 @@
 
 namespace bali
 {
-    #define GET_SERVER_CONTEXT(g) &(((GameServer*)g)->cs)
+    #define GET_SERVER_CONTEXT(g) (((GameServer*)g)->cs)
 
     //this is a server-side game object
     class GameServer : public Game
