@@ -37,3 +37,24 @@ uint32_t positionToIndex(sf::Vector2f pos, int tiles_wide, int tile_width, int t
     int mapCoordY = gridCoordY / h;
     return mapCoordX + (mapCoordY*tiles_wide);
 }
+
+uint32_t addStraightQuad(sf::VertexArray& v, sf::FloatRect c, sf::IntRect t)
+{
+    v.append(sf::Vertex(sf::Vector2f(c.left, c.top),
+                        sf::Vector2f(t.left, t.top)
+                        ));
+
+    v.append(sf::Vertex(sf::Vector2f(c.left+c.width, c.top),
+                        sf::Vector2f(t.left+t.width, t.top)
+                        ));
+
+    v.append(sf::Vertex(sf::Vector2f(c.left+c.width, c.top+c.height),
+                        sf::Vector2f(t.left+t.width, t.top+t.height)
+                        ));
+
+    v.append(sf::Vertex(sf::Vector2f(c.left, c.top+c.height),
+                        sf::Vector2f(t.left, t.top+t.height)
+                        ));
+
+    return 0;
+}

@@ -18,17 +18,14 @@ StageClientStart::~StageClientStart()
 
 void StageClientStart::doStart()
 {
-    std::string name = nameEntry->GetText();
-    std::string pass = passEntry->GetText();
-    std::string port = portEntry->GetText();
-    std::string ip   = ipEntry->GetText();
-    std::cout << "Hi " << name << std::endl;
-
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
-    cc.mp.player.name = name;
-    cc.mp.player.pass = pass;
-    cc.mp.player.server_port = atoi(port.c_str());
-    cc.mp.player.server_ip = ip;
+
+    cc.mp.setPlayerStartInfo(nameEntry->GetText(),
+                             passEntry->GetText(),
+                             atoi(std::string(portEntry->GetText()).c_str()),
+                             ipEntry->GetText());
+
+    std::cout << "Hi " << cc.mp.getPlayerName() << std::endl;
 
     setupWindow->Show(false);
 
@@ -36,7 +33,10 @@ void StageClientStart::doStart()
 }
 uint32_t StageClientStart::initialize()
 {
-
+    for (auto& c: components)
+    {
+        c->initialize();
+    }
     //Construct Start Menu GUI
     sfg::Table::Ptr table( sfg::Table::Create(  ) );
 
@@ -100,16 +100,28 @@ uint32_t StageClientStart::doWindowEvents(sf::Event & wevent)
 }
 uint32_t StageClientStart::doLocalInputs()
 {
+    for (auto& c: components)
+    {
+        c->doLocalInputs();
+    }
     return 0;
 }
 
 uint32_t StageClientStart::doUpdate()
 {
+    for (auto& c: components)
+    {
+        c->doUpdate();
+    }
     setupDesktop.Update(1.0f);
     return 0;
 }
 uint32_t StageClientStart::doDraw()
 {
+    for (auto& c: components)
+    {
+        c->doDraw();
+    }
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
     cc.window.clear();
     cc.window.resetGLStates();
@@ -119,7 +131,10 @@ uint32_t StageClientStart::doDraw()
 }
 uint32_t StageClientStart::cleanup()
 {
-
+    for (auto& c: components)
+    {
+        c->cleanup();
+    }
     return 0;
 }
 

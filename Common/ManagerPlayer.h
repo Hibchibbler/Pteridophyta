@@ -9,6 +9,19 @@ namespace bali{
 class ManagerPlayer
 {
 public:
+    void setPlayerStartInfo(std::string name, std::string  pass, uint32_t serverPort, std::string serverIP)
+    {
+        player.name = name;
+        player.pass = pass;
+        player.server_port = serverPort;
+        player.server_ip = serverIP;
+    }
+
+    std::string getPlayerName()
+    {
+        return player.name;
+    }
+
     void addPlayer(SPlayer player){
         players.push_back(player);
     }

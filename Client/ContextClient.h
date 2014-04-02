@@ -7,7 +7,6 @@ namespace bali{
 
     class ContextClient : public Context{
     public:
-
         std::string mapName;
 
         //Resolution picks

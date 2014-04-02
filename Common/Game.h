@@ -8,11 +8,7 @@
 #include "ManagerPlayer.h"
 
 namespace bali{
-
-
     class GameStage;
-
-
     class GameContext{
     public:
 
@@ -44,8 +40,6 @@ namespace bali{
         uint32_t getCurrentStageIndex(){return curStageIndex;}
         uint32_t curStageIndex;
         std::vector<std::shared_ptr<GameStage> > gameStages;
-
-
 
     };
 };

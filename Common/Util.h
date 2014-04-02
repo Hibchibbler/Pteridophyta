@@ -12,4 +12,6 @@ std::vector<std::string> split(const std::string &s, char delim);
 //
 sf::Vector2i indexToPosition(int index, int tiles_wide, int tile_width, int tile_height);
 uint32_t positionToIndex(sf::Vector2f pos, int tiles_wide, int tile_width, int tile_height);
+
+uint32_t addStraightQuad(sf::VertexArray& v, sf::FloatRect c, sf::IntRect t);
 #endif // Util_h_
