@@ -2513,7 +2513,7 @@
    <tile gid="1"/>
   </data>
  </layer>
- <layer name="Tile Layer 2" width="50" height="50">
+ <layer name="Tile Layer 2" width="50" height="50" visible="0">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>

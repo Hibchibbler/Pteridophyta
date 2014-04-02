@@ -62,6 +62,7 @@
 		<Unit filename="Component.h" />
 		<Unit filename="Configuration.cpp" />
 		<Unit filename="Configuration.h" />
+		<Unit filename="Context.h" />
 		<Unit filename="Game.cpp" />
 		<Unit filename="Game.h" />
 		<Unit filename="GameStage.cpp" />
