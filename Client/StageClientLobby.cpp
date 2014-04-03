@@ -22,119 +22,17 @@ StageClientLobby::~StageClientLobby()
 
 uint32_t StageClientLobby::initialize()
 {
-    ContextClient& cc = (GET_CLIENT_CONTEXT(g));
+    ContextClient& cc = GET_CLIENT_CONTEXT(g);
 
-    cc.net.startClient(5676,sf::IpAddress("192.168.1.13"));
-    //sf::sleep(sf::seconds(6));
-    std::cout << cc.mp.player.name << ", "
-              << cc.mp.player.pass << ", "
-              << cc.mp.player.server_port << ", "
-              << cc.mp.player.server_ip << std::endl;
-
-
-    box =  sfg::Box::Create( sfg::Box::Orientation::VERTICAL, 5.0f );
-
-    sfg::Box::Ptr row = sfg::Box::Create( sfg::Box::Orientation::HORIZONTAL, 5.0f );
-    row->Pack(sfg::Label::Create("Team 1"));
-    row->Pack(sfg::Label::Create("Team 2"));
-    box->Pack(row);
-
-    for (int i = 0;i < 5;i++){
-        row = sfg::Box::Create( sfg::Box::Orientation::HORIZONTAL, 5.0f );
-        team1[i] = sfg::Entry::Create("");
-        row->Pack(team1[i],true,true);
-        team2[i] = sfg::Entry::Create("");
-        row->Pack(team2[i],true,true);
-        box->Pack(row);
-    }
-
-    row = sfg::Box::Create( sfg::Box::Orientation::HORIZONTAL, 5.0f );
-
-    joinTeam1Button = sfg::Button::Create("Join Team 1");
-    joinTeam1Button->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(StageClientLobby::doJoinTeam1, this) );
-    row->Pack(joinTeam1Button);
-
-    joinTeam2Button = sfg::Button::Create("Join Team 2");
-    joinTeam2Button->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(StageClientLobby::doJoinTeam2, this) );
-    row->Pack(joinTeam2Button);
-    box->Pack(row);
-
-    row = sfg::Box::Create( sfg::Box::Orientation::HORIZONTAL, 10.0f );
-    readyButton = sfg::Button::Create("Ready");
-    readyButton->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(StageClientLobby::doReady, this) );
-    readyButton->Show(false);//Don't show until team is joined.
-    row->Pack(readyButton);
-    box->Pack(row);
-
-    row = sfg::Box::Create(sfg::Box::Orientation::HORIZONTAL, 10.0f);
-    spinner = sfg::Spinner::Create();
-    spinner->Show(false);
-    msg = sfg::Label::Create("Waiting for Host to start...");
-    msg->Show(false);
-    row->Pack(spinner);
-    row->Pack(msg);
-    box->Pack(row);
-
-    mywindow = sfg::Window::Create();
-    mywindow->SetTitle("Lobby");
-    mywindow->SetPosition(sf::Vector2f(100.0f,100.0f));
-    mywindow->Add(box);
-
-    cc.desk.Add(mywindow);
-
+    compLobbyWindow.initialize(cc);
     initialized();
     return 0;
 }
 
-void StageClientLobby::doReady(StageClientLobby* l)
-{
-    ContextClient& cc = GET_CLIENT_CONTEXT(l->g);
-
-    cc.mp.player.setReady();
-    cc.mp.player.stateClient = StatePlayerClient::SendReady;
-    l->readyButton->Show(false);
-
-}
-
-
-void StageClientLobby::doJoinTeam1(StageClientLobby* l)
-{
-    ContextClient& cc = GET_CLIENT_CONTEXT(l->g);
-
-    //Send Id - declare team 1
-    cc.mp.player.team = 1;
-    cc.mp.player.stateClient = StatePlayerClient::SendId;
-
-    l->joinTeam1Button->Show(false);
-    l->joinTeam2Button->Show(false);
-
-    l->spinner->Show(true);
-    l->spinner->Start();
-    l->msg->Show(true);
-}
-
-void StageClientLobby::doJoinTeam2(StageClientLobby* l)
-{
-    ContextClient& cc = GET_CLIENT_CONTEXT(l->g);
-
-    //Send Id - declare team 2
-    cc.mp.player.team = 2;
-    cc.mp.player.stateClient = StatePlayerClient::SendId;
-
-    l->joinTeam1Button->Show(false);
-    l->joinTeam2Button->Show(false);
-
-    l->spinner->Show(true);
-    l->spinner->Start();
-    l->msg->Show(true);
-
-}
-
-
 uint32_t StageClientLobby::doWindowEvents(sf::Event & event)
 {
     ContextClient& cc = (GET_CLIENT_CONTEXT(g));
-    cc.desk.HandleEvent(event);
+    compLobbyWindow.doWindowEvents(cc, event);
     return 0;
 }
 
@@ -158,8 +56,8 @@ uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
             //Clear all the slots, in preparation for update.
             for (int i = 0;i < 5;i++)
             {
-                team1[i]->SetText(sf::String(""));
-                team2[i]->SetText(sf::String(""));
+                compLobbyWindow.team1[i]->SetText(sf::String(""));
+                compLobbyWindow.team2[i]->SetText(sf::String(""));
             }
 
             //Fill the slots with the names recieved in WhoIsAck payload
@@ -170,11 +68,11 @@ uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
                 (*event.packet) >> name >> team;
                 if (team == 1)
                 {
-                    team1[t1o]->SetText(sf::String(name));
+                    compLobbyWindow.team1[t1o]->SetText(sf::String(name));
                     t1o++;
                 }else
                 {
-                    team2[t2o]->SetText(sf::String(name));
+                    compLobbyWindow.team2[t2o]->SetText(sf::String(name));
                     t2o++;
                 }
             }
@@ -186,7 +84,7 @@ uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
             (*event.packet) >> mapName;
             std::cout << "Map: " << mapName << std::endl;
             cc.mapName = mapName;
-            readyButton->Show(true);
+            compLobbyWindow.readyButton->Show(true);
             cc.mp.player.setIdentity();
             cc.mp.player.stateClient = StatePlayerClient::Waiting;
 
@@ -195,11 +93,11 @@ uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
             std::cout << "Got IdNack" << std::endl;
             cc.mp.player.stateClient = StatePlayerClient::SendWhoIs;
 
-            joinTeam1Button->Show(true);
-            joinTeam2Button->Show(true);
-            spinner->Show(false);
-            spinner->Stop();
-            msg->Show(false);
+            compLobbyWindow.joinTeam1Button->Show(true);
+            compLobbyWindow.joinTeam2Button->Show(true);
+            compLobbyWindow.spinner->Show(false);
+            compLobbyWindow.spinner->Stop();
+            compLobbyWindow.msg->Show(false);
 
             break;
     }case MsgId::Start:{
@@ -211,6 +109,7 @@ uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
             break;
         }
     }
+
     return 0;
 }
 
@@ -219,7 +118,6 @@ uint32_t StageClientLobby::doUpdate()
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
 
-    cc.desk.Update(1);
     uint32_t s = cc.mp.player.stateClient;
 
     switch (s){
@@ -258,11 +156,20 @@ uint32_t StageClientLobby::doUpdate()
         cc.mp.player.stateClient = StatePlayerClient::SendWhoIs;
         sendWhoIsClk.restart();
     }
+
+
+    compLobbyWindow.doUpdate(cc);
+
+    if (compLobbyWindow.isReady())
+    {
+        finished(0);
+    }
     return 0;
 }
 uint32_t StageClientLobby::doLocalInputs()
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
+    compLobbyWindow.doLocalInputs(cc);
     return 0;
 }
 
@@ -273,8 +180,8 @@ uint32_t StageClientLobby::doDraw()
 
     cc.window.clear();
     cc.window.resetGLStates();
+    compLobbyWindow.doDraw(cc);
 
-    cc.sfGui.Display(cc.window);
     cc.window.display();
     return 0;
 }
@@ -282,6 +189,7 @@ uint32_t StageClientLobby::doDraw()
 uint32_t StageClientLobby::cleanup()
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
+    compLobbyWindow.cleanup(cc);
     return 0;
 }
 
