@@ -13,7 +13,7 @@ namespace bali
 
         uint32_t initialize();
         uint32_t doRemoteEvent(CommEvent & event);
-        uint32_t doWindowEvents(sf::Event & wevent);
+        uint32_t doWindowEvents(sf::Event & event);
         uint32_t doLocalInputs();
         uint32_t doUpdate();
         uint32_t doDraw();

@@ -39,7 +39,7 @@ namespace bali
         //
         virtual uint32_t doRemoteEvent(CommEvent & event)=0;
 
-        virtual uint32_t doWindowEvents(sf::Event & wevent)=0;
+        virtual uint32_t doWindowEvents(sf::Event & event)=0;
         virtual uint32_t doLocalInputs()=0;
 
         //
@@ -54,31 +54,29 @@ namespace bali
         void setId(uint32_t id);
         uint32_t getId();
         uint32_t isDone();
-
         //
         //isError() if returns > 0 then error, and value is defined
         //by derived stage
         //returns 0 if no error
         //
         uint32_t isError();
-
         uint32_t isInit();
-
         void initialized(){init=1;}
         void finished(uint32_t e){err=e;done=1;}
-
-        //reference to owner
-        Game* g;
-
-        uint32_t addComponent(SComponent component){
-            components.push_back(component);
-        }
-        std::vector<SComponent> components;
-
         uint32_t id;
         uint32_t done;
         uint32_t err;
         uint32_t init;
+
+        //reference to owner
+        Game* g;
+
+//        uint32_t addComponent(SComponent component){
+//            components.push_back(component);
+//        }
+        std::vector<SComponent> components;
+
+
 
 
     };

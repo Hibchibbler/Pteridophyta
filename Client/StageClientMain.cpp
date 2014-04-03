@@ -72,10 +72,10 @@ uint32_t StageClientMain::doRemoteEvent(CommEvent & event)
     return 0;
 }
 
-uint32_t StageClientMain::doWindowEvents(sf::Event & wevent)
+uint32_t StageClientMain::doWindowEvents(sf::Event & event)
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
-    switch (wevent.type)
+    switch (event.type)
     {
         case sf::Event::Resized:
             //cc is set in parent handler
@@ -114,10 +114,10 @@ uint32_t StageClientMain::doUpdate()
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
 
-    for (auto& c: components)
-    {
-        c->doUpdate();
-    }
+//    for (auto& c: components)
+//    {
+//        c->doUpdate(cc);
+//    }
 
     return 0;
 }
@@ -130,10 +130,10 @@ uint32_t StageClientMain::doDraw()
     cc.window.resetGLStates();
 
 
-    for (auto& c: components)
-    {
-        c->doDraw();
-    }
+//    for (auto& c: components)
+//    {
+//        c->doDraw(cc);
+//    }
     ////
     cc.window.setView(mainView);
 
@@ -173,6 +173,11 @@ uint32_t StageClientMain::doDraw()
 }
 uint32_t StageClientMain::cleanup()
 {
+    ContextClient& cc = GET_CLIENT_CONTEXT(g);
+//    for (auto& c: components)
+//    {
+//        c->doDraw(cc);
+//    }
     return 0;
 }
 

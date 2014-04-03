@@ -15,18 +15,18 @@ Game::~Game()
 
 uint32_t Game::doEventProcessing()
 {
+    //Initialize gameStage if it has not already been initialized.
+    if (!getCurrentStage()->isInit())
+    {
+        std::cout << "Game::doEventProcessing(): GameStage (" << getCurrentStageIndex() << ") initialized" << std::endl;
+        getCurrentStage()->initialize();
+    }
     return 0;
 }
 
 uint32_t Game::doGameProcessing(){
 
-    //Initialize gameStage if it has not already been initialized.
-    if (!getCurrentStage()->isInit())
-    {
-        std::cout << "Game::doGameProcessing(): GameStage (" << getCurrentStageIndex() << ") initialized" << std::endl;
-        getCurrentStage()->initialize();
-    }
-
+    //N.B. - GameStage was initialized in doEventProcessing
     //Do flows if not done
     const uint32_t NOERROR = 0;
     if (!getCurrentStage()->isDone() && getCurrentStage()->isError() == NOERROR)

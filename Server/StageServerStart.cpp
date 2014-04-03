@@ -20,7 +20,7 @@ uint32_t StageServerStart::doRemoteEvent(CommEvent & event)
 {
     return 0;
 }
-uint32_t StageServerStart::doWindowEvents(sf::Event & wevent)
+uint32_t StageServerStart::doWindowEvents(sf::Event & event)
 {
     return 0;
 }

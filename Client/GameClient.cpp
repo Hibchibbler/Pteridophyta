@@ -38,6 +38,9 @@ uint32_t GameClient::initialize()
 }
 uint32_t GameClient::doEventProcessing()
 {
+    //Initialize the current stage
+    Game::doEventProcessing();
+
     //Do remote processing
     CommEvent event;
     while (cc.net.receive(event)){
@@ -52,7 +55,6 @@ uint32_t GameClient::doEventProcessing()
             }case CommEventType::Disconnect:{
                 //Local Host is disconnected from Server
                 std::cout << "Disconnected." <<std::endl;
-
                 break;
             }case CommEventType::Error:
                 //An error has occured in the Server

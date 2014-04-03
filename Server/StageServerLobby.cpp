@@ -76,7 +76,7 @@ uint32_t StageServerLobby::doUpdate()
     return 0;
 }
 
-uint32_t StageServerLobby::doWindowEvents(sf::Event & wevent)
+uint32_t StageServerLobby::doWindowEvents(sf::Event & event)
 {
     ContextServer& cs = GET_SERVER_CONTEXT(g);
     return 0;

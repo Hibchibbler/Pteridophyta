@@ -30,6 +30,9 @@ uint32_t GameServer::initialize()
 }
 uint32_t GameServer::doEventProcessing()
 {
+    //Initialize the current stage
+    Game::doEventProcessing();
+
     //Do remote processing
     CommEvent event;
     while (cs.net.receive(event)){

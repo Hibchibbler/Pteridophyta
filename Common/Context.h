@@ -6,6 +6,7 @@
 #include "ManagerConfiguration.h"
 #include "ManagerMap.h"
 #include "ManagerWorld.h"
+#include "ManagerPlayer.h"
 
 namespace bali{
 

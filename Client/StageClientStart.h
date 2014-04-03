@@ -3,6 +3,7 @@
 
 #include "GameStage.h"
 #include <SFGUI/sfgui.hpp>
+#include "CompStartWindow.h"
 
 namespace bali
 {
@@ -14,20 +15,21 @@ namespace bali
 
         uint32_t initialize();
         uint32_t doRemoteEvent(CommEvent & event);
-        uint32_t doWindowEvents(sf::Event & wevent);
+        uint32_t doWindowEvents(sf::Event & event);
         uint32_t doLocalInputs();
         uint32_t doUpdate();
         uint32_t doDraw();
         uint32_t cleanup();
     private:
-        sfg::Window::Ptr setupWindow;
-        sfg::Desktop setupDesktop;
+        CompStartWindow compStartWindow;
+//        sfg::Window::Ptr setupWindow;
+//        sfg::Desktop setupDesktop;
 
-        sfg::Entry::Ptr ipEntry;//Kept to retrieve later
-        sfg::Entry::Ptr passEntry;//Kept to retrieve later
-        sfg::Entry::Ptr portEntry;//Kept to retrieve later
-        sfg::Entry::Ptr nameEntry;//Kept to retrieve later
-        void doStart();
+//        sfg::Entry::Ptr ipEntry;//Kept to retrieve later
+//        sfg::Entry::Ptr passEntry;//Kept to retrieve later
+//        sfg::Entry::Ptr portEntry;//Kept to retrieve later
+//        sfg::Entry::Ptr nameEntry;//Kept to retrieve later
+//        void doStart();
     };
 }
 
