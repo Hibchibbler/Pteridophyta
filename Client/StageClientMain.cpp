@@ -94,19 +94,7 @@ uint32_t StageClientMain::doUpdate()
     return 0;
 }
 
-uint32_t StageClientMain::doDraw()
-{
-    ContextClient& cc = GET_CLIENT_CONTEXT(g);
 
-    cc.window.clear();
-    cc.window.resetGLStates();
-
-
-    cc.window.setView(mainView);
-
-    //Background
-    compLevelLayer.setDrawLayer(0);
-    compLevelLayer.doDraw(cc);
 
 //    //Dynamic
 //    std::shared_ptr<sf::VertexArray> dynamics = std::make_shared<sf::VertexArray>(sf::PrimitiveType::Quads);
@@ -116,6 +104,19 @@ uint32_t StageClientMain::doDraw()
 //    addStraightQuad(dynamics ,fr, cc.mm.map.tileSets[ss.tsi].sprite.getTextureRect());
 //    cc.window.draw(*dynamics, &cc.mm.map.tileSets[ss.tsi].tex);
 
+
+uint32_t StageClientMain::doDraw()
+{
+    ContextClient& cc = GET_CLIENT_CONTEXT(g);
+
+    cc.window.clear();
+    cc.window.resetGLStates();
+
+    cc.window.setView(mainView);
+
+    //Background
+    compLevelLayer.setDrawLayer(0);
+    compLevelLayer.doDraw(cc);
 
     //Foreground
     compLevelLayer.setDrawLayer(1);
