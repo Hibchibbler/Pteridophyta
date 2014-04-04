@@ -39,7 +39,7 @@ namespace bali
         //
         virtual uint32_t doRemoteEvent(CommEvent & event)=0;
 
-        virtual uint32_t doWindowEvents(sf::Event & event)=0;
+        virtual uint32_t doWindowEvent(sf::Event & event)=0;
         virtual uint32_t doLocalInputs()=0;
 
         //

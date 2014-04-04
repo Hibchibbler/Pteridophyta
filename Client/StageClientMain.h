@@ -2,7 +2,7 @@
 #define StageClientMain_h_
 
 #include "GameStage.h"
-
+#include "CompLevelLayer.h"
 
 namespace bali
 {
@@ -14,13 +14,14 @@ namespace bali
 
         uint32_t initialize();
         uint32_t doRemoteEvent(CommEvent & event);
-        uint32_t doWindowEvents(sf::Event & event);
+        uint32_t doWindowEvent(sf::Event & event);
         uint32_t doLocalInputs();
         uint32_t doUpdate();
         uint32_t doDraw();
         uint32_t cleanup();
     private:
-        //uint32_t initializeLayer(uint32_t layer, std::shared_ptr<sf::VertexArray> newLayer);
+        CompLevelLayer compLevelLayer;
+
         uint32_t addStraightQuad(std::shared_ptr<sf::VertexArray> v, sf::FloatRect c, sf::IntRect t);
 
         sf::View mainView;

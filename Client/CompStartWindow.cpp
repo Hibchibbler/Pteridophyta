@@ -12,7 +12,7 @@ CompStartWindow::~CompStartWindow()
 {
 }
 
-uint32_t CompStartWindow::initialize(ContextClient& cc){
+uint32_t CompStartWindow::initialize(Context& cc){
     //Construct Start Menu GUI
     sfg::Table::Ptr table( sfg::Table::Create(  ) );
 
@@ -43,7 +43,7 @@ uint32_t CompStartWindow::initialize(ContextClient& cc){
 
     sfg::Button::Ptr startButton;
     startButton = sfg::Button::Create("Start");
-    startButton->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompStartWindow::doStart, this, &cc) );
+    startButton->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompStartWindow::doStart, this, (ContextClient*)&cc) );
     table->Attach(startButton, sf::Rect<sf::Uint32>(0,4,2,1), 3);
 
     window = sfg::Window::Create();
@@ -56,29 +56,30 @@ uint32_t CompStartWindow::initialize(ContextClient& cc){
     desk.Add(window);
     return 0;
 }
-uint32_t CompStartWindow::doWindowEvents(ContextClient& cc, sf::Event & event)
+uint32_t CompStartWindow::doWindowEvent(Context& cc, sf::Event & event)
 {
     desk.HandleEvent(event);
     return 0;
 }
 
-uint32_t CompStartWindow::doLocalInputs(ContextClient& cc)
+uint32_t CompStartWindow::doLocalInputs(Context& cc)
 {
     return 0;
 }
-uint32_t CompStartWindow::doUpdate(ContextClient& cc)
+uint32_t CompStartWindow::doUpdate(Context& cc)
 {
     desk.Update(deskUpdateClock.restart().asSeconds());
     return 0;
 }
 
-uint32_t CompStartWindow::doDraw(ContextClient& cc)
+uint32_t CompStartWindow::doDraw(Context& c)
 {
+    ContextClient& cc = *((ContextClient*)&c);
     cc.sfGui.Display(cc.window);
     return 0;
 }
 
-uint32_t CompStartWindow::cleanup(ContextClient& cc)
+uint32_t CompStartWindow::cleanup(Context& cc)
 {
     return 0;
 }

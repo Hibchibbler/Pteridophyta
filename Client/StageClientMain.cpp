@@ -14,7 +14,6 @@ namespace bali{
 StageClientMain::StageClientMain(Game* game, uint32_t uid)
  :  GameStage(game, uid)
 {
-
 }
 
 uint32_t StageClientMain::initialize()
@@ -33,33 +32,7 @@ uint32_t StageClientMain::initialize()
 
     mainView.setSize(cc.screenWidth, cc.screenHeight);
 
-
-    //Load all layers. We assume layers contain static content.
-    uint32_t numLayers = cc.mm.map.layers.size();
-    for (int i = 0;i < numLayers;i++)
-    {
-        layers.push_back(sf::VertexArray(sf::PrimitiveType::Quads));
-        cc.mm.initializeLayer(i, layers.back());
-
-    }
-
-//    std::shared_ptr<Component> comp;
-//    comp = std::make_shared<CompBackgnd>();
-//    addComponent(comp);
-
-//    comp = std::make_shared<CompDynObjects>();
-//    addComponent(comp);
-//
-//    comp = std::make_shared<CompForegnd>();
-//    addComponent(comp);
-//
-//    comp = std::make_shared<CompHUD>();
-//    addComponent(comp);
-//
-//    comp = std::make_shared<CompMiniMap>();
-//    addComponent(comp);
-
-
+    compLevelLayer.initialize(cc);
 
     //Set this so Game knows we are initialized, so it won't
     // initialize us again.
@@ -72,7 +45,7 @@ uint32_t StageClientMain::doRemoteEvent(CommEvent & event)
     return 0;
 }
 
-uint32_t StageClientMain::doWindowEvents(sf::Event & event)
+uint32_t StageClientMain::doWindowEvent(sf::Event & event)
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
     switch (event.type)
@@ -83,6 +56,8 @@ uint32_t StageClientMain::doWindowEvents(sf::Event & event)
             break;
 
     }
+
+    compLevelLayer.doWindowEvent(cc,event);
     return 0;
 }
 
@@ -108,17 +83,14 @@ uint32_t StageClientMain::doLocalInputs()
 //        }
         localInputClock.restart();
     }
+
+    compLevelLayer.doLocalInputs(cc);
     return 0;
 }
 uint32_t StageClientMain::doUpdate()
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
-
-//    for (auto& c: components)
-//    {
-//        c->doUpdate(cc);
-//    }
-
+    compLevelLayer.doUpdate(cc);
     return 0;
 }
 
@@ -130,42 +102,24 @@ uint32_t StageClientMain::doDraw()
     cc.window.resetGLStates();
 
 
-//    for (auto& c: components)
-//    {
-//        c->doDraw(cc);
-//    }
-    ////
     cc.window.setView(mainView);
 
-    //Let's assume layer0 in tmx is background
-    //we then draw dynamic stuff, like players, monsters, and explosions
-    //and then layer1 in tmx is foreground
-
-
     //Background
-    //sf::VertexArray& va;
-    uint32_t gid, tsi;
-    gid = cc.mm.getFirstNonZeroGidInLayer(0);
-    tsi = cc.mm.getTileSetIndexByGid(gid);
-    //va  = layers[0];
-    cc.window.draw(layers[0], &cc.mm.map.tileSets[tsi].tex);
+    compLevelLayer.setDrawLayer(0);
+    compLevelLayer.doDraw(cc);
 
 //    //Dynamic
 //    std::shared_ptr<sf::VertexArray> dynamics = std::make_shared<sf::VertexArray>(sf::PrimitiveType::Quads);
-//
 //    ManagerTile::SubSprite ss = cc.mt.getPlayer();
 //    cc.mm.map.tileSets[ss.tsi].sprite.setTextureRect(ss.irect);
-//
 //    sf::FloatRect fr(ss.irect.left, ss.irect.top, ss.irect.width, ss.irect.height);
 //    addStraightQuad(dynamics ,fr, cc.mm.map.tileSets[ss.tsi].sprite.getTextureRect());
 //    cc.window.draw(*dynamics, &cc.mm.map.tileSets[ss.tsi].tex);
-//
-//    //Foreground
-//    gid = cc.mm.getFirstNonZeroGidInLayer(1);
-//    tsi = cc.mm.getTileSetIndexByGid(gid);
-//    va  = layers[1];
-//    cc.window.draw(*va, &cc.mm.map.tileSets[tsi].tex);
 
+
+    //Foreground
+    compLevelLayer.setDrawLayer(1);
+    compLevelLayer.doDraw(cc);
 
     cc.window.display();
 
@@ -174,10 +128,7 @@ uint32_t StageClientMain::doDraw()
 uint32_t StageClientMain::cleanup()
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
-//    for (auto& c: components)
-//    {
-//        c->doDraw(cc);
-//    }
+    compLevelLayer.cleanup(cc);
     return 0;
 }
 

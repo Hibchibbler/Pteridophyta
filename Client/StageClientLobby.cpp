@@ -29,10 +29,10 @@ uint32_t StageClientLobby::initialize()
     return 0;
 }
 
-uint32_t StageClientLobby::doWindowEvents(sf::Event & event)
+uint32_t StageClientLobby::doWindowEvent(sf::Event & event)
 {
     ContextClient& cc = (GET_CLIENT_CONTEXT(g));
-    compLobbyWindow.doWindowEvents(cc, event);
+    compLobbyWindow.doWindowEvent(cc, event);
     return 0;
 }
 

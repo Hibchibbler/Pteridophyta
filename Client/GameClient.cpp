@@ -72,7 +72,7 @@ uint32_t GameClient::doEventProcessing()
     sf::Event wevent;
     while (cc.window.pollEvent(wevent))
     {
-        getCurrentStage()->doWindowEvents(wevent);
+        getCurrentStage()->doWindowEvent(wevent);
         if (wevent.type == sf::Event::Resized)
         {
             cc.screenWidth = wevent.size.width;

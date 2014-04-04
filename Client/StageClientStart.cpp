@@ -8,18 +8,15 @@ namespace bali{
 StageClientStart::StageClientStart(Game* game, uint32_t uid)
  :  GameStage(game, uid)
 {
-
 }
 
 StageClientStart::~StageClientStart()
 {
-
 }
 
 uint32_t StageClientStart::initialize()
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
-
     compStartWindow.initialize(cc);
 
     //Set this so Game knows we are initialized, so it won't
@@ -33,18 +30,16 @@ uint32_t StageClientStart::doRemoteEvent(CommEvent & event)
     return 0;
 }
 
-uint32_t StageClientStart::doWindowEvents(sf::Event & event)
+uint32_t StageClientStart::doWindowEvent(sf::Event & event)
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
-
-    compStartWindow.doWindowEvents(cc, event);
+    compStartWindow.doWindowEvent(cc, event);
 
     return 0;
 }
 uint32_t StageClientStart::doLocalInputs()
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
-
     compStartWindow.doLocalInputs(cc);
 
     return 0;
@@ -68,10 +63,7 @@ uint32_t StageClientStart::doDraw()
     cc.window.clear();
     cc.window.resetGLStates();
 
-
     compStartWindow.doDraw(cc);
-
-
 
     //cc.sfGui.Display(cc.window);
     cc.window.display();
@@ -80,9 +72,7 @@ uint32_t StageClientStart::doDraw()
 uint32_t StageClientStart::cleanup()
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
-
     compStartWindow.cleanup(cc);
-
     return 0;
 }
 

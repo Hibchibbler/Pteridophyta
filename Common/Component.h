@@ -7,8 +7,8 @@
 
 namespace bali{
 
-class StageClientStart;
-class ContextClient;
+
+class Context;
 
 class Component{
 public:
@@ -16,12 +16,12 @@ public:
     Component()=default;
     virtual ~Component()=default;
 
-    virtual uint32_t initialize(ContextClient& cc)=0;
-    virtual uint32_t doWindowEvents(ContextClient& cc, sf::Event & event)=0;
-    virtual uint32_t doLocalInputs(ContextClient& cc)=0;
-    virtual uint32_t doUpdate(ContextClient& cc)=0;
-    virtual uint32_t doDraw(ContextClient& cc)=0;
-    virtual uint32_t cleanup(ContextClient& cc)=0;
+    virtual uint32_t initialize(Context& cc)=0;
+    virtual uint32_t doWindowEvent(Context& cc, sf::Event & event)=0;
+    virtual uint32_t doLocalInputs(Context& cc)=0;
+    virtual uint32_t doUpdate(Context& cc)=0;
+    virtual uint32_t doDraw(Context& cc)=0;
+    virtual uint32_t cleanup(Context& cc)=0;
 
     uint32_t setVisible(uint32_t v){return (visible = v);}
     uint32_t getVisible(){return visible;}

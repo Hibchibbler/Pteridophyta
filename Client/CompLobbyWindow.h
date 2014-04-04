@@ -7,18 +7,22 @@
 
 namespace bali
 {
-
+class ContextClient;
 class CompLobbyWindow : public Component
 {
 public:
     CompLobbyWindow();
     ~CompLobbyWindow();
-    uint32_t initialize(ContextClient& cc);
-    uint32_t doWindowEvents(ContextClient& cc, sf::Event & event);
-    uint32_t doLocalInputs(ContextClient& cc);
-    uint32_t doUpdate(ContextClient& cc);
-    uint32_t doDraw(ContextClient& cc);
-    uint32_t cleanup(ContextClient& cc);
+
+    //General Component Functionality
+    uint32_t initialize(Context& cc);
+    uint32_t doWindowEvent(Context& cc, sf::Event & event);
+    uint32_t doLocalInputs(Context& cc);
+    uint32_t doUpdate(Context& cc);
+    uint32_t doDraw(Context& cc);
+    uint32_t cleanup(Context& cc);
+
+    //Specific Component Functionality
     void doReady(ContextClient* cc);
     uint32_t isReady();
 

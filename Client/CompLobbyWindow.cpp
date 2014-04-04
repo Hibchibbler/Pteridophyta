@@ -13,7 +13,7 @@ CompLobbyWindow::~CompLobbyWindow()
 {
 }
 
-uint32_t CompLobbyWindow::initialize(ContextClient& cc)
+uint32_t CompLobbyWindow::initialize(Context& cc)
 {
 
     cc.net.startClient(5676,sf::IpAddress("192.168.1.13"));
@@ -44,17 +44,17 @@ uint32_t CompLobbyWindow::initialize(ContextClient& cc)
     row = sfg::Box::Create( sfg::Box::Orientation::HORIZONTAL, 5.0f );
 
     joinTeam1Button = sfg::Button::Create("Join Team 1");
-    joinTeam1Button->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompLobbyWindow::doJoinTeam1, this, &cc) );
+    joinTeam1Button->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompLobbyWindow::doJoinTeam1, this, (ContextClient*)&cc) );
     row->Pack(joinTeam1Button);
 
     joinTeam2Button = sfg::Button::Create("Join Team 2");
-    joinTeam2Button->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompLobbyWindow::doJoinTeam2, this, &cc) );
+    joinTeam2Button->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompLobbyWindow::doJoinTeam2, this, (ContextClient*)&cc) );
     row->Pack(joinTeam2Button);
     box->Pack(row);
 
     row = sfg::Box::Create( sfg::Box::Orientation::HORIZONTAL, 10.0f );
     readyButton = sfg::Button::Create("Ready");
-    readyButton->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompLobbyWindow::doReady, this, &cc) );
+    readyButton->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompLobbyWindow::doReady, this, (ContextClient*)&cc) );
     readyButton->Show(false);//Don't show until team is joined.
     row->Pack(readyButton);
     box->Pack(row);
@@ -77,29 +77,30 @@ uint32_t CompLobbyWindow::initialize(ContextClient& cc)
 
     return 0;
 }
-uint32_t CompLobbyWindow::doWindowEvents(ContextClient& cc, sf::Event & event)
+uint32_t CompLobbyWindow::doWindowEvent(Context& cc, sf::Event & event)
 {
     desk.HandleEvent(event);
     return 0;
 }
 
-uint32_t CompLobbyWindow::doLocalInputs(ContextClient& cc)
+uint32_t CompLobbyWindow::doLocalInputs(Context& cc)
 {
     return 0;
 }
-uint32_t CompLobbyWindow::doUpdate(ContextClient& cc)
+uint32_t CompLobbyWindow::doUpdate(Context& cc)
 {
     desk.Update(deskUpdateClock.restart().asSeconds());
     return 0;
 }
 
-uint32_t CompLobbyWindow::doDraw(ContextClient& cc)
+uint32_t CompLobbyWindow::doDraw(Context& c)
 {
+    ContextClient& cc = *((ContextClient*)&c);
     cc.sfGui.Display(cc.window);
     return 0;
 }
 
-uint32_t CompLobbyWindow::cleanup(ContextClient& cc)
+uint32_t CompLobbyWindow::cleanup(Context& cc)
 {
     return 0;
 }
