@@ -28,16 +28,14 @@ uint32_t CompLobbyWindow::initialize(Context& cc)
     box =  sfg::Box::Create( sfg::Box::Orientation::VERTICAL, 5.0f );
 
     sfg::Box::Ptr row = sfg::Box::Create( sfg::Box::Orientation::HORIZONTAL, 5.0f );
-    row->Pack(sfg::Label::Create("Team 1"));
-    row->Pack(sfg::Label::Create("Team 2"));
+    row->Pack(sfg::Label::Create("The Team"));
     box->Pack(row);
 
-    for (int i = 0;i < 5;i++){
+    //Create the name slots
+    for (int i = 0;i < PLAYER_SLOTS;i++){
         row = sfg::Box::Create( sfg::Box::Orientation::HORIZONTAL, 5.0f );
-        team1[i] = sfg::Entry::Create("");
-        row->Pack(team1[i],true,true);
-        team2[i] = sfg::Entry::Create("");
-        row->Pack(team2[i],true,true);
+        teamNameEntries.push_back(sfg::Entry::Create(""));
+        row->Pack(teamNameEntries.back(),true,true);
         box->Pack(row);
     }
 
@@ -46,10 +44,6 @@ uint32_t CompLobbyWindow::initialize(Context& cc)
     joinTeam1Button = sfg::Button::Create("Join Team 1");
     joinTeam1Button->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompLobbyWindow::doJoinTeam1, this, (ContextClient*)&cc) );
     row->Pack(joinTeam1Button);
-
-    joinTeam2Button = sfg::Button::Create("Join Team 2");
-    joinTeam2Button->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompLobbyWindow::doJoinTeam2, this, (ContextClient*)&cc) );
-    row->Pack(joinTeam2Button);
     box->Pack(row);
 
     row = sfg::Box::Create( sfg::Box::Orientation::HORIZONTAL, 10.0f );
@@ -118,6 +112,43 @@ uint32_t CompLobbyWindow::isReady(){
 }
 
 
+void CompLobbyWindow::clearNames()
+{
+    for (int i = 0;i < PLAYER_SLOTS;i++)
+    {
+        teamNameEntries[i]->SetText("");
+    }
+}
+
+void CompLobbyWindow::addNames(std::vector<std::string> names)
+{
+    clearNames();
+    int s=0;
+    for (auto& name: names)
+    {
+        if (s < PLAYER_SLOTS)
+        {
+            teamNameEntries[s]->SetText(name);
+            s++;
+        }
+    }
+}
+
+void CompLobbyWindow::gotIdAck(ContextClient& cc, std::string mapName)
+{
+    cc.mapName = mapName;
+    readyButton->Show(true);
+    cc.mp.player.setIdentity();
+}
+
+void CompLobbyWindow::gotIdNack(ContextClient& cc)
+{
+    joinTeam1Button->Show(true);
+    spinner->Show(false);
+    spinner->Stop();
+    msg->Show(false);
+}
+
 void CompLobbyWindow::doJoinTeam1(ContextClient* cc)
 {
     //Send Id - declare team 1
@@ -125,26 +156,11 @@ void CompLobbyWindow::doJoinTeam1(ContextClient* cc)
     cc->mp.player.stateClient = StatePlayerClient::SendId;
 
     joinTeam1Button->Show(false);
-    joinTeam2Button->Show(false);
 
     spinner->Show(true);
     spinner->Start();
     msg->Show(true);
 }
 
-void CompLobbyWindow::doJoinTeam2(ContextClient* cc)
-{
-    //Send Id - declare team 2
-    cc->mp.player.team = 2;
-    cc->mp.player.stateClient = StatePlayerClient::SendId;
-
-    joinTeam1Button->Show(false);
-    joinTeam2Button->Show(false);
-
-    spinner->Show(true);
-    spinner->Start();
-    msg->Show(true);
-
-}
 
 }//end namespace bali

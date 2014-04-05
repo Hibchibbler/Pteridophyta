@@ -51,53 +51,38 @@ uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
 
             //Get number of (name,team) we're gunna get.
             uint32_t np;
+            std::vector<std::string> whoIsNames;
             (*event.packet) >> np;
-
-            //Clear all the slots, in preparation for update.
-            for (int i = 0;i < 5;i++)
-            {
-                compLobbyWindow.team1[i]->SetText(sf::String(""));
-                compLobbyWindow.team2[i]->SetText(sf::String(""));
-            }
-
-            //Fill the slots with the names recieved in WhoIsAck payload
             for (int i = 0;i < np;i++)
             {
                 std::string name;
                 uint32_t team;
                 (*event.packet) >> name >> team;
-                if (team == 1)
-                {
-                    compLobbyWindow.team1[t1o]->SetText(sf::String(name));
-                    t1o++;
-                }else
-                {
-                    compLobbyWindow.team2[t2o]->SetText(sf::String(name));
-                    t2o++;
-                }
+                whoIsNames.push_back(name);
             }
+
+            compLobbyWindow.addNames(whoIsNames);
 
             break;
     }case MsgId::IdAck:{
             std::cout << "Got IdAck, " ;
+            cc.mp.player.stateClient = StatePlayerClient::Waiting;
+
             std::string mapName;
             (*event.packet) >> mapName;
             std::cout << "Map: " << mapName << std::endl;
-            cc.mapName = mapName;
-            compLobbyWindow.readyButton->Show(true);
-            cc.mp.player.setIdentity();
-            cc.mp.player.stateClient = StatePlayerClient::Waiting;
+
+
+            compLobbyWindow.gotIdAck(cc, mapName);
+
+
 
             break;
     }case MsgId::IdNack:{
             std::cout << "Got IdNack" << std::endl;
             cc.mp.player.stateClient = StatePlayerClient::SendWhoIs;
 
-            compLobbyWindow.joinTeam1Button->Show(true);
-            compLobbyWindow.joinTeam2Button->Show(true);
-            compLobbyWindow.spinner->Show(false);
-            compLobbyWindow.spinner->Stop();
-            compLobbyWindow.msg->Show(false);
+            compLobbyWindow.gotIdNack(cc);
 
             break;
     }case MsgId::Start:{

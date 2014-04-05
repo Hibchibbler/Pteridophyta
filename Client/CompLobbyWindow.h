@@ -4,6 +4,7 @@
 #include <SFGUI/sfgui.hpp>
 #include "Component.h"
 
+#define PLAYER_SLOTS 5
 
 namespace bali
 {
@@ -26,8 +27,14 @@ public:
     void doReady(ContextClient* cc);
     uint32_t isReady();
 
-    sfg::Entry::Ptr     team1[5];
-    sfg::Entry::Ptr     team2[5];
+    void clearNames();
+    void addNames(std::vector<std::string> names);
+
+    void gotIdAck(ContextClient& cc, std::string mapName);
+    void gotIdNack(ContextClient& cc);
+
+
+    std::vector<sfg::Entry::Ptr>     teamNameEntries;
 
     sfg::Window::Ptr    mywindow;//Kept to Show/Hide
     sfg::Box::Ptr       box;//kept to add the spinner later.
