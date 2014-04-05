@@ -31,17 +31,13 @@ uint32_t CompLobbyWindow::initialize(Context& cc)
     row->Pack(sfg::Label::Create("The Team"));
     box->Pack(row);
 
-    //Create the name slots
-    for (int i = 0;i < PLAYER_SLOTS;i++){
-        row = sfg::Box::Create( sfg::Box::Orientation::HORIZONTAL, 5.0f );
-        teamNameEntries.push_back(sfg::Entry::Create(""));
-        row->Pack(teamNameEntries.back(),true,true);
-        box->Pack(row);
-    }
+    boxNames = sfg::Box::Create( sfg::Box::Orientation::VERTICAL, 10.0f );
+
+    box->Pack(boxNames);
 
     row = sfg::Box::Create( sfg::Box::Orientation::HORIZONTAL, 5.0f );
 
-    joinTeam1Button = sfg::Button::Create("Join Team 1");
+    joinTeam1Button = sfg::Button::Create("Join The Team");
     joinTeam1Button->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompLobbyWindow::doJoinTeam1, this, (ContextClient*)&cc) );
     row->Pack(joinTeam1Button);
     box->Pack(row);
@@ -65,6 +61,7 @@ uint32_t CompLobbyWindow::initialize(Context& cc)
     window = sfg::Window::Create();
     window->SetTitle("Lobby");
     window->SetPosition(sf::Vector2f(100.0f,100.0f));
+    window->SetRequisition(sf::Vector2f(200,200));
     window->Add(box);
 
     desk.Add(window);
@@ -111,28 +108,18 @@ uint32_t CompLobbyWindow::isReady(){
     return ready;
 }
 
-
 void CompLobbyWindow::clearNames()
 {
-    for (int i = 0;i < PLAYER_SLOTS;i++)
-    {
-        teamNameEntries[i]->SetText("");
-    }
+    boxNames->RemoveAll();
 }
 
-void CompLobbyWindow::addNames(std::vector<std::string> names)
+void CompLobbyWindow::addName(std::string name)
 {
-    clearNames();
-    int s=0;
-    for (auto& name: names)
-    {
-        if (s < PLAYER_SLOTS)
-        {
-            teamNameEntries[s]->SetText(name);
-            s++;
-        }
-    }
+    sfg::Box::Ptr row = sfg::Box::Create( sfg::Box::Orientation::HORIZONTAL, 5.0f );
+    row->Pack(sfg::Entry::Create(name),true,true);
+    boxNames->Pack(row);
 }
+
 
 void CompLobbyWindow::gotIdAck(ContextClient& cc, std::string mapName)
 {

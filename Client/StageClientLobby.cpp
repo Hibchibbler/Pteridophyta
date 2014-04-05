@@ -51,17 +51,17 @@ uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
 
             //Get number of (name,team) we're gunna get.
             uint32_t np;
-            std::vector<std::string> whoIsNames;
             (*event.packet) >> np;
+            compLobbyWindow.clearNames();
             for (int i = 0;i < np;i++)
             {
                 std::string name;
                 uint32_t team;
                 (*event.packet) >> name >> team;
-                whoIsNames.push_back(name);
+                compLobbyWindow.addName(name);
             }
 
-            compLobbyWindow.addNames(whoIsNames);
+
 
             break;
     }case MsgId::IdAck:{

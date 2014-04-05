@@ -28,7 +28,7 @@ public:
     uint32_t isReady();
 
     void clearNames();
-    void addNames(std::vector<std::string> names);
+    void addName(std::string name);
 
     void gotIdAck(ContextClient& cc, std::string mapName);
     void gotIdNack(ContextClient& cc);
@@ -37,6 +37,7 @@ public:
     std::vector<sfg::Entry::Ptr>     teamNameEntries;
 
     sfg::Window::Ptr    mywindow;//Kept to Show/Hide
+    sfg::Box::Ptr       boxNames;
     sfg::Box::Ptr       box;//kept to add the spinner later.
     sfg::Button::Ptr    joinTeam1Button;//kept to hide later.
     sfg::Button::Ptr    joinTeam2Button;//kept to hide later.
