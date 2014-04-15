@@ -4,11 +4,9 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <vector>
-#include "common.h"
 #include "Comm.h"
 #include "Component.h"
 
-#define CONTEXT_ELEMENTS 8
 
 namespace bali
 {
@@ -17,9 +15,6 @@ namespace bali
     //GameStage represents an discrete, unique block of functionality. It represents the most course grain
     // unit of game functionality.
     //Splash Screen, Lobby, Main game view, and credits are examples of what represents a GameStage.
-    //Before a GameStage is transitioned into, the client-code will provide stage specific data via setPrologue
-    //After a GameStage is transitioned out, client-code can examine stage specific results via getEpilogue
-    //The data provided to setPrologue, and the data retrieved from getEpiloque is a Summary.
     class GameStage
     {
     public:
@@ -43,7 +38,7 @@ namespace bali
         virtual uint32_t doLocalInputs()=0;
 
         //
-        //doUpdate is responsible for sending data to server.
+        //doUpdate
         //
         virtual uint32_t doUpdate()=0;
 
@@ -70,14 +65,6 @@ namespace bali
 
         //reference to owner
         Game* g;
-
-//        uint32_t addComponent(SComponent component){
-//            components.push_back(component);
-//        }
-        std::vector<SComponent> components;
-
-
-
 
     };
 

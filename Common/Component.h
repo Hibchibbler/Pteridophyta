@@ -9,7 +9,10 @@ namespace bali{
 
 
 class Context;
-
+//The Component class establishes an interface that is natural to the core flow.
+//A component is meant to represent a single function within a GameStage.
+//Usually a component will have specific functions that are not general. that is ok
+//because the interface that Component specifies is still considerably useful.
 class Component{
 public:
 

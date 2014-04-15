@@ -8,11 +8,9 @@
 #include "ManagerPlayer.h"
 
 namespace bali{
-    class GameStage;
-    class GameContext{
-    public:
 
-    };
+    class GameStage;
+
     //Game is a list of GameStage's.
     //You can think of Game as a Flip book,
     //and a GameStage as a page in the Flip book.

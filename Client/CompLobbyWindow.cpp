@@ -25,30 +25,37 @@ uint32_t CompLobbyWindow::initialize(Context& cc)
               << cc.mp.player.server_ip << std::endl;
 
 
-    box =  sfg::Box::Create( sfg::Box::Orientation::VERTICAL, 5.0f );
+    //Create Main Vertical Layout box
+    boxMainVert =  sfg::Box::Create( sfg::Box::Orientation::VERTICAL, 5.0f );
 
+    //Create Team Label, add to main box
     sfg::Box::Ptr row = sfg::Box::Create( sfg::Box::Orientation::HORIZONTAL, 5.0f );
     row->Pack(sfg::Label::Create("The Team"));
-    box->Pack(row);
+    boxMainVert->Pack(row);
 
+    //Create Name List Vertical Layout box as placeholder
     boxNames = sfg::Box::Create( sfg::Box::Orientation::VERTICAL, 10.0f );
+    boxMainVert->Pack(boxNames);
 
-    box->Pack(boxNames);
-
+    //Create Join Button Horiz Layout box, add to main box.
+    //Add button, and connect button to function
     row = sfg::Box::Create( sfg::Box::Orientation::HORIZONTAL, 5.0f );
-
     joinTeam1Button = sfg::Button::Create("Join The Team");
     joinTeam1Button->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompLobbyWindow::doJoinTeam1, this, (ContextClient*)&cc) );
     row->Pack(joinTeam1Button);
-    box->Pack(row);
+    boxMainVert->Pack(row);
 
+    //Create Ready button Horiz layout box, add to main box
+    //Add button, and connect button to function
     row = sfg::Box::Create( sfg::Box::Orientation::HORIZONTAL, 10.0f );
     readyButton = sfg::Button::Create("Ready");
     readyButton->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompLobbyWindow::doReady, this, (ContextClient*)&cc) );
     readyButton->Show(false);//Don't show until team is joined.
     row->Pack(readyButton);
-    box->Pack(row);
+    boxMainVert->Pack(row);
 
+    //Create Spinner & Wait-Message Horiz layout box, add to main box
+    //Add spinner, and wait message
     row = sfg::Box::Create(sfg::Box::Orientation::HORIZONTAL, 10.0f);
     spinner = sfg::Spinner::Create();
     spinner->Show(false);
@@ -56,14 +63,17 @@ uint32_t CompLobbyWindow::initialize(Context& cc)
     msg->Show(false);
     row->Pack(spinner);
     row->Pack(msg);
-    box->Pack(row);
+    boxMainVert->Pack(row);
 
+    //Create Window
+    //Add main box to window
     window = sfg::Window::Create();
     window->SetTitle("Lobby");
     window->SetPosition(sf::Vector2f(100.0f,100.0f));
     window->SetRequisition(sf::Vector2f(200,200));
-    window->Add(box);
+    window->Add(boxMainVert);
 
+    //Add window to desktop
     desk.Add(window);
 
     return 0;

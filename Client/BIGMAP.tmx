@@ -40007,13 +40007,12 @@
    <tile gid="4"/>
   </data>
  </layer>
- <objectgroup name="Object Layer 1" width="200" height="200" visible="0">
+ <objectgroup name="Object Layer 1">
   <object x="0" y="4" width="3199" height="3197">
    <ellipse/>
   </object>
   <object x="76" y="1124" width="36">
    <ellipse/>
   </object>
-  <object x="4" y="0" width="1608" height="3208"/>
  </objectgroup>
 </map>

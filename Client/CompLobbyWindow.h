@@ -38,7 +38,7 @@ public:
 
     sfg::Window::Ptr    mywindow;//Kept to Show/Hide
     sfg::Box::Ptr       boxNames;
-    sfg::Box::Ptr       box;//kept to add the spinner later.
+    sfg::Box::Ptr       boxMainVert;//kept to add the spinner later.
     sfg::Button::Ptr    joinTeam1Button;//kept to hide later.
     sfg::Button::Ptr    joinTeam2Button;//kept to hide later.
     sfg::Spinner::Ptr   spinner;

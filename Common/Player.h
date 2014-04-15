@@ -83,6 +83,13 @@ namespace bali
             uint32_t stateServer;
         };
 
+        //Boom Chick, the fun stuff
+        uint32_t x;
+        uint32_t y;
+
+        uint32_t mass;
+
+
     };
 
     typedef std::shared_ptr<Player> SPlayer;

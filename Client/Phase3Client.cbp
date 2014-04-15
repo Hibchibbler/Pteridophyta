@@ -58,7 +58,14 @@
 			<Add directory="C:/Program Files (x86)/Box2d/lib" />
 			<Add directory="C:/Program Files (x86)/Expat 2.1.0/bin" />
 		</Linker>
+		<Unit filename="CompDynamicLayer.cpp" />
+		<Unit filename="CompDynamicLayer.h" />
+		<Unit filename="CompLevelLayer.cpp" />
 		<Unit filename="CompLevelLayer.h" />
+		<Unit filename="CompLobbyWindow.cpp" />
+		<Unit filename="CompLobbyWindow.h" />
+		<Unit filename="CompStartWindow.cpp" />
+		<Unit filename="CompStartWindow.h" />
 		<Unit filename="ContextClient.h" />
 		<Unit filename="GameClient.cpp" />
 		<Unit filename="GameClient.h" />

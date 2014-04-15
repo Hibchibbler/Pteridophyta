@@ -1,0 +1,97 @@
+
+Store each level tile in a Quad
+Store each Quad in Quadtree
+
+Store each GravityZone polygon
+
+
+Gravity Zone
+Level Rotation
+On Client:
+	During Initialize:
+		Load TMX Map
+		Array Background
+		Array Foreground
+		QuadTree Walkables
+		Quadtree Gravity Zones
+		
+	During Remote Event:
+		Update List of Dynamics
+	During Update:
+		For each d in Dynamics
+			Retrieve Relevant Walkables
+			Retrieve Relevant Gravity Zones
+			Based on current Gravity Rotate d if needed
+			predict next movement
+				update position
+				collision detect with walkables, and correct
+				collision detect with dynamics, and apply damage
+		
+	
+On Server:
+	During Initialize:
+		Load TMX Map
+		Array Background
+		Array Foreground
+		QuadTree Walkables
+		Quadtree Gravity Zones
+		
+		
+	During Update:
+		For each d in Dynamics
+			Retrieve Relevant Walkables
+			Retrieve Relevant Gravity Zones
+			Based on current Gravity Rotate d if needed
+			compute next movement
+				update next movement
+				collision detect with walkables, and correct
+				collision detect with dynamics, and apply damage
+			
+		Quadtree of Dynamics if Server
+
+
+
+
+
+
+I love you my sunshine
+I love you my moon
+You are so beautiful
+That I don't know what to do
+And when the time comes to gather
+It's we that gather first
+Beautiful sunny moonshine
+My wonderfully sunny moon
+
+Hey buddy boy
+Wanna get some coffee?
+Let us skip and jump
+And race to the mark
+
+
+
+
+
+
+
+
+
+
+
+make a list of edges for p1
+make a list of edges for p2
+make a list of normals (one for each edge, for each polygon. normals from both polygons can be kept in the same list)
+
+For each normal
+  For each p1 edge
+    project edge onto normal
+    if new min or max projection then 
+	  save
+  For each p2 edge
+    project edge onto normal
+    if new min or max projection then
+      save
+  if interval(p1 min, p1 max) overlaps interval(p2 min, p2 max) then
+      continue
+  else
+      break
