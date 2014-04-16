@@ -20,6 +20,8 @@ public:
     ManagerTile mt;
     ManagerWorld mw;
     ManagerPlayer mp;
+
+
 };
 
 }//end namespace bali

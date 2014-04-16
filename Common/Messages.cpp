@@ -115,6 +115,7 @@ int Messages::sendIdAck(Comm & comm, SPlayer player, ManagerPlayer & mp, Manager
 
     //server will send layer name as found in configuration.xml
     //this layer name indicates which layer, in the tmx file to use for the level.
+    //TODO rethink this.
     (*event.packet) << mc.configuration.global.maps.front().id;
 
     comm.send(event);

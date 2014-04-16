@@ -1,12 +1,12 @@
 #ifndef StageClientMain_h_
 #define StageClientMain_h_
 
-#include "GameStage.h"
-#include "CompLevelLayer.h"
+#include "Stage.h"
+#include "CompDrawLayers.h"
 
 namespace bali
 {
-    class StageClientMain : public GameStage
+    class StageClientMain : public Stage
     {
     public:
         StageClientMain(Game* game, uint32_t uid);
@@ -20,7 +20,7 @@ namespace bali
         uint32_t doDraw();
         uint32_t cleanup();
     private:
-        CompLevelLayer compLevelLayer;
+        CompDrawLayers compLevelLayer;
 
         uint32_t addStraightQuad(std::shared_ptr<sf::VertexArray> v, sf::FloatRect c, sf::IntRect t);
 

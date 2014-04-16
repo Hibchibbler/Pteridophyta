@@ -6,7 +6,7 @@
 namespace bali{
 
 StageClientStart::StageClientStart(Game* game, uint32_t uid)
- :  GameStage(game, uid)
+ :  Stage(game, uid)
 {
 }
 

@@ -1,13 +1,13 @@
 #ifndef StageClientStart_h_
 #define StageClientStart_h_
 
-#include "GameStage.h"
+#include "Stage.h"
 #include <SFGUI/sfgui.hpp>
-#include "CompStartWindow.h"
+#include "CompWindowStart.h"
 
 namespace bali
 {
-    class StageClientStart : public GameStage
+    class StageClientStart : public Stage
     {
     public:
         StageClientStart(Game* game, uint32_t uid);
@@ -21,7 +21,7 @@ namespace bali
         uint32_t doDraw();
         uint32_t cleanup();
     private:
-        CompStartWindow compStartWindow;
+        CompWindowStart compStartWindow;
 
     };
 }

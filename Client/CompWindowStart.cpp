@@ -1,18 +1,18 @@
-#include "CompStartWindow.h"
+#include "CompWindowStart.h"
 #include "ContextClient.h"
 
 
 namespace bali{
 
-CompStartWindow::CompStartWindow()
+CompWindowStart::CompWindowStart()
 {
 }
 
-CompStartWindow::~CompStartWindow()
+CompWindowStart::~CompWindowStart()
 {
 }
 
-uint32_t CompStartWindow::initialize(Context& cc){
+uint32_t CompWindowStart::initialize(Context& cc){
     //Construct Start Menu GUI
     sfg::Table::Ptr table( sfg::Table::Create(  ) );
 
@@ -43,7 +43,7 @@ uint32_t CompStartWindow::initialize(Context& cc){
 
     sfg::Button::Ptr startButton;
     startButton = sfg::Button::Create("Start");
-    startButton->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompStartWindow::doStart, this, (ContextClient*)&cc) );
+    startButton->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompWindowStart::doStart, this, (ContextClient*)&cc) );
     table->Attach(startButton, sf::Rect<sf::Uint32>(0,4,2,1), 3);
 
     window = sfg::Window::Create();
@@ -56,35 +56,35 @@ uint32_t CompStartWindow::initialize(Context& cc){
     desk.Add(window);
     return 0;
 }
-uint32_t CompStartWindow::doWindowEvent(Context& cc, sf::Event & event)
+uint32_t CompWindowStart::doWindowEvent(Context& cc, sf::Event & event)
 {
     desk.HandleEvent(event);
     return 0;
 }
 
-uint32_t CompStartWindow::doLocalInputs(Context& cc)
+uint32_t CompWindowStart::doLocalInputs(Context& cc)
 {
     return 0;
 }
-uint32_t CompStartWindow::doUpdate(Context& cc)
+uint32_t CompWindowStart::doUpdate(Context& cc)
 {
     desk.Update(deskUpdateClock.restart().asSeconds());
     return 0;
 }
 
-uint32_t CompStartWindow::doDraw(Context& c)
+uint32_t CompWindowStart::doDraw(Context& c)
 {
     ContextClient& cc = *((ContextClient*)&c);
     cc.sfGui.Display(cc.window);
     return 0;
 }
 
-uint32_t CompStartWindow::cleanup(Context& cc)
+uint32_t CompWindowStart::cleanup(Context& cc)
 {
     return 0;
 }
 
-void CompStartWindow::doStart(ContextClient* cc)
+void CompWindowStart::doStart(ContextClient* cc)
 {
     cc->mp.setPlayerStartInfo(nameEntry->GetText(),
                               passEntry->GetText(),
@@ -97,7 +97,7 @@ void CompStartWindow::doStart(ContextClient* cc)
     started=1;
 }
 
-uint32_t CompStartWindow::isStarted(){
+uint32_t CompWindowStart::isStarted(){
     return started;
 }
 

@@ -1,24 +1,24 @@
 
-#include "CompLobbyWindow.h"
+#include "CompWindowLobby.h"
 #include "ContextClient.h"
 
 
 namespace bali{
 
-CompLobbyWindow::CompLobbyWindow()
+CompWindowLobby::CompWindowLobby()
 {
 }
 
-CompLobbyWindow::~CompLobbyWindow()
+CompWindowLobby::~CompWindowLobby()
 {
 }
 
-uint32_t CompLobbyWindow::initialize(Context& cc)
+uint32_t CompWindowLobby::initialize(Context& cc)
 {
 
     cc.net.startClient(5676,sf::IpAddress("192.168.1.13"));
     //sf::sleep(sf::seconds(6));
-    std::cout << "CompLobbyWindow::initialize()" << ", "
+    std::cout << "CompWindowLobby::initialize()" << ", "
               << cc.mp.player.name << ", "
               << cc.mp.player.pass << ", "
               << cc.mp.player.server_port << ", "
@@ -41,7 +41,7 @@ uint32_t CompLobbyWindow::initialize(Context& cc)
     //Add button, and connect button to function
     row = sfg::Box::Create( sfg::Box::Orientation::HORIZONTAL, 5.0f );
     joinTeam1Button = sfg::Button::Create("Join The Team");
-    joinTeam1Button->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompLobbyWindow::doJoinTeam1, this, (ContextClient*)&cc) );
+    joinTeam1Button->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompWindowLobby::doJoinTeam1, this, (ContextClient*)&cc) );
     row->Pack(joinTeam1Button);
     boxMainVert->Pack(row);
 
@@ -49,7 +49,7 @@ uint32_t CompLobbyWindow::initialize(Context& cc)
     //Add button, and connect button to function
     row = sfg::Box::Create( sfg::Box::Orientation::HORIZONTAL, 10.0f );
     readyButton = sfg::Button::Create("Ready");
-    readyButton->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompLobbyWindow::doReady, this, (ContextClient*)&cc) );
+    readyButton->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompWindowLobby::doReady, this, (ContextClient*)&cc) );
     readyButton->Show(false);//Don't show until team is joined.
     row->Pack(readyButton);
     boxMainVert->Pack(row);
@@ -78,35 +78,35 @@ uint32_t CompLobbyWindow::initialize(Context& cc)
 
     return 0;
 }
-uint32_t CompLobbyWindow::doWindowEvent(Context& cc, sf::Event & event)
+uint32_t CompWindowLobby::doWindowEvent(Context& cc, sf::Event & event)
 {
     desk.HandleEvent(event);
     return 0;
 }
 
-uint32_t CompLobbyWindow::doLocalInputs(Context& cc)
+uint32_t CompWindowLobby::doLocalInputs(Context& cc)
 {
     return 0;
 }
-uint32_t CompLobbyWindow::doUpdate(Context& cc)
+uint32_t CompWindowLobby::doUpdate(Context& cc)
 {
     desk.Update(deskUpdateClock.restart().asSeconds());
     return 0;
 }
 
-uint32_t CompLobbyWindow::doDraw(Context& c)
+uint32_t CompWindowLobby::doDraw(Context& c)
 {
     ContextClient& cc = *((ContextClient*)&c);
     cc.sfGui.Display(cc.window);
     return 0;
 }
 
-uint32_t CompLobbyWindow::cleanup(Context& cc)
+uint32_t CompWindowLobby::cleanup(Context& cc)
 {
     return 0;
 }
 
-void CompLobbyWindow::doReady(ContextClient* cc)
+void CompWindowLobby::doReady(ContextClient* cc)
 {
     cc->mp.player.setReady();
     cc->mp.player.stateClient = StatePlayerClient::SendReady;
@@ -114,16 +114,16 @@ void CompLobbyWindow::doReady(ContextClient* cc)
     ready=1;
 }
 
-uint32_t CompLobbyWindow::isReady(){
+uint32_t CompWindowLobby::isReady(){
     return ready;
 }
 
-void CompLobbyWindow::clearNames()
+void CompWindowLobby::clearNames()
 {
     boxNames->RemoveAll();
 }
 
-void CompLobbyWindow::addName(std::string name)
+void CompWindowLobby::addName(std::string name)
 {
     sfg::Box::Ptr row = sfg::Box::Create( sfg::Box::Orientation::HORIZONTAL, 5.0f );
     row->Pack(sfg::Entry::Create(name),true,true);
@@ -131,14 +131,14 @@ void CompLobbyWindow::addName(std::string name)
 }
 
 
-void CompLobbyWindow::gotIdAck(ContextClient& cc, std::string mapName)
+void CompWindowLobby::gotIdAck(ContextClient& cc, std::string mapName)
 {
     cc.mapName = mapName;
     readyButton->Show(true);
     cc.mp.player.setIdentity();
 }
 
-void CompLobbyWindow::gotIdNack(ContextClient& cc)
+void CompWindowLobby::gotIdNack(ContextClient& cc)
 {
     joinTeam1Button->Show(true);
     spinner->Show(false);
@@ -146,7 +146,7 @@ void CompLobbyWindow::gotIdNack(ContextClient& cc)
     msg->Show(false);
 }
 
-void CompLobbyWindow::doJoinTeam1(ContextClient* cc)
+void CompWindowLobby::doJoinTeam1(ContextClient* cc)
 {
     //Send Id - declare team 1
     cc->mp.player.team = 1;

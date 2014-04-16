@@ -1,12 +1,12 @@
 #ifndef StageClientLobby_h_
 #define StageClientLobby_h_
 
-#include "GameStage.h"
+#include "Stage.h"
 #include <SFGUI\SFGUI.hpp>
-#include "CompLobbyWindow.h"
+#include "CompWindowLobby.h"
 
 namespace bali{
-    class StageClientLobby : public GameStage
+    class StageClientLobby : public Stage
     {
 
     public:
@@ -22,7 +22,7 @@ namespace bali{
         uint32_t cleanup();
     private:
         sf::Clock           sendWhoIsClk;
-        CompLobbyWindow compLobbyWindow;
+        CompWindowLobby compLobbyWindow;
 
     };
 }//end namespace bali

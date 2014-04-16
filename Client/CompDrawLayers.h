@@ -7,11 +7,11 @@
 namespace bali{
 class Context;
 
-class CompLevelLayer : public Component
+class CompDrawLayers : public Component
 {
 public:
-    CompLevelLayer();
-    ~CompLevelLayer();
+    CompDrawLayers();
+    ~CompDrawLayers();
     uint32_t initialize(Context& cc);
     uint32_t doWindowEvent(Context& cc, sf::Event & event);
     uint32_t doLocalInputs(Context& cc);

@@ -17,9 +17,9 @@ GameServer::~GameServer()
 
 uint32_t GameServer::initialize()
 {
-    add(std::shared_ptr<GameStage>(new StageServerStart(this, 0)));//0 - uid for setup stage
-    add(std::shared_ptr<GameStage>(new StageServerLobby(this, 1)));//1 - uid for lobby stage
-    add(std::shared_ptr<GameStage>(new StageServerMain(this, 2)));//2 - uid for main stage
+    add(std::shared_ptr<Stage>(new StageServerStart(this, 0)));//0 - uid for setup stage
+    add(std::shared_ptr<Stage>(new StageServerLobby(this, 1)));//1 - uid for lobby stage
+    add(std::shared_ptr<Stage>(new StageServerMain(this, 2)));//2 - uid for main stage
 
     cs.mc.initialize("configuration.xml");
     cs.mm.initialize(cs.mc);

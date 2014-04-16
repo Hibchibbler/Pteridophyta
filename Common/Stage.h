@@ -12,19 +12,19 @@ namespace bali
 {
     class Game;
 
-    //GameStage represents an discrete, unique block of functionality. It represents the most course grain
+    //Stage represents an discrete, unique block of functionality. It represents the most course grain
     // unit of game functionality.
-    //Splash Screen, Lobby, Main game view, and credits are examples of what represents a GameStage.
-    class GameStage
+    //Splash Screen, Lobby, Main game view, and credits are examples of what represents a Stage.
+    class Stage
     {
     public:
-        GameStage(Game* game, uint32_t uid);
-        virtual ~GameStage();
+        Stage(Game* game, uint32_t uid);
+        virtual ~Stage();
 
         //
         //Derived class is responsible for
-        //calling GameStage::initialized() from
-        //their GameStage::initialize() routine, when initialization
+        //calling Stage::initialized() from
+        //their Stage::initialize() routine, when initialization
         //is complete.
         //
         virtual uint32_t initialize()=0;

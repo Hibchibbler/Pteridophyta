@@ -9,11 +9,11 @@
 
 namespace bali{
 
-    class GameStage;
+    class Stage;
 
-    //Game is a list of GameStage's.
+    //Game is a list of Stage's.
     //You can think of Game as a Flip book,
-    //and a GameStage as a page in the Flip book.
+    //and a Stage as a page in the Flip book.
     //Game is meant to be derived. It supplies the basic infrastructure
     //to transition GameStages.
     class Game
@@ -28,8 +28,8 @@ namespace bali{
         virtual uint32_t cleanup();
 
     protected:
-        std::shared_ptr<GameStage> getCurrentStage();
-        void add(std::shared_ptr<GameStage> gs);
+        std::shared_ptr<Stage> getCurrentStage();
+        void add(std::shared_ptr<Stage> gs);
         void clear();
         void reset();
         bool nextStage();
@@ -37,7 +37,7 @@ namespace bali{
     private:
         uint32_t getCurrentStageIndex(){return curStageIndex;}
         uint32_t curStageIndex;
-        std::vector<std::shared_ptr<GameStage> > gameStages;
+        std::vector<std::shared_ptr<Stage> > gameStages;
 
     };
 };

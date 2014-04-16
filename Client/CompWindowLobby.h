@@ -9,11 +9,11 @@
 namespace bali
 {
 class ContextClient;
-class CompLobbyWindow : public Component
+class CompWindowLobby : public Component
 {
 public:
-    CompLobbyWindow();
-    ~CompLobbyWindow();
+    CompWindowLobby();
+    ~CompWindowLobby();
 
     //General Component Functionality
     uint32_t initialize(Context& cc);

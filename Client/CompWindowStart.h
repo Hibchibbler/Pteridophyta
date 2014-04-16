@@ -10,11 +10,11 @@ namespace bali
 
 class ContextClient;
 
-class CompStartWindow : public Component
+class CompWindowStart : public Component
 {
 public:
-    CompStartWindow();
-    ~CompStartWindow();
+    CompWindowStart();
+    ~CompWindowStart();
 
     //General Component Functionality
     uint32_t initialize(Context& cc);

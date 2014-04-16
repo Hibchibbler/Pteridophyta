@@ -2,7 +2,7 @@
 #include "Util.h"
 #include "GameClient.h"
 #include "ManagerTile.h"
-#include "CompLevelLayer.h"
+#include "CompDrawLayers.h"
 #include <SFML\Graphics.hpp>
 #include <iostream>
 #include <stdlib.h>
@@ -12,7 +12,7 @@ namespace bali{
 
 
 StageClientMain::StageClientMain(Game* game, uint32_t uid)
- :  GameStage(game, uid)
+ :  Stage(game, uid)
 {
 }
 

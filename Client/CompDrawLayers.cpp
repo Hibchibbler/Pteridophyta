@@ -1,17 +1,17 @@
-#include "CompLevelLayer.h"
+#include "CompDrawLayers.h"
 #include "ContextClient.h"
 
 namespace bali{
 
-CompLevelLayer::CompLevelLayer()
+CompDrawLayers::CompDrawLayers()
 {
 }
 
-CompLevelLayer::~CompLevelLayer()
+CompDrawLayers::~CompDrawLayers()
 {
 }
 
-uint32_t CompLevelLayer::initialize(Context& cc)
+uint32_t CompDrawLayers::initialize(Context& cc)
 {
     //Load all layers. We assume layers contain static content.
     uint32_t numLayers = cc.mm.map.layers.size();
@@ -23,22 +23,22 @@ uint32_t CompLevelLayer::initialize(Context& cc)
     return 0;
 }
 
-uint32_t CompLevelLayer::doWindowEvent(Context& cc, sf::Event & event)
+uint32_t CompDrawLayers::doWindowEvent(Context& cc, sf::Event & event)
 {
     return 0;
 }
 
-uint32_t CompLevelLayer::doLocalInputs(Context& cc)
+uint32_t CompDrawLayers::doLocalInputs(Context& cc)
 {
     return 0;
 }
 
-uint32_t CompLevelLayer::doUpdate(Context& cc)
+uint32_t CompDrawLayers::doUpdate(Context& cc)
 {
     return 0;
 }
 
-uint32_t CompLevelLayer::doDraw(Context& c)
+uint32_t CompDrawLayers::doDraw(Context& c)
 {
     ContextClient& cc = *((ContextClient*)&c);
 
@@ -51,7 +51,7 @@ uint32_t CompLevelLayer::doDraw(Context& c)
     return 0;
 }
 
-uint32_t CompLevelLayer::cleanup(Context& cc)
+uint32_t CompDrawLayers::cleanup(Context& cc)
 {
     return 0;
 }

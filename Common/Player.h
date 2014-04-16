@@ -2,7 +2,9 @@
 #define Player_h_
 
 #include <memory>
+#include <queue>
 #include <SFML/Graphics.hpp>
+#include "Command.h"
 //#include "Projectile.h"
 //#include "Tank.h"
 
@@ -89,7 +91,7 @@ namespace bali
 
         uint32_t mass;
 
-
+        std::queue<Command> commands;
     };
 
     typedef std::shared_ptr<Player> SPlayer;

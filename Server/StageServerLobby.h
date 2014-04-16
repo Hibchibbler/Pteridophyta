@@ -1,7 +1,7 @@
 #ifndef StageServerLobby_h_
 #define StageServerLobby_h_
 
-#include "GameStage.h"
+#include "Stage.h"
 
 
 #define STAGE_SERVER_LOBBY_SUCCESS 0
@@ -10,7 +10,7 @@
 namespace bali
 {
     class CommEvent;
-    class StageServerLobby : public GameStage
+    class StageServerLobby : public Stage
     {
     public:
         StageServerLobby(Game* game, uint32_t uid);

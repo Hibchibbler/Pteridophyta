@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "GameStage.h"
+#include "Stage.h"
 
 namespace bali{
 
@@ -18,7 +18,7 @@ uint32_t Game::doEventProcessing()
     //Initialize gameStage if it has not already been initialized.
     if (!getCurrentStage()->isInit())
     {
-        std::cout << "Game::doEventProcessing(): GameStage (" << getCurrentStageIndex() << ") initialized" << std::endl;
+        std::cout << "Game::doEventProcessing(): Stage (" << getCurrentStageIndex() << ") initialized" << std::endl;
         getCurrentStage()->initialize();
     }
     return 0;
@@ -26,7 +26,7 @@ uint32_t Game::doEventProcessing()
 
 uint32_t Game::doGameProcessing(){
 
-    //N.B. - GameStage was initialized in doEventProcessing
+    //N.B. - Stage was initialized in doEventProcessing
     //Do flows if not done
     const uint32_t NOERROR = 0;
     if (!getCurrentStage()->isDone() && getCurrentStage()->isError() == NOERROR)
@@ -41,12 +41,12 @@ uint32_t Game::doGameProcessing(){
         {
             //No Error. Assume Done. Goto next stage
             //But, cleanup first
-            std::cout << "Game::doGameProcessing(): GameStage (" << getCurrentStageIndex() << ") finished" << std::endl;
+            std::cout << "Game::doGameProcessing(): Stage (" << getCurrentStageIndex() << ") finished" << std::endl;
             getCurrentStage()->cleanup();
             nextStage();
         }else{
             //Error reported from current Stage
-            std::cout << "Game::doGameProcessing(): GameStage (" << getCurrentStageIndex() << ") error" << std::endl;
+            std::cout << "Game::doGameProcessing(): Stage (" << getCurrentStageIndex() << ") error" << std::endl;
             getCurrentStage()->cleanup();
             return e;
         }
@@ -66,7 +66,7 @@ uint32_t Game::cleanup()
     return 0;
 }
 
-void Game::add(std::shared_ptr<GameStage> gs){
+void Game::add(std::shared_ptr<Stage> gs){
     gameStages.push_back(gs);
 }
 
@@ -79,7 +79,7 @@ bool Game::nextStage()
     return false;
 }
 
-std::shared_ptr<GameStage> Game::getCurrentStage()
+std::shared_ptr<Stage> Game::getCurrentStage()
 {
     return gameStages[curStageIndex];
 }

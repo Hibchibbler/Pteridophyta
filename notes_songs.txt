@@ -1,56 +1,102 @@
+Each Player has a Command Queue.
+There will be an interface via ManagerPlayer to enqueue/dequeue Commands of a specific player.
+Commands are enqueued by doRemoteEvent, and doLocalInputs.
+Many or All Commands are dequeued and processed each life cycle in doUpdate.
+doUpdate will contain a switch statement that can uniquely process each Command function.
+A Command function is a uint32_t, and contains a value that uniquely identifies the Command.
+Commands are processed by Game, and GameStage
+
+
+Local Commands
+Global Commands
+Context will have a std::queue.
+each doUpdate, process the queue for each player.
+uint32_t doRemoteEvent()
+{
+	*Get Inputs
+	*Construct Commands
+	*Submit Commands
+	return 0;
+}
+
+
+uint32_t doLocalInputs()
+{
+	*Get Inputs
+	*Construct Commands
+	*Submit Commands
+	return 0;
+}
+
+class Command;
 
 Store each level tile in a Quad
 Store each Quad in Quadtree
 
 Store each GravityZone polygon
 
+Array - Background, Foreground
+QuadTree - Dynamics, Walkables, Gravity Zones
+	
 
 Gravity Zone
 Level Rotation
 On Client:
 	During Initialize:
 		Load TMX Map
-		Array Background
-		Array Foreground
+		Array 	 Background
+		Array 	 Foreground
 		QuadTree Walkables
 		Quadtree Gravity Zones
+		Quadtree Dynamics
 		
+	During Local Inputs:
+		Update List of Commands
+	
 	During Remote Event:
-		Update List of Dynamics
+		Update List of Remotes
+	
 	During Update:
 		For each d in Dynamics
 			Retrieve Relevant Walkables
 			Retrieve Relevant Gravity Zones
-			Based on current Gravity Rotate d if needed
-			predict next movement
-				update position
-				collision detect with walkables, and correct
-				collision detect with dynamics, and apply damage
+			Based on current Gravity, Rotate d if needed
+			update position using Commands and Remotes
+			collision detect with walkables, and correct if needed
+			collision detect with dynamics, and apply damage if needed
 		
 	
 On Server:
 	During Initialize:
 		Load TMX Map
-		Array Background
-		Array Foreground
-		QuadTree Walkables
+		Array 	 Background
+		Array 	 Foreground
+		Quadtree Walkables
 		Quadtree Gravity Zones
-		
+		Quadtree Dynamics
 		
 	During Update:
 		For each d in Dynamics
 			Retrieve Relevant Walkables
 			Retrieve Relevant Gravity Zones
 			Based on current Gravity Rotate d if needed
-			compute next movement
-				update next movement
-				collision detect with walkables, and correct
-				collision detect with dynamics, and apply damage
+			update positions using Remotes
+			collision detect with walkables, and correct
+			collision detect with dynamics, and apply damage
 			
 		Quadtree of Dynamics if Server
 
 
 
+we need a mechanism that let's us construct a command. apply it to game state
+when applying a command
+	if client then
+		apply to server game state
+		apply to local  game state		
+		buffer local results
+	if server then
+		apply to local game state
+		
 
 
 

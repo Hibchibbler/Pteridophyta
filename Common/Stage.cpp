@@ -1,10 +1,10 @@
-#include "GameStage.h"
+#include "Stage.h"
 
 
 
 namespace bali{
 
-GameStage::GameStage(Game* game, uint32_t uid)
+Stage::Stage(Game* game, uint32_t uid)
     : g(game) //reference to owner being set.
 {
     done = 0;
@@ -12,34 +12,34 @@ GameStage::GameStage(Game* game, uint32_t uid)
     init = 0;
     err = 0;
 }
-GameStage::~GameStage()
+Stage::~Stage()
 {
 
 }
 
-void GameStage::setId(uint32_t a)
+void Stage::setId(uint32_t a)
 {
     id = a;
 }
-uint32_t GameStage::getId()
+uint32_t Stage::getId()
 {
     return id;
 }
- uint32_t GameStage::isDone()
+ uint32_t Stage::isDone()
  {
      return done;
  }
- uint32_t GameStage::isError()
+ uint32_t Stage::isError()
  {
      return err;
  }
 
- uint32_t GameStage::isInit()
+ uint32_t Stage::isInit()
  {
      return init;
  }
 
-Game* GameStage::getOwner()
+Game* Stage::getOwner()
 {
     return g;
 }

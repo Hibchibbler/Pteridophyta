@@ -10,7 +10,7 @@ namespace bali{
 
 class Context;
 //The Component class establishes an interface that is natural to the core flow.
-//A component is meant to represent a single function within a GameStage.
+//A component is meant to represent a single function within a Stage.
 //Usually a component will have specific functions that are not general. that is ok
 //because the interface that Component specifies is still considerably useful.
 class Component{
@@ -30,7 +30,7 @@ public:
     uint32_t getVisible(){return visible;}
 
     ///getError(); if returns > 0 then error
-    uint32_t setError(uint32_t e){err = e;}
+    uint32_t setError(uint32_t e){err = e;return e;}
     uint32_t getError(){return err;}
 
     uint32_t err=0;

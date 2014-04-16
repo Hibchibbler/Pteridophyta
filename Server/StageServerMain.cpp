@@ -3,7 +3,7 @@
 namespace bali{
 
 StageServerMain::StageServerMain(Game* game, uint32_t uid)
-    :  GameStage(game, uid)
+    :  Stage(game, uid)
 {
 
 }
