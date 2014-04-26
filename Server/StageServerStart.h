@@ -18,6 +18,9 @@ namespace bali
         uint32_t doUpdate();
         uint32_t doDraw();
         uint32_t cleanup();
+
+        //Commandable obligations
+        uint32_t processCommands();
     private:
     };
 }//end namespace bali

@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 namespace bali{
 
@@ -26,17 +27,17 @@ public:
     };
 
     struct Client{
-        std::vector<Property> properties;
+        std::map<std::string, std::string> properties;
         Window window;
     };
 
     struct Server{
-        std::vector<Property> properties;
+        std::map<std::string, std::string> properties;
     };
 
     struct Global{
         std::vector<Map> maps;
-        std::vector<Property> properties;
+        std::map<std::string, std::string> properties;
     };
 
 

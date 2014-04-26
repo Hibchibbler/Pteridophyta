@@ -4,6 +4,7 @@
 
 namespace bali{
 
+
 Stage::Stage(Game* game, uint32_t uid)
     : g(game) //reference to owner being set.
 {

@@ -5,7 +5,8 @@
 
 namespace bali{
 
-CompWindowLobby::CompWindowLobby()
+CompWindowLobby::CompWindowLobby(Stage* stage)
+    : Component(stage)
 {
 }
 
@@ -88,8 +89,21 @@ uint32_t CompWindowLobby::doLocalInputs(Context& cc)
 {
     return 0;
 }
+
+uint32_t CompWindowLobby::processCommands()
+{
+    for (auto& i : commands)
+    {
+
+    }
+
+    commands.clear();
+    return 0;
+}
+
 uint32_t CompWindowLobby::doUpdate(Context& cc)
 {
+    processCommands();
     desk.Update(deskUpdateClock.restart().asSeconds());
     return 0;
 }
@@ -111,7 +125,10 @@ void CompWindowLobby::doReady(ContextClient* cc)
     cc->mp.player.setReady();
     cc->mp.player.stateClient = StatePlayerClient::SendReady;
     readyButton->Show(false);
-    ready=1;
+    //ready=1;
+    CommandStage cmd;
+    cmd.setFunction(CommandStage::Functions::TRANSITION);
+    s->submitCommand(cmd);
 }
 
 uint32_t CompWindowLobby::isReady(){

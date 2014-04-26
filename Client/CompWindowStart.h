@@ -13,20 +13,24 @@ class ContextClient;
 class CompWindowStart : public Component
 {
 public:
-    CompWindowStart();
+    CompWindowStart(Stage* stage);
     ~CompWindowStart();
 
     //General Component Functionality
-    uint32_t initialize(Context& cc);
-    uint32_t doWindowEvent(Context& cc, sf::Event & event);
-    uint32_t doLocalInputs(Context& cc);
-    uint32_t doUpdate(Context& cc);
-    uint32_t doDraw(Context& cc);
-    uint32_t cleanup(Context& cc);
+    uint32_t initialize(Context& c);
+    uint32_t doWindowEvent(Context& c, sf::Event & event);
+    uint32_t doLocalInputs(Context& c);
+    uint32_t doUpdate(Context& c);
+    uint32_t doDraw(Context& c);
+    uint32_t cleanup(Context& c);
+
+    //Commandable obligations
+    uint32_t processCommands();
 
     //Specific Component Functionality
     void doStart(ContextClient* cc);
     uint32_t isStarted();
+
 private:
     sfg::Window::Ptr    window;
     sfg::Desktop        desk;

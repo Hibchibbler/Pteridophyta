@@ -100,6 +100,11 @@ uint32_t StageServerLobby::cleanup()
     return 0;
 }
 
+uint32_t StageServerLobby::processCommands()
+{
+    return 0;
+}
+
 }//end namespace bali
 
 

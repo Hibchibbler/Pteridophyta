@@ -4,23 +4,28 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <vector>
+
 #include "Comm.h"
 #include "Component.h"
+#include "Commandable.h"
+#include "CommandStage.h"
 
 
 namespace bali
 {
+    class Command;
     class Game;
 
     //Stage represents an discrete, unique block of functionality. It represents the most course grain
     // unit of game functionality.
     //Splash Screen, Lobby, Main game view, and credits are examples of what represents a Stage.
-    class Stage
+    class Stage : public Commandable<CommandStage>
     {
     public:
-        Stage(Game* game, uint32_t uid);
-        virtual ~Stage();
 
+        Stage(Game* game, uint32_t uid);
+
+        virtual ~Stage();
         //
         //Derived class is responsible for
         //calling Stage::initialized() from
@@ -66,6 +71,10 @@ namespace bali
         //reference to owner
         Game* g;
 
+        std::vector<std::shared_ptr<Component>> components;
+        //void submitCommand(CommandStage cmd){}
+        //uint32_t processCommands(){}
+        //std::queue<CommandStage> commands;
     };
 
 };

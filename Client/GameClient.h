@@ -19,6 +19,7 @@ namespace bali
         uint32_t doGameProcessing();
         uint32_t cleanup();
 
+        uint32_t processCommands(){}
         ContextClient cc;
     private:
     };

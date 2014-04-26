@@ -1,10 +1,12 @@
 #include "CompWindowStart.h"
 #include "ContextClient.h"
-
+#include "Stage.h"
+#include "CommandStage.h"
 
 namespace bali{
 
-CompWindowStart::CompWindowStart()
+CompWindowStart::CompWindowStart(Stage* stage)
+    : Component(stage)
 {
 }
 
@@ -12,7 +14,7 @@ CompWindowStart::~CompWindowStart()
 {
 }
 
-uint32_t CompWindowStart::initialize(Context& cc){
+uint32_t CompWindowStart::initialize(Context& c){
     //Construct Start Menu GUI
     sfg::Table::Ptr table( sfg::Table::Create(  ) );
 
@@ -43,7 +45,7 @@ uint32_t CompWindowStart::initialize(Context& cc){
 
     sfg::Button::Ptr startButton;
     startButton = sfg::Button::Create("Start");
-    startButton->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompWindowStart::doStart, this, (ContextClient*)&cc) );
+    startButton->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompWindowStart::doStart, this, (ContextClient*)&c) );
     table->Attach(startButton, sf::Rect<sf::Uint32>(0,4,2,1), 3);
 
     window = sfg::Window::Create();
@@ -56,19 +58,34 @@ uint32_t CompWindowStart::initialize(Context& cc){
     desk.Add(window);
     return 0;
 }
-uint32_t CompWindowStart::doWindowEvent(Context& cc, sf::Event & event)
+uint32_t CompWindowStart::doWindowEvent(Context& c, sf::Event & event)
 {
     desk.HandleEvent(event);
     return 0;
 }
 
-uint32_t CompWindowStart::doLocalInputs(Context& cc)
+uint32_t CompWindowStart::doLocalInputs(Context& c)
 {
     return 0;
 }
-uint32_t CompWindowStart::doUpdate(Context& cc)
+uint32_t CompWindowStart::processCommands()
 {
+    for (auto& i : commands)
+    {
+
+    }
+
+    commands.clear();
+    return 0;
+}
+
+uint32_t CompWindowStart::doUpdate(Context& c)
+{
+    ContextClient& cc = *((ContextClient*)&c);
+    processCommands();
+
     desk.Update(deskUpdateClock.restart().asSeconds());
+
     return 0;
 }
 
@@ -79,7 +96,7 @@ uint32_t CompWindowStart::doDraw(Context& c)
     return 0;
 }
 
-uint32_t CompWindowStart::cleanup(Context& cc)
+uint32_t CompWindowStart::cleanup(Context& c)
 {
     return 0;
 }
@@ -94,7 +111,10 @@ void CompWindowStart::doStart(ContextClient* cc)
     std::cout << "Hi " << cc->mp.getPlayerName() << std::endl;
 
     window->Show(false);
-    started=1;
+    //started=1;
+    CommandStage cmd;
+    cmd.setFunction(CommandStage::Functions::TRANSITION);
+    s->submitCommand(cmd);
 }
 
 uint32_t CompWindowStart::isStarted(){

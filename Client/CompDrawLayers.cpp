@@ -3,7 +3,8 @@
 
 namespace bali{
 
-CompDrawLayers::CompDrawLayers()
+CompDrawLayers::CompDrawLayers(Stage* stage)
+    : Component(stage)
 {
 }
 

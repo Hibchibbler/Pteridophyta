@@ -4,6 +4,7 @@
 #include "Comm.h"
 #include "Messages.h"
 #include <SFGUI\SFGUI.hpp>
+#include "Command.h"
 
 
 
@@ -12,7 +13,7 @@ namespace bali{
 using namespace sfg;
 
 StageClientLobby::StageClientLobby(Game* game, uint32_t uid)
-    : Stage(game, uid)
+    : Stage(game, uid)//, compLobbyWindow(this)
 {
 }
 
@@ -24,7 +25,14 @@ uint32_t StageClientLobby::initialize()
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
 
-    compLobbyWindow.initialize(cc);
+    //Add Components
+    components.push_back(std::make_shared<CompWindowLobby>(this));
+
+    //Initialize components
+    for (auto& c : components)
+    {
+        c->initialize(cc);
+    }
     initialized();
     return 0;
 }
@@ -32,7 +40,10 @@ uint32_t StageClientLobby::initialize()
 uint32_t StageClientLobby::doWindowEvent(sf::Event & event)
 {
     ContextClient& cc = (GET_CLIENT_CONTEXT(g));
-    compLobbyWindow.doWindowEvent(cc, event);
+    for (auto& c : components)
+    {
+        c->doWindowEvent(cc, event);
+    }
     return 0;
 }
 
@@ -62,6 +73,11 @@ uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
             }
 
 
+//            Messages::WhoIsAck  wia = Messages::parsePacket(event);
+//
+//            CmdComponent cmd;
+//            cmd.setFunction(CmdComponent::Functions::POPULATETEAMLIST);
+//            cmd.ptl.names = ;
 
             break;
     }case MsgId::IdAck:{
@@ -97,11 +113,28 @@ uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
 
     return 0;
 }
+uint32_t StageClientLobby::processCommands()
+{
+    for (auto& i : commands)
+    {
+        switch (i.getFunction())
+        {
+            case CommandStage::Functions::TRANSITION:
+                std::cout << "Processing TRANSITION" << std::endl;
+                finished(0);
+                break;
+        }
+    }
 
+    commands.clear();
+    return 0;
+}
 
 uint32_t StageClientLobby::doUpdate()
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
+
+    processCommands();
 
     uint32_t s = cc.mp.player.stateClient;
 
@@ -143,18 +176,24 @@ uint32_t StageClientLobby::doUpdate()
     }
 
 
-    compLobbyWindow.doUpdate(cc);
-
-    if (compLobbyWindow.isReady())
+    for (auto& c : components)
     {
-        finished(0);
+        c->doUpdate(cc);
     }
+
+//    if (compLobbyWindow.isReady())
+//    {
+//        finished(0);
+//    }
     return 0;
 }
 uint32_t StageClientLobby::doLocalInputs()
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
-    compLobbyWindow.doLocalInputs(cc);
+    for (auto& c : components)
+    {
+        c->doLocalInputs(cc);
+    }
     return 0;
 }
 
@@ -165,7 +204,10 @@ uint32_t StageClientLobby::doDraw()
 
     cc.window.clear();
     cc.window.resetGLStates();
-    compLobbyWindow.doDraw(cc);
+    for (auto& c : components)
+    {
+        c->doDraw(cc);
+    }
 
     cc.window.display();
     return 0;
@@ -174,7 +216,10 @@ uint32_t StageClientLobby::doDraw()
 uint32_t StageClientLobby::cleanup()
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
-    compLobbyWindow.cleanup(cc);
+    for (auto& c : components)
+    {
+        c->cleanup(cc);
+    }
     return 0;
 }
 

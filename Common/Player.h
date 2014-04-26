@@ -4,7 +4,7 @@
 #include <memory>
 #include <queue>
 #include <SFML/Graphics.hpp>
-#include "Command.h"
+
 //#include "Projectile.h"
 //#include "Tank.h"
 
@@ -32,7 +32,7 @@ namespace bali
         };
     };
 
-
+    class Command;
     class Player
     {
     public:
@@ -91,7 +91,9 @@ namespace bali
 
         uint32_t mass;
 
-        std::queue<Command> commands;
+//        void submitCommand(CmdPlayer cmd);
+//        uint32_t processCommands();
+//        std::queue<CmdPlayer> commands;
     };
 
     typedef std::shared_ptr<Player> SPlayer;

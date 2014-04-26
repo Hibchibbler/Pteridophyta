@@ -25,6 +25,8 @@ uint32_t GameServer::initialize()
     cs.mm.initialize(cs.mc);
     cs.mw.initialize(cs.mc, cs.mm);
 
+    uint32_t port = atoi(cs.mc.configuration.server.properties["port"].c_str());
+    std::cout << "Listening on Port " << port << std::endl;
     cs.net.startServer(5676);
     return 0;
 }

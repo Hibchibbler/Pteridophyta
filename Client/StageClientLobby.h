@@ -20,9 +20,10 @@ namespace bali{
         uint32_t doUpdate();
         uint32_t doDraw();
         uint32_t cleanup();
+        uint32_t processCommands();
     private:
         sf::Clock           sendWhoIsClk;
-        CompWindowLobby compLobbyWindow;
+
 
     };
 }//end namespace bali

@@ -19,7 +19,6 @@ namespace bali{
         sfg::Desktop desk;
 
 
-
     };
 
 }//end namespace bali

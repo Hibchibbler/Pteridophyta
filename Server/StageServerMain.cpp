@@ -41,5 +41,9 @@ uint32_t StageServerMain::cleanup()
 {
     return 0;
 }
+uint32_t StageServerMain::processCommands()
+{
+    return 0;
+}
 
 }//end namespace bali

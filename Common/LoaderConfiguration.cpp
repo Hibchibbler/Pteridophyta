@@ -88,29 +88,32 @@ void LoaderConfiguration::start_element(void *data, const char *element, const c
 
     if (elementName == "property"){
 
-        Configuration::Property* property = NULL;
+        std::map<std::string, std::string>* properties = NULL;
         if (configuration->configLoadState == Configuration::CLIENT)
         {
-            configuration->client.properties.push_back(Configuration::Property());
-            property = &configuration->client.properties.back();
+            //configuration->client.properties.push_back(Configuration::Property());
+            properties = &configuration->client.properties;//.back();
         }
         else
         if (configuration->configLoadState == Configuration::SERVER)
         {
-            configuration->server.properties.push_back(Configuration::Property());
-            property = &configuration->server.properties.back();
+            //configuration->server.properties.push_back(Configuration::Property());
+            properties = &configuration->server.properties;//.back();
         }
         else
         if (configuration->configLoadState == Configuration::GLOBAL)
         {
-            configuration->global.properties.push_back(Configuration::Property());
-            property = &configuration->global.properties.back();
+            //configuration->global.properties.push_back(Configuration::Property());
+            properties = &configuration->global.properties;//.back();
         }
 
-
+        std::string n,v;
         for (size_t i = 0; attribute[i]; i += 2){
-            ASSIGNIFMATCHESSTR("name", property->name);
-            ASSIGNIFMATCHESSTR("value", property->value);
+            ASSIGNIFMATCHESSTR("name", n);
+            ASSIGNIFMATCHESSTR("value", v);
+            if (n != "")
+                (*properties)[n]=v;
+            n= v= "";
             std::cout << "Unexpected attribute " << attribute[i] << "=" << attribute[i+1] << " in " << std::string(element) << std::endl;
         }
     }

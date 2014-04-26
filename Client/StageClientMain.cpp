@@ -12,7 +12,7 @@ namespace bali{
 
 
 StageClientMain::StageClientMain(Game* game, uint32_t uid)
- :  Stage(game, uid)
+ :  Stage(game, uid), compLevelLayer(this)
 {
 }
 

@@ -6,8 +6,10 @@
 #include <vector>
 //#include <box2d/box2d.h>//notyet
 #include "ManagerPlayer.h"
-
+#include "Commandable.h"
+#include "CommandGame.h"
 namespace bali{
+
 
     class Stage;
 
@@ -16,8 +18,8 @@ namespace bali{
     //and a Stage as a page in the Flip book.
     //Game is meant to be derived. It supplies the basic infrastructure
     //to transition GameStages.
-    class Game
-    {
+class Game : public Commandable<CommandGame>
+{
     public:
         Game();
         virtual ~Game();

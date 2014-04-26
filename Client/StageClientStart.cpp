@@ -1,6 +1,7 @@
 #include "StageClientStart.h"
 #include "GameClient.h"
 
+#include "CompWindowStart.h"
 #include <iostream>
 
 namespace bali{
@@ -17,7 +18,15 @@ StageClientStart::~StageClientStart()
 uint32_t StageClientStart::initialize()
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
-    compStartWindow.initialize(cc);
+
+    //Add Components
+    components.push_back(std::make_shared<CompWindowStart>(this));
+
+    //Initialize components
+    for (auto& c : components)
+    {
+        c->initialize(cc);
+    }
 
     //Set this so Game knows we are initialized, so it won't
     // initialize us again.
@@ -33,26 +42,51 @@ uint32_t StageClientStart::doRemoteEvent(CommEvent & event)
 uint32_t StageClientStart::doWindowEvent(sf::Event & event)
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
-    compStartWindow.doWindowEvent(cc, event);
+
+    for (auto& c : components)
+    {
+        c->doWindowEvent(cc, event);
+    }
 
     return 0;
 }
 uint32_t StageClientStart::doLocalInputs()
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
-    compStartWindow.doLocalInputs(cc);
+
+    for (auto& c : components)
+    {
+        c->doLocalInputs(cc);
+    }
 
     return 0;
+}
+uint32_t StageClientStart::processCommands()
+{
+    for (auto& i : commands)
+    {
+        switch (i.getFunction())
+        {
+            case CommandStage::Functions::TRANSITION:
+                std::cout << "Processing TRANSITION" << std::endl;
+                finished(0);
+                break;
+        }
+    }
+
+    commands.clear();
 }
 
 uint32_t StageClientStart::doUpdate()
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
 
-    compStartWindow.doUpdate(cc);
-    if (compStartWindow.isStarted())
+    //Process Stage Commands
+    processCommands();
+
+    for (auto& c : components)
     {
-        finished(0);
+        c->doUpdate(cc);
     }
 
     return 0;
@@ -63,16 +97,21 @@ uint32_t StageClientStart::doDraw()
     cc.window.clear();
     cc.window.resetGLStates();
 
-    compStartWindow.doDraw(cc);
+    for (auto& c : components)
+    {
+        c->doDraw(cc);
+    }
 
-    //cc.sfGui.Display(cc.window);
     cc.window.display();
     return 0;
 }
 uint32_t StageClientStart::cleanup()
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
-    compStartWindow.cleanup(cc);
+    for (auto& c : components)
+    {
+        c->cleanup(cc);
+    }
     return 0;
 }
 

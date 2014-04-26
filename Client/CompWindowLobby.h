@@ -12,7 +12,7 @@ class ContextClient;
 class CompWindowLobby : public Component
 {
 public:
-    CompWindowLobby();
+    CompWindowLobby(Stage* stage);
     ~CompWindowLobby();
 
     //General Component Functionality
@@ -22,7 +22,7 @@ public:
     uint32_t doUpdate(Context& cc);
     uint32_t doDraw(Context& cc);
     uint32_t cleanup(Context& cc);
-
+    uint32_t processCommands();
     //Specific Component Functionality
     void doReady(ContextClient* cc);
     uint32_t isReady();

@@ -3,7 +3,7 @@
 
 #include "Stage.h"
 #include <SFGUI/sfgui.hpp>
-#include "CompWindowStart.h"
+
 
 namespace bali
 {
@@ -20,8 +20,11 @@ namespace bali
         uint32_t doUpdate();
         uint32_t doDraw();
         uint32_t cleanup();
+
+        //Commandable obligations
+        uint32_t processCommands();
     private:
-        CompWindowStart compStartWindow;
+//        std::vector<std::shared_ptr<Component>> components;
 
     };
 }
