@@ -13,7 +13,7 @@ namespace bali{
 using namespace sfg;
 
 StageClientLobby::StageClientLobby(Game* game, uint32_t uid)
-    : Stage(game, uid)//, compLobbyWindow(this)
+    : Stage(game, uid)//, compWindowLobby(this)
 {
 }
 
@@ -26,9 +26,10 @@ uint32_t StageClientLobby::initialize()
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
 
     //Add Components
-    components.push_back(std::make_shared<CompWindowLobby>(this));
+    compWindowLobby = std::make_shared<CompWindowLobby>(this);
+    components.push_back(compWindowLobby);
 
-    //Initialize components
+    //compWindowLobby ->initialize(cc);
     for (auto& c : components)
     {
         c->initialize(cc);
@@ -40,88 +41,75 @@ uint32_t StageClientLobby::initialize()
 uint32_t StageClientLobby::doWindowEvent(sf::Event & event)
 {
     ContextClient& cc = (GET_CLIENT_CONTEXT(g));
+    //compWindowLobby->doWindowEvent(cc, event);
     for (auto& c : components)
     {
         c->doWindowEvent(cc, event);
     }
+
     return 0;
 }
 
 uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
 {
     ContextClient& cc = (GET_CLIENT_CONTEXT(g));
+
     uint32_t msgId;
     (*event.packet) >> msgId;
-
     switch (msgId){
      case MsgId::WhoIsAck:{
             std::cout << "Got WhoIsAck" << std::endl;
-            cc.mp.player.stateClient = StatePlayerClient::Waiting;
-            uint32_t t1o=0;
-            uint32_t t2o=0;
-
-            //Get number of (name,team) we're gunna get.
-            uint32_t np;
-            (*event.packet) >> np;
-            compLobbyWindow.clearNames();
-            for (int i = 0;i < np;i++)
-            {
-                std::string name;
-                uint32_t team;
-                (*event.packet) >> name >> team;
-                compLobbyWindow.addName(name);
-            }
-
-
-//            Messages::WhoIsAck  wia = Messages::parsePacket(event);
-//
-//            CmdComponent cmd;
-//            cmd.setFunction(CmdComponent::Functions::POPULATETEAMLIST);
-//            cmd.ptl.names = ;
-
+            submitToComponents(CommandComponent(CommandComponent::Functions::PROCESSWHOISACKMSG);
             break;
     }case MsgId::IdAck:{
             std::cout << "Got IdAck, " ;
-            cc.mp.player.stateClient = StatePlayerClient::Waiting;
-
-            std::string mapName;
-            (*event.packet) >> mapName;
-            std::cout << "Map: " << mapName << std::endl;
-
-
-            compLobbyWindow.gotIdAck(cc, mapName);
-
-
-
+            submitToComponents(CommandComponent(CommandComponent::Functions::PROCESSIDACKMSG);
             break;
     }case MsgId::IdNack:{
             std::cout << "Got IdNack" << std::endl;
-            cc.mp.player.stateClient = StatePlayerClient::SendWhoIs;
-
-            compLobbyWindow.gotIdNack(cc);
-
+            submitToComponents(CommandComponent(CommandComponent::Functions::PROCESSIDNACKMSG);
+            submitCommand(CommandStage(CommandStage::Functions::SENDWHOIS));
             break;
     }case MsgId::Start:{
             std::cout << "Got Start" << std::endl;
-            cc.mp.player.stateClient = StatePlayerClient::Established;
-
-            finished(0);
-
+            submitToComponents(CommandComponent(CommandComponent::Functions::PROCESSSTARTMSG);
+            submitCommand(CommandStage(CommandStage::Functions::STAGEFINISH));
             break;
         }
     }
 
     return 0;
 }
-uint32_t StageClientLobby::processCommands()
+uint32_t StageClientLobby::processCommands(void* arg)
 {
-    for (auto& i : commands)
+    ContextClient& cc = (GET_CLIENT_CONTEXT(g));
+
+    for (auto& c : commands)
     {
-        switch (i.getFunction())
+        switch (c.getFunction())
         {
-            case CommandStage::Functions::TRANSITION:
-                std::cout << "Processing TRANSITION" << std::endl;
+            case CommandStage::Functions::STAGEFINISH:
+                std::cout << "Processing STAGEFINISH" << std::endl;
                 finished(0);
+                break;
+            case CommandStage::Functions::SENDWHOIS:
+                Messages::sendWhoIs(cc.net, cc.mp.player);
+                break;
+            case CommandStage::Functions::SENDID:
+                Messages::sendId(cc.net, cc.mp.player);
+                break;
+            case CommandStage::Functions::SENDREADY:
+                Messages::sendReady(cc.net, cc.mp.player);
+
+                //
+                //The player is ready when we recieve Ready from client.
+                //And player is identified.
+                //
+                if (cc.mp.player.isIdentified())
+                    cc.mp.player.setReady();
+                else
+                    std::cout << "Ready received, but not identified yet." << std::endl;
+
                 break;
         }
     }
@@ -134,52 +122,22 @@ uint32_t StageClientLobby::doUpdate()
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
 
-    processCommands();
+    //Process Queued Stage Commands
+    processCommands(nullptr);
 
-    uint32_t s = cc.mp.player.stateClient;
-
-    switch (s){
-        case StatePlayerClient::Waiting:
-            //Waiting for some reply.
-            break;
-        case StatePlayerClient::SendWhoIs:
-            Messages::sendWhoIs(cc.net, cc.mp.player);
-            s = StatePlayerClient::Waiting;
-            break;
-        case StatePlayerClient::SendId:{
-            Messages::sendId(cc.net, cc.mp.player);
-            s = StatePlayerClient::Waiting;
-            break;
-        }
-        case StatePlayerClient::SendReady:
-            Messages::sendReady(cc.net, cc.mp.player);
-
-            //
-            //The player is ready when we recieve Ready from client.
-            //And player is identified.
-            //
-            if (cc.mp.player.isIdentified())
-                cc.mp.player.setReady();
-            else
-                std::cout << "Ready received, but not identified yet." << std::endl;
-
-            s = StatePlayerClient::Waiting;
-            break;
-    }
-    cc.mp.player.stateClient = s;
+    //Process Queued Local Player Commands
+    //cc.mp.processLocalCommands();
 
     //Send WhoIs every 1 seconds to update lobby lists
     if (sendWhoIsClk.getElapsedTime().asSeconds() > 1)
     {
-        cc.mp.player.stateClient = StatePlayerClient::SendWhoIs;
+        submitCommand(CommandStage(CommandStage::Functions::WHOIS));
         sendWhoIsClk.restart();
     }
 
 
-    for (auto& c : components)
-    {
-        c->doUpdate(cc);
-    }
+    compWindowLobby->doUpdate(cc);
+
 
 //    if (compLobbyWindow.isReady())
 //    {
@@ -190,10 +148,9 @@ uint32_t StageClientLobby::doUpdate()
 uint32_t StageClientLobby::doLocalInputs()
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
-    for (auto& c : components)
-    {
-        c->doLocalInputs(cc);
-    }
+
+    compWindowLobby->doLocalInputs(cc);
+
     return 0;
 }
 
@@ -204,10 +161,8 @@ uint32_t StageClientLobby::doDraw()
 
     cc.window.clear();
     cc.window.resetGLStates();
-    for (auto& c : components)
-    {
-        c->doDraw(cc);
-    }
+
+    compWindowLobby->doDraw(cc);
 
     cc.window.display();
     return 0;
@@ -216,10 +171,8 @@ uint32_t StageClientLobby::doDraw()
 uint32_t StageClientLobby::cleanup()
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
-    for (auto& c : components)
-    {
-        c->cleanup(cc);
-    }
+    compWindowLobby->cleanup(cc);
+
     return 0;
 }
 

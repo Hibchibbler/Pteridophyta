@@ -1,7 +1,8 @@
 
 #include "CompWindowLobby.h"
 #include "ContextClient.h"
-
+#include "CommandStage.h"
+#include "Stage.h"
 
 namespace bali{
 
@@ -90,11 +91,22 @@ uint32_t CompWindowLobby::doLocalInputs(Context& cc)
     return 0;
 }
 
-uint32_t CompWindowLobby::processCommands()
+uint32_t CompWindowLobby::processCommands(void* arg)
 {
-    for (auto& i : commands)
+    ContextClient* cc = (ContextClient*)arg;
+    for (auto& c : commands)
     {
-
+        switch (c.getFunction())
+        {
+            case CommandComponent::Functions::PROCESSIDNACKMSG:
+                handleIdNack(*cc,c.ppinm);//event);
+                break;
+            case CommandComponent::Functions::PROCESSIDACKMSG:
+                handleIdAck(*cc, c.ppiam);//event);
+                break;
+            case CommandComponent::Functions::PROCESSWHOISACKMSG:
+                handleWhoIsAck(*cc,c.pwiam);//event);
+                break;
     }
 
     commands.clear();
@@ -103,7 +115,7 @@ uint32_t CompWindowLobby::processCommands()
 
 uint32_t CompWindowLobby::doUpdate(Context& cc)
 {
-    processCommands();
+    processCommands(&cc);
     desk.Update(deskUpdateClock.restart().asSeconds());
     return 0;
 }
@@ -123,12 +135,12 @@ uint32_t CompWindowLobby::cleanup(Context& cc)
 void CompWindowLobby::doReady(ContextClient* cc)
 {
     cc->mp.player.setReady();
-    cc->mp.player.stateClient = StatePlayerClient::SendReady;
+    //cc->mp.player.stateClient = StatePlayerClient::SendReady;
+    s->submitCommand(CommandStage(CommandStage::Functions::SENDREADY));
     readyButton->Show(false);
     //ready=1;
-    CommandStage cmd;
-    cmd.setFunction(CommandStage::Functions::TRANSITION);
-    s->submitCommand(cmd);
+
+    s->submitCommand(CommandStage(CommandStage::Functions::STAGEFINISH));
 }
 
 uint32_t CompWindowLobby::isReady(){
@@ -148,19 +160,37 @@ void CompWindowLobby::addName(std::string name)
 }
 
 
-void CompWindowLobby::gotIdAck(ContextClient& cc, std::string mapName)
+void CompWindowLobby::handleIdAck(ContextClient& cc, CommEvent event)
 {
-    cc.mapName = mapName;
+//    std::string mapName;
+//    (*event.packet) >> mapName;
+//    cc.mapName = mapName;
     readyButton->Show(true);
     cc.mp.player.setIdentity();
 }
 
-void CompWindowLobby::gotIdNack(ContextClient& cc)
+void CompWindowLobby::handleIdNack(ContextClient& cc, CommEvent event)
 {
     joinTeam1Button->Show(true);
     spinner->Show(false);
     spinner->Stop();
     msg->Show(false);
+}
+
+void CompWindowLobby::handleWhoIsAck(ContextClient& cc, CommEvent event)
+{
+//TODO: needs to reimplement once event.packets are converted to structs.
+    uint32_t np;
+    (*event.packet) >> np;
+    clearNames();
+    for (int i = 0;i < np;i++)
+    {
+        std::string name;
+        uint32_t team;
+        (*event.packet) >> name >> team;
+        addName(name);
+    }
+
 }
 
 void CompWindowLobby::doJoinTeam1(ContextClient* cc)

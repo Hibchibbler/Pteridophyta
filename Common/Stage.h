@@ -71,9 +71,18 @@ namespace bali
         //reference to owner
         Game* g;
 
+        void submitToComponents(CommandComponent cmd)
+        {
+            for(auto& c : components)
+            {
+                if (c->isCommandSupported(cmd.getFunction()))
+                    c->submitCommand(cmd);
+            }
+        }
+
         std::vector<std::shared_ptr<Component>> components;
         //void submitCommand(CommandStage cmd){}
-        //uint32_t processCommands(){}
+        //uint32_t processCommands(void* arg){}
         //std::queue<CommandStage> commands;
     };
 

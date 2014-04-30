@@ -10,10 +10,14 @@ class Commandable
 {
 public:
     virtual ~Commandable(){};
-    void submitCommand(T& cmd){
+    virtual void submitCommand(T& cmd){
         commands.push_back(cmd);
     }
-    virtual uint32_t processCommands()=0;
+    virtual void submitCommand(Commandable* c, T& cmd){
+        c->submitCommand(cmd);
+    }
+    virtual uint32_t processCommands(void* arg)=0;
+    virtual uint32_t isCommandSupported(uint32_t function){return 0;}
 protected:
     std::vector<T> commands;
 };

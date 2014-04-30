@@ -6,52 +6,20 @@ namespace bali{
 class Command
 {
 public:
+    Command()=default;
+    Command(uint32_t f){mjFunction=f;}
     virtual ~Command()=default;
-    uint32_t getFunction(){return function;}
-    void     setFunction(uint32_t f){function=f;}
+    uint32_t getFunction(){return mjFunction;}
+    void     setFunction(uint32_t f){mjFunction=f;}
+    uint32_t getMjFunction(){return mjFunction;}
+    void     setMjFunction(uint32_t f){mjFunction=f;}
+    uint32_t getMnFunction(){return mnFunction;}
+    void     setMnFunction(uint32_t f){mnFunction=f;}
 protected:
-    uint32_t function;
+    uint32_t mjFunction;
+    uint32_t mnFunction;
 
 };
-
-
-
-
-class CmdPlayer : public Command
-{
-public:
-    enum class Functions{
-        MOVEBEGIN,
-        MOVEEND,
-        JUMPBEGIN,
-        JUMPEND,
-        ATTACKBEGIN,
-        ATTACKEND
-    };
-
-    union u{
-        struct MoveBegin{
-            uint32_t direction;
-        }mb;
-        struct MoveEnd{
-
-        }me;
-        struct JumpBegin{
-
-        }jb;
-        struct JumpEnd{
-
-        }je;
-        struct AttackBegin{
-
-        }ab;
-        struct AttackEnd{
-
-        }ae;
-    };
-};
-
-
 
 }//end namespace bali
 

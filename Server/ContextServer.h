@@ -8,7 +8,10 @@ namespace bali{
 
     class ContextServer : public Context{
     public:
-
+        uint32_t processCommands(void* arg)
+        {
+            return 0;
+        }
     };
 
 }//end namespace bali

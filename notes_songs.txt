@@ -1,3 +1,26 @@
+What Commands will there be?
+	Incoming Network Packets
+	Outgoing Network Packets
+	Local Input
+	Internally Generated Events
+		Game Control
+			Pause - current stage
+			Resume - current stage
+			Transition - call finished, then cleanup, then increment current stage pointer
+				
+		Stage Control
+			Pause, Resume, Transition
+				
+		Component Control
+			Pause, Resume, Transition
+
+What Subsystems are there?
+	Managers
+	Loaders
+	Game Soul(Context)
+	
+
+
 Each Player has a Command Queue.
 There will be an interface via ManagerPlayer to enqueue/dequeue Commands of a specific player.
 Commands are enqueued by doRemoteEvent, and doLocalInputs.

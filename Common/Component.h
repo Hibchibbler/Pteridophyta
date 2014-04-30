@@ -46,7 +46,7 @@ public:
     Stage* s;
 
     //Commandable obligation
-    //uint32_t processCommands(){}
+    //uint32_t processCommands(void* arg){}
 
 private:
 };

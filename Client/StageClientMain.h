@@ -19,7 +19,7 @@ namespace bali
         uint32_t doUpdate();
         uint32_t doDraw();
         uint32_t cleanup();
-        uint32_t processCommands(){};
+        uint32_t processCommands(void* arg){};
     private:
         CompDrawLayers compLevelLayer;
 

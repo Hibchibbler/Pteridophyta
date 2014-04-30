@@ -22,7 +22,16 @@ public:
     uint32_t doUpdate(Context& cc);
     uint32_t doDraw(Context& cc);
     uint32_t cleanup(Context& cc);
-    uint32_t processCommands();
+    uint32_t processCommands(void* arg);
+    uint32_t isCommandSupported(uint32_t function)
+    {
+        if ((CommandComponent::Functions)function == CommandComponent::Functions::PROCESSIDNACKMSG ||
+            (CommandComponent::Functions)function == CommandComponent::Functions::PROCESSIDACKMSG ||
+            (CommandComponent::Functions)function == CommandComponent::Functions::PROCESSWHOISACKMSG )
+            return 1;
+        return 0;
+    }
+
     //Specific Component Functionality
     void doReady(ContextClient* cc);
     uint32_t isReady();
@@ -30,8 +39,9 @@ public:
     void clearNames();
     void addName(std::string name);
 
-    void gotIdAck(ContextClient& cc, std::string mapName);
-    void gotIdNack(ContextClient& cc);
+    void handleIdAck(ContextClient& cc, CommEvent event);
+    void handleIdNack(ContextClient& cc, CommEvent event);
+    void handleWhoIsAck(ContextClient& cc, CommEvent event);
 
 
     std::vector<sfg::Entry::Ptr>     teamNameEntries;

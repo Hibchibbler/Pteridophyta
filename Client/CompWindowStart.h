@@ -25,7 +25,7 @@ public:
     uint32_t cleanup(Context& c);
 
     //Commandable obligations
-    uint32_t processCommands();
+    uint32_t processCommands(void* arg);
 
     //Specific Component Functionality
     void doStart(ContextClient* cc);

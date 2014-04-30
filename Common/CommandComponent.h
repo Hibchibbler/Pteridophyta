@@ -8,29 +8,29 @@ namespace bali{
 class CommandComponent : public Command
 {
 public:
-    enum class Functions{
+    enum Functions{
         POPULATETEAMLIST,
         PAUSE,
         RESUME,
         SHOW,
-        HIDE
+        HIDE,
+        GOTWHOISACK,
+        GOTID,
+        GOTIDACK,
+        GOTIDNACK,
+        GOTSTART,
+        PROCESSWHOISACKMSG,
+        PROCESSIDACKMSG,
+        PROCESSIDNACKMSG,
+        PROCESSSTARTMSG
+
     };
-    union u{
-        struct PopulateTeamList{
+    const uint32_t MAX_NAMES = 10;
+    union arg{
+        struct ProcessWhoIsAckMsg{
+            std::string names[MAX_NAMES];
+        }pwiam;
 
-        }ptl;
-        struct Pause{
-
-        }p;
-        struct Resume{
-
-        }r;
-        struct Show{
-
-        }s;
-        struct Hide{
-
-        }h;
     };
 };
 

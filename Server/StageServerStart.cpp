@@ -42,7 +42,7 @@ uint32_t StageServerStart::cleanup()
     return 0;
 }
 
-uint32_t StageServerStart::processCommands()
+uint32_t StageServerStart::processCommands(void* arg)
 {
     return 0;
 }

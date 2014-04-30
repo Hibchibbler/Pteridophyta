@@ -18,7 +18,7 @@ public:
     uint32_t doUpdate(Context& cc);
     uint32_t doDraw(Context& cc);
     uint32_t cleanup(Context& cc);
-    uint32_t processCommands(){};
+    uint32_t processCommands(void* arg){};
     void setDrawLayer(uint32_t l){ currentLayer=l;}
 private:
     uint32_t currentLayer=0;

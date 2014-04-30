@@ -25,7 +25,7 @@ namespace bali
         uint32_t cleanup();
 
         //Commandable obligations
-        uint32_t processCommands();
+        uint32_t processCommands(void* arg);
     private:
     };
 }//end namespace bali

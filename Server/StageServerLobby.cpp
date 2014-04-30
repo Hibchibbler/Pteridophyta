@@ -100,7 +100,7 @@ uint32_t StageServerLobby::cleanup()
     return 0;
 }
 
-uint32_t StageServerLobby::processCommands()
+uint32_t StageServerLobby::processCommands(void* arg)
 {
     return 0;
 }

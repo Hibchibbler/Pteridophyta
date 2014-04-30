@@ -61,14 +61,14 @@ uint32_t StageClientStart::doLocalInputs()
 
     return 0;
 }
-uint32_t StageClientStart::processCommands()
+uint32_t StageClientStart::processCommands(void* arg)
 {
     for (auto& i : commands)
     {
         switch (i.getFunction())
         {
-            case CommandStage::Functions::TRANSITION:
-                std::cout << "Processing TRANSITION" << std::endl;
+            case CommandStage::Functions::STAGEFINISH:
+                std::cout << "Processing STAGEFINISH" << std::endl;
                 finished(0);
                 break;
         }
@@ -82,7 +82,7 @@ uint32_t StageClientStart::doUpdate()
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
 
     //Process Stage Commands
-    processCommands();
+    processCommands(nullptr);
 
     for (auto& c : components)
     {

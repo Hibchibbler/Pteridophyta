@@ -7,11 +7,13 @@
 #include "ManagerMap.h"
 #include "ManagerWorld.h"
 #include "ManagerPlayer.h"
+#include "Commandable.h"
+#include "CommandContext.h"
 
 namespace bali{
 
 ///This class is the primary interface to change game state, and to get game state.
-class Context
+class Context : public Commandable<CommandContext>
 {
 public:
     Comm net;
@@ -20,7 +22,6 @@ public:
     ManagerTile mt;
     ManagerWorld mw;
     ManagerPlayer mp;
-
 };
 
 }//end namespace bali

@@ -68,7 +68,7 @@ uint32_t CompWindowStart::doLocalInputs(Context& c)
 {
     return 0;
 }
-uint32_t CompWindowStart::processCommands()
+uint32_t CompWindowStart::processCommands(void* arg)
 {
     for (auto& i : commands)
     {
@@ -82,7 +82,7 @@ uint32_t CompWindowStart::processCommands()
 uint32_t CompWindowStart::doUpdate(Context& c)
 {
     ContextClient& cc = *((ContextClient*)&c);
-    processCommands();
+    processCommands(nullptr);
 
     desk.Update(deskUpdateClock.restart().asSeconds());
 
@@ -113,7 +113,7 @@ void CompWindowStart::doStart(ContextClient* cc)
     window->Show(false);
     //started=1;
     CommandStage cmd;
-    cmd.setFunction(CommandStage::Functions::TRANSITION);
+    cmd.setFunction(CommandStage::Functions::STAGEFINISH);
     s->submitCommand(cmd);
 }
 

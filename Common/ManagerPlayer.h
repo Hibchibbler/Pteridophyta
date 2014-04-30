@@ -9,6 +9,20 @@ namespace bali{
 class ManagerPlayer
 {
 public:
+    uint32_t processLocalCommands()
+    {
+        player.processCommands(nullptr);
+        return 0;
+    }
+
+    uint32_t processAllCommands()
+    {
+        for (auto&p : players)
+        {
+            p->processCommands(nullptr);
+        }
+        return 0;
+    }
     void setPlayerStartInfo(std::string name, std::string  pass, uint32_t serverPort, std::string serverIP)
     {
         player.name = name;

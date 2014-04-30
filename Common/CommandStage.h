@@ -7,17 +7,26 @@ namespace bali{
 class CommandStage : public Command
 {
 public:
+
     enum Functions{
-//        WHOIS,
-//        WHOISACK,
-//        ID,
-//        IDACK,
-//        IDNACK,
-//        START,
-//        READY,
-        UPDATECLIENT,
-        TRANSITION
+        //Client sends, Server recieves
+        SENDWHOIS,
+        SENDID,
+        SENDREADY,
+
+        //Server sends, Client receives
+        PROCESSWHOISACK,
+        PROCESSIDACK,
+        PROCESSIDNACK,
+
+        //General
+        STAGEFINISH
     };
+//    union {
+//        struct {
+//            CommEvent event;
+//        }ce;
+//    }u;
 };
 
 
