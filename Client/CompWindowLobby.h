@@ -23,14 +23,7 @@ public:
     uint32_t doDraw(Context& cc);
     uint32_t cleanup(Context& cc);
     uint32_t processCommands(void* arg);
-    uint32_t isCommandSupported(uint32_t function)
-    {
-        if ((CommandComponent::Functions)function == CommandComponent::Functions::PROCESSIDNACKMSG ||
-            (CommandComponent::Functions)function == CommandComponent::Functions::PROCESSIDACKMSG ||
-            (CommandComponent::Functions)function == CommandComponent::Functions::PROCESSWHOISACKMSG )
-            return 1;
-        return 0;
-    }
+
 
     //Specific Component Functionality
     void doReady(ContextClient* cc);
@@ -58,8 +51,7 @@ public:
     sf::Clock           deskUpdateClock;
     sf::Clock           sendWhoIsClk;
 private:
-    void doJoinTeam1(ContextClient* cc);
-    void doJoinTeam2(ContextClient* cc);
+    void doJoinTeam(ContextClient* cc);
 
     sfg::Window::Ptr        window;
     sfg::Desktop            desk;

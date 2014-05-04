@@ -5,10 +5,11 @@
 
 namespace bali{
 
+class Stage;
 class CompLogicLobby: public Component
 {
 public:
-    CompLogicLobby();
+    CompLogicLobby(Stage* stage);
     ~CompLogicLobby();
 
     //General Component Functionality
@@ -19,7 +20,7 @@ public:
     uint32_t doUpdate(Context& cc);
     uint32_t doDraw(Context& cc);
     uint32_t cleanup(Context& cc);
-    uint32_t processCommands(){}
+    uint32_t processCommands(void* arg);
 private:
 
 };

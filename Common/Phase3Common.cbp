@@ -58,6 +58,14 @@
 		</Linker>
 		<Unit filename="Comm.cpp" />
 		<Unit filename="Comm.h" />
+		<Unit filename="Command.h" />
+		<Unit filename="CommandComponent.cpp" />
+		<Unit filename="CommandComponent.h" />
+		<Unit filename="CommandContext.h" />
+		<Unit filename="CommandGame.h" />
+		<Unit filename="CommandPlayer.h" />
+		<Unit filename="CommandStage.h" />
+		<Unit filename="Commandable.h" />
 		<Unit filename="Common.h" />
 		<Unit filename="Component.h" />
 		<Unit filename="Configuration.cpp" />
@@ -65,8 +73,6 @@
 		<Unit filename="Context.h" />
 		<Unit filename="Game.cpp" />
 		<Unit filename="Game.h" />
-		<Unit filename="GameStage.cpp" />
-		<Unit filename="GameStage.h" />
 		<Unit filename="LoaderConfiguration.cpp" />
 		<Unit filename="LoaderConfiguration.h" />
 		<Unit filename="LoaderMap.cpp" />
@@ -88,6 +94,8 @@
 		<Unit filename="Messages.h" />
 		<Unit filename="Player.h" />
 		<Unit filename="Quadtree.h" />
+		<Unit filename="Stage.cpp" />
+		<Unit filename="Stage.h" />
 		<Unit filename="Util.cpp" />
 		<Unit filename="Util.h" />
 		<Unit filename="World.cpp" />

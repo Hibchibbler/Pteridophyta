@@ -29,7 +29,6 @@ public:
 
     //Specific Component Functionality
     void doStart(ContextClient* cc);
-    uint32_t isStarted();
 
 private:
     sfg::Window::Ptr    window;
@@ -42,7 +41,6 @@ private:
 
     sf::Clock deskUpdateClock;
 
-    uint32_t started=0;
 };
 
 }//end namespace bali

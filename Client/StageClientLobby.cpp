@@ -13,7 +13,7 @@ namespace bali{
 using namespace sfg;
 
 StageClientLobby::StageClientLobby(Game* game, uint32_t uid)
-    : Stage(game, uid)//, compWindowLobby(this)
+    : Stage(game, uid)
 {
 }
 
@@ -27,12 +27,11 @@ uint32_t StageClientLobby::initialize()
 
     //Add Components
     compWindowLobby = std::make_shared<CompWindowLobby>(this);
-    //...
     components.push_back(compWindowLobby);
 
 
     //Initialize Component Command Subscribers
-    //Create an empty vector for each key
+    //Creates an empty vector for each command function
     subscribers[CommandComponent::Functions::PAUSE];
     subscribers[CommandComponent::Functions::RESUME];
     subscribers[CommandComponent::Functions::SHOW];
@@ -54,7 +53,7 @@ uint32_t StageClientLobby::initialize()
 uint32_t StageClientLobby::doWindowEvent(sf::Event & event)
 {
     ContextClient& cc = (GET_CLIENT_CONTEXT(g));
-    //compWindowLobby->doWindowEvent(cc, event);
+
     for (auto& c : components)
     {
         c->doWindowEvent(cc, event);
@@ -73,7 +72,6 @@ uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
      case MsgId::WhoIsAck:{
             std::cout << "Got WhoIsAck" << std::endl;
             Command::Arg arg = CommandComponent::structifyWhoIsAck(event);
-            //std::shared_ptr<CommandComponent::WhoIsAckStruct> arg = std::make_shared<CommandComponent::WhoIsAckStruct>(CommandComponent::structifyWhoIsAck(event));
             submitToComponents(std::make_shared<CommandComponent>(CommandComponent::Functions::PROCESSWHOISACKMSG, arg));
             break;
     }case MsgId::IdAck:{
@@ -140,9 +138,6 @@ uint32_t StageClientLobby::doUpdate()
     //Process Queued Stage Commands
     processCommands(nullptr);
 
-    //Process Queued Local Player Commands
-    //cc.mp.processLocalCommands();
-
     //Send WhoIs every 1 seconds to update lobby lists
     if (sendWhoIsClk.getElapsedTime().asSeconds() > 1)
     {
@@ -150,21 +145,21 @@ uint32_t StageClientLobby::doUpdate()
         sendWhoIsClk.restart();
     }
 
+    for (auto& c : components)
+    {
+        c->doUpdate(cc);
+    }
 
-    compWindowLobby->doUpdate(cc);
-
-
-//    if (compLobbyWindow.isReady())
-//    {
-//        finished(0);
-//    }
     return 0;
 }
 uint32_t StageClientLobby::doLocalInputs()
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
 
-    compWindowLobby->doLocalInputs(cc);
+    for (auto& c : components)
+    {
+        c->doLocalInputs(cc);
+    }
 
     return 0;
 }
@@ -175,9 +170,11 @@ uint32_t StageClientLobby::doDraw()
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
 
     cc.window.clear();
-    cc.window.resetGLStates();
 
-    compWindowLobby->doDraw(cc);
+    for (auto& c : components)
+    {
+        c->doDraw(cc);
+    }
 
     cc.window.display();
     return 0;
@@ -186,7 +183,11 @@ uint32_t StageClientLobby::doDraw()
 uint32_t StageClientLobby::cleanup()
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
-    compWindowLobby->cleanup(cc);
+
+    for (auto& c : components)
+    {
+        c->cleanup(cc);
+    }
 
     return 0;
 }

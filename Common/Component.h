@@ -5,9 +5,10 @@
 #include "CommandComponent.h"
 
 #include <memory>
-
+#include <SFML\Window\Event.hpp>
 
 namespace bali{
+
 
 class CommEvent;
 class Command;
@@ -18,7 +19,7 @@ class Stage;
 //Usually a component will have specific functions that are not general. that is ok
 //because the interface that Component specifies is still considerably useful.
 //HUD, MiniMap, Main Game Screen, etc.. are examples of a Component
-class Component : public Commandable//<CommandComponent>
+class Component : public Commandable
 {
 public:
 
@@ -27,7 +28,7 @@ public:
 
     virtual uint32_t initialize(Context& cc)=0;
     virtual uint32_t doRemoteEvent(Context& cc, CommEvent & event){return 0;}
-    virtual uint32_t doWindowEvent(Context& cc, sf::Event & event)=0;
+    virtual uint32_t doWindowEvent(Context& cc, sf::Event & event){return 0;}
     virtual uint32_t doLocalInputs(Context& cc)=0;
     virtual uint32_t doUpdate(Context& cc)=0;
     virtual uint32_t doDraw(Context& cc)=0;
@@ -50,7 +51,7 @@ public:
 
 private:
 };
-typedef std::shared_ptr<Component> SComponent;
+
 
 }//end namespace bali
 

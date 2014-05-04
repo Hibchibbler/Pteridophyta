@@ -43,7 +43,7 @@ uint32_t CompWindowLobby::initialize(Context& cc)
     //Add button, and connect button to function
     row = sfg::Box::Create( sfg::Box::Orientation::HORIZONTAL, 5.0f );
     joinTeam1Button = sfg::Button::Create("Join The Team");
-    joinTeam1Button->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompWindowLobby::doJoinTeam1, this, (ContextClient*)&cc) );
+    joinTeam1Button->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompWindowLobby::doJoinTeam, this, (ContextClient*)&cc) );
     row->Pack(joinTeam1Button);
     boxMainVert->Pack(row);
 
@@ -107,10 +107,10 @@ uint32_t CompWindowLobby::processCommands(void* arg)
                 break;
             case CommandComponent::Functions::PROCESSIDACKMSG:
                 //handleIdAck(*cc, *((CommandComponent::IdAckStruct*)c->getArg()));
-                handleIdAck(*cc, *std::static_pointer_cast<CommandComponent::IdAckStruct>(c->getArg())    );
+                handleIdAck(*cc, *std::static_pointer_cast<CommandComponent::IdAckStruct>(c->getArg()));
                 break;
             case CommandComponent::Functions::PROCESSWHOISACKMSG:
-                handleWhoIsAck(*cc,*std::static_pointer_cast<CommandComponent::WhoIsAckStruct>(c->getArg())  );
+                handleWhoIsAck(*cc,*std::static_pointer_cast<CommandComponent::WhoIsAckStruct>(c->getArg()));
                 break;
         }
     }
@@ -170,7 +170,7 @@ void CompWindowLobby::handleIdAck(ContextClient& cc, CommandComponent::IdAckStru
 {
 //    std::string mapName;
 //    (*event.packet) >> mapName;
-//    cc.mapName = mapName;
+    cc.mapName = arg.mapName;
     readyButton->Show(true);
     cc.mp.player.setIdentity();
 }
@@ -185,17 +185,6 @@ void CompWindowLobby::handleIdNack(ContextClient& cc)
 
 void CompWindowLobby::handleWhoIsAck(ContextClient& cc, CommandComponent::WhoIsAckStruct &arg)
 {
-//TODO: needs to reimplement once event.packets are converted to structs.
-//    uint32_t np;
-//    (*event.packet) >> np;
-//    clearNames();
-//    for (int i = 0;i < np;i++)
-//    {
-//        std::string name;
-//        uint32_t team;
-//        (*event.packet) >> name >> team;
-//        addName(name);
-//    }
     clearNames();
     for (auto& n : arg.names)
     {
@@ -204,15 +193,12 @@ void CompWindowLobby::handleWhoIsAck(ContextClient& cc, CommandComponent::WhoIsA
 
 }
 
-void CompWindowLobby::doJoinTeam1(ContextClient* cc)
+void CompWindowLobby::doJoinTeam(ContextClient* cc)
 {
-    //Send Id - declare team 1
-    //cc->mp.player.team = 1;
-    //cc->mp.player.stateClient = StatePlayerClient::SendId;
 
     stage->submitCommand(std::make_shared<CommandStage>(CommandStage::Functions::SENDID, nullptr));
-    joinTeam1Button->Show(false);
 
+    joinTeam1Button->Show(false);
     spinner->Show(true);
     spinner->Start();
     msg->Show(true);

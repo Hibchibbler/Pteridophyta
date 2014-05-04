@@ -73,12 +73,7 @@ uint32_t CompWindowStart::doLocalInputs(Context& c)
 }
 uint32_t CompWindowStart::processCommands(void* arg)
 {
-    for (auto& i : commands)
-    {
-
-    }
-
-    commands.clear();
+    //This component doesn't receive commands
     return 0;
 }
 
@@ -114,13 +109,9 @@ void CompWindowStart::doStart(ContextClient* cc)
     std::cout << "Hi " << cc->mp.getPlayerName() << std::endl;
 
     window->Show(false);
-    //started=1;
 
     stage->submitCommand(std::make_shared<CommandStage>(CommandStage::Functions::STAGEFINISH, nullptr));
 }
 
-uint32_t CompWindowStart::isStarted(){
-    return started;
-}
 
 }//end namespace bali

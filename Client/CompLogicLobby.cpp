@@ -1,8 +1,9 @@
 #include "CompLogicLobby.h"
-
+#include "Stage.h"
 namespace bali{
 
-CompLogicLobby::CompLogicLobby()
+CompLogicLobby::CompLogicLobby(Stage* stage)
+    : Component(stage)
 {
 }
 
@@ -47,5 +48,9 @@ uint32_t CompLogicLobby::cleanup(Context& cc)
     return 0;
 }
 
+uint32_t CompLogicLobby::processCommands(void* arg)
+{
+    return 0;
+}
 
 }

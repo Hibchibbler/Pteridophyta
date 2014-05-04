@@ -16,11 +16,6 @@ public:
         SENDID,
         SENDREADY,
 
-        //Server sends, Client receives
-        PROCESSWHOISACK,
-        PROCESSIDACK,
-        PROCESSIDNACK,
-
         //General
         STAGEFINISH
     };

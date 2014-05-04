@@ -13,6 +13,24 @@ So..
 	+-------+-------+           +-------+-------+			+-------+-------+
 	|				|			|			    |			|				|
 Component		Component	Component		Component	Component		Component		
+
+
+
+							Command
+							   |
+	  +------------------------+-----------------------+
+	  |						   |					   |
+CommandStage			CommandComponent		CommandGameState
+
+
+  
+		Commandable
+			 |
+  +----------+------------+		 
+  |          |			  |
+Stage     Component		Context
+
+
 </code></pre>
 
 

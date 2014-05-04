@@ -1,19 +1,52 @@
+
+
+Tricked by the beast the monster eats his feast
+
+hide and go seek is not for the weak and meek 
+
+you'd better be a soul jah before you go move ya
+
+let them be free, as you are one of we, so we gotta be
+
+I and I can not contain the why, but there be answers in the sigh
+.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .
+1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7
+
+
 What Commands will there be?
 	Incoming Network Packets
 	Outgoing Network Packets
 	Local Input
 	Internally Generated Events
 		Game Control
-			Pause - current stage
-			Resume - current stage
-			Transition - call finished, then cleanup, then increment current stage pointer
+			Pause current stage
+			Resume current stage
+			Transition to next stage
 				
 		Stage Control
-			Pause, Resume, Transition
+			Pause all components
+			Resume all components
 				
 		Component Control
-			Pause, Resume, Transition
+			Start
+			Stop
+			Show
+			Hide
+		BUT, really obvious commands should just be a function.....
+		
+	What are we using Commands for?
+		Local Input		- keyboard, mouse, etc.
+		Internal Input	- Events generated from within Components
+						  Commands from one Component to another Component.
+		Remote Input	- Messages from Server
+		Remote Output	- Messages to Server
+	We want to normalize Inputs?
+	Stages are responsible for Coalescing inputs and turning them into Commands.
+			
+			
 
+		
+		
 What Subsystems are there?
 	Managers
 	Loaders

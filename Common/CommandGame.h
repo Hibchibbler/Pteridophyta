@@ -12,11 +12,6 @@ public:
         FINISH
     };
 
-    union u{
-        struct Finish{
-
-        }f;
-    };
 };
 
 }//end namespace bali
