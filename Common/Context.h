@@ -13,7 +13,7 @@
 namespace bali{
 
 ///This class is the primary interface to change game state, and to get game state.
-class Context : public Commandable<CommandContext>
+class Context : public Commandable//<CommandContext>
 {
 public:
     Comm net;

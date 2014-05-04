@@ -39,9 +39,9 @@ public:
     void clearNames();
     void addName(std::string name);
 
-    void handleIdAck(ContextClient& cc, CommEvent event);
-    void handleIdNack(ContextClient& cc, CommEvent event);
-    void handleWhoIsAck(ContextClient& cc, CommEvent event);
+    void handleIdAck(ContextClient& cc, CommandComponent::IdAckStruct & arg);
+    void handleIdNack(ContextClient& cc);
+    void handleWhoIsAck(ContextClient& cc, CommandComponent::WhoIsAckStruct & arg);
 
 
     std::vector<sfg::Entry::Ptr>     teamNameEntries;

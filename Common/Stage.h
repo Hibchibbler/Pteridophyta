@@ -19,7 +19,7 @@ namespace bali
     //Stage represents an discrete, unique block of functionality. It represents the most course grain
     // unit of game functionality.
     //Splash Screen, Lobby, Main game view, and credits are examples of what represents a Stage.
-    class Stage : public Commandable<CommandStage>
+    class Stage : public Commandable
     {
     public:
 
@@ -71,16 +71,13 @@ namespace bali
         //reference to owner
         Game* g;
 
-        void submitToComponents(CommandComponent cmd)
-        {
-            for(auto& c : components)
-            {
-                if (c->isCommandSupported(cmd.getFunction()))
-                    c->submitCommand(cmd);
-            }
-        }
-
         std::vector<std::shared_ptr<Component>> components;
+        std::map<uint32_t, std::vector<Commandable*> > subscribers;
+
+        void submitToComponents(std::shared_ptr<Command> cmd);
+        uint32_t subscribe(uint32_t function, Commandable* c);
+
+
         //void submitCommand(CommandStage cmd){}
         //uint32_t processCommands(void* arg){}
         //std::queue<CommandStage> commands;

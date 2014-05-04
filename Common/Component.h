@@ -18,11 +18,11 @@ class Stage;
 //Usually a component will have specific functions that are not general. that is ok
 //because the interface that Component specifies is still considerably useful.
 //HUD, MiniMap, Main Game Screen, etc.. are examples of a Component
-class Component : public Commandable<CommandComponent>
+class Component : public Commandable//<CommandComponent>
 {
 public:
 
-    Component(Stage* stage) : s(stage){}
+    Component(Stage* stage) : stage(stage){}
     virtual ~Component(){};
 
     virtual uint32_t initialize(Context& cc)=0;
@@ -43,7 +43,7 @@ public:
     uint32_t err=0;
     uint32_t visible=1;
 
-    Stage* s;
+    Stage* stage;
 
     //Commandable obligation
     //uint32_t processCommands(void* arg){}

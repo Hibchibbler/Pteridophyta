@@ -18,7 +18,7 @@ namespace bali{
     //and a Stage as a page in the Flip book.
     //Game is meant to be derived. It supplies the basic infrastructure
     //to transition GameStages.
-class Game : public Commandable<CommandGame>
+class Game : public Commandable
 {
     public:
         Game();

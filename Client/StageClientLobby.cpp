@@ -27,9 +27,22 @@ uint32_t StageClientLobby::initialize()
 
     //Add Components
     compWindowLobby = std::make_shared<CompWindowLobby>(this);
+    //...
     components.push_back(compWindowLobby);
 
-    //compWindowLobby ->initialize(cc);
+
+    //Initialize Component Command Subscribers
+    //Create an empty vector for each key
+    subscribers[CommandComponent::Functions::PAUSE];
+    subscribers[CommandComponent::Functions::RESUME];
+    subscribers[CommandComponent::Functions::SHOW];
+    subscribers[CommandComponent::Functions::HIDE];
+    subscribers[CommandComponent::Functions::PROCESSIDNACKMSG];
+    subscribers[CommandComponent::Functions::PROCESSIDACKMSG];
+    subscribers[CommandComponent::Functions::PROCESSWHOISACKMSG];
+
+    //Initialize all components.
+    //they each will subscribe to some, all, or none of the functions initialized above..
     for (auto& c : components)
     {
         c->initialize(cc);
@@ -52,28 +65,30 @@ uint32_t StageClientLobby::doWindowEvent(sf::Event & event)
 
 uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
 {
-    ContextClient& cc = (GET_CLIENT_CONTEXT(g));
+    ContextClient& cc = GET_CLIENT_CONTEXT(g);
 
     uint32_t msgId;
     (*event.packet) >> msgId;
     switch (msgId){
      case MsgId::WhoIsAck:{
             std::cout << "Got WhoIsAck" << std::endl;
-            submitToComponents(CommandComponent(CommandComponent::Functions::PROCESSWHOISACKMSG);
+            Command::Arg arg = CommandComponent::structifyWhoIsAck(event);
+            //std::shared_ptr<CommandComponent::WhoIsAckStruct> arg = std::make_shared<CommandComponent::WhoIsAckStruct>(CommandComponent::structifyWhoIsAck(event));
+            submitToComponents(std::make_shared<CommandComponent>(CommandComponent::Functions::PROCESSWHOISACKMSG, arg));
             break;
     }case MsgId::IdAck:{
             std::cout << "Got IdAck, " ;
-            submitToComponents(CommandComponent(CommandComponent::Functions::PROCESSIDACKMSG);
+            Command::Arg arg = CommandComponent::structifyIdAck(event);
+            submitToComponents(std::make_shared<CommandComponent>(CommandComponent::Functions::PROCESSIDACKMSG, arg));
             break;
     }case MsgId::IdNack:{
             std::cout << "Got IdNack" << std::endl;
-            submitToComponents(CommandComponent(CommandComponent::Functions::PROCESSIDNACKMSG);
-            submitCommand(CommandStage(CommandStage::Functions::SENDWHOIS));
+            submitToComponents(std::make_shared<CommandComponent>(CommandComponent::Functions::PROCESSIDNACKMSG, nullptr));
             break;
     }case MsgId::Start:{
             std::cout << "Got Start" << std::endl;
-            submitToComponents(CommandComponent(CommandComponent::Functions::PROCESSSTARTMSG);
-            submitCommand(CommandStage(CommandStage::Functions::STAGEFINISH));
+            submitToComponents(std::make_shared<CommandComponent>(CommandComponent::Functions::PROCESSSTARTMSG, nullptr));
+            submitCommand(std::make_shared<CommandStage>(CommandStage::Functions::STAGEFINISH, nullptr));
             break;
         }
     }
@@ -86,7 +101,7 @@ uint32_t StageClientLobby::processCommands(void* arg)
 
     for (auto& c : commands)
     {
-        switch (c.getFunction())
+        switch (c->getFunction())
         {
             case CommandStage::Functions::STAGEFINISH:
                 std::cout << "Processing STAGEFINISH" << std::endl;
@@ -131,7 +146,7 @@ uint32_t StageClientLobby::doUpdate()
     //Send WhoIs every 1 seconds to update lobby lists
     if (sendWhoIsClk.getElapsedTime().asSeconds() > 1)
     {
-        submitCommand(CommandStage(CommandStage::Functions::WHOIS));
+        submitCommand(std::make_shared<CommandStage>(CommandStage::Functions::SENDWHOIS, nullptr));
         sendWhoIsClk.restart();
     }
 

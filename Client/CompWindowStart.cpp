@@ -56,6 +56,9 @@ uint32_t CompWindowStart::initialize(Context& c){
     window->Add(table);
 
     desk.Add(window);
+
+
+    //No Subscriptions in this component.
     return 0;
 }
 uint32_t CompWindowStart::doWindowEvent(Context& c, sf::Event & event)
@@ -112,9 +115,8 @@ void CompWindowStart::doStart(ContextClient* cc)
 
     window->Show(false);
     //started=1;
-    CommandStage cmd;
-    cmd.setFunction(CommandStage::Functions::STAGEFINISH);
-    s->submitCommand(cmd);
+
+    stage->submitCommand(std::make_shared<CommandStage>(CommandStage::Functions::STAGEFINISH, nullptr));
 }
 
 uint32_t CompWindowStart::isStarted(){

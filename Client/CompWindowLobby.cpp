@@ -78,6 +78,10 @@ uint32_t CompWindowLobby::initialize(Context& cc)
     //Add window to desktop
     desk.Add(window);
 
+    //Subscribe to...
+    stage->subscribe(CommandComponent::Functions::PROCESSIDNACKMSG, this);
+    stage->subscribe(CommandComponent::Functions::PROCESSIDACKMSG, this);
+    stage->subscribe(CommandComponent::Functions::PROCESSWHOISACKMSG, this);
     return 0;
 }
 uint32_t CompWindowLobby::doWindowEvent(Context& cc, sf::Event & event)
@@ -96,17 +100,19 @@ uint32_t CompWindowLobby::processCommands(void* arg)
     ContextClient* cc = (ContextClient*)arg;
     for (auto& c : commands)
     {
-        switch (c.getFunction())
+        switch (c->getFunction())
         {
             case CommandComponent::Functions::PROCESSIDNACKMSG:
-                handleIdNack(*cc,c.ppinm);//event);
+                handleIdNack(*cc);
                 break;
             case CommandComponent::Functions::PROCESSIDACKMSG:
-                handleIdAck(*cc, c.ppiam);//event);
+                //handleIdAck(*cc, *((CommandComponent::IdAckStruct*)c->getArg()));
+                handleIdAck(*cc, *std::static_pointer_cast<CommandComponent::IdAckStruct>(c->getArg())    );
                 break;
             case CommandComponent::Functions::PROCESSWHOISACKMSG:
-                handleWhoIsAck(*cc,c.pwiam);//event);
+                handleWhoIsAck(*cc,*std::static_pointer_cast<CommandComponent::WhoIsAckStruct>(c->getArg())  );
                 break;
+        }
     }
 
     commands.clear();
@@ -134,13 +140,13 @@ uint32_t CompWindowLobby::cleanup(Context& cc)
 
 void CompWindowLobby::doReady(ContextClient* cc)
 {
-    cc->mp.player.setReady();
+    //cc->mp.player.setReady();
     //cc->mp.player.stateClient = StatePlayerClient::SendReady;
-    s->submitCommand(CommandStage(CommandStage::Functions::SENDREADY));
+    stage->submitCommand(std::make_shared<CommandStage>(CommandStage::Functions::SENDREADY, nullptr));
     readyButton->Show(false);
     //ready=1;
 
-    s->submitCommand(CommandStage(CommandStage::Functions::STAGEFINISH));
+    stage->submitCommand(std::make_shared<CommandStage>(CommandStage::Functions::STAGEFINISH, nullptr));
 }
 
 uint32_t CompWindowLobby::isReady(){
@@ -160,7 +166,7 @@ void CompWindowLobby::addName(std::string name)
 }
 
 
-void CompWindowLobby::handleIdAck(ContextClient& cc, CommEvent event)
+void CompWindowLobby::handleIdAck(ContextClient& cc, CommandComponent::IdAckStruct &arg)
 {
 //    std::string mapName;
 //    (*event.packet) >> mapName;
@@ -169,7 +175,7 @@ void CompWindowLobby::handleIdAck(ContextClient& cc, CommEvent event)
     cc.mp.player.setIdentity();
 }
 
-void CompWindowLobby::handleIdNack(ContextClient& cc, CommEvent event)
+void CompWindowLobby::handleIdNack(ContextClient& cc)
 {
     joinTeam1Button->Show(true);
     spinner->Show(false);
@@ -177,18 +183,23 @@ void CompWindowLobby::handleIdNack(ContextClient& cc, CommEvent event)
     msg->Show(false);
 }
 
-void CompWindowLobby::handleWhoIsAck(ContextClient& cc, CommEvent event)
+void CompWindowLobby::handleWhoIsAck(ContextClient& cc, CommandComponent::WhoIsAckStruct &arg)
 {
 //TODO: needs to reimplement once event.packets are converted to structs.
-    uint32_t np;
-    (*event.packet) >> np;
+//    uint32_t np;
+//    (*event.packet) >> np;
+//    clearNames();
+//    for (int i = 0;i < np;i++)
+//    {
+//        std::string name;
+//        uint32_t team;
+//        (*event.packet) >> name >> team;
+//        addName(name);
+//    }
     clearNames();
-    for (int i = 0;i < np;i++)
+    for (auto& n : arg.names)
     {
-        std::string name;
-        uint32_t team;
-        (*event.packet) >> name >> team;
-        addName(name);
+        addName(n.name);
     }
 
 }
@@ -196,9 +207,10 @@ void CompWindowLobby::handleWhoIsAck(ContextClient& cc, CommEvent event)
 void CompWindowLobby::doJoinTeam1(ContextClient* cc)
 {
     //Send Id - declare team 1
-    cc->mp.player.team = 1;
-    cc->mp.player.stateClient = StatePlayerClient::SendId;
+    //cc->mp.player.team = 1;
+    //cc->mp.player.stateClient = StatePlayerClient::SendId;
 
+    stage->submitCommand(std::make_shared<CommandStage>(CommandStage::Functions::SENDID, nullptr));
     joinTeam1Button->Show(false);
 
     spinner->Show(true);

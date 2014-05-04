@@ -2,6 +2,8 @@
 #define Messages_h_
 
 #include <memory>
+#include "CommandStage.h"
+#include "CommandComponent.h"
 //#include <vector>
 //#include <string>
 //#include <SFML/Config.hpp>
@@ -41,6 +43,7 @@ namespace bali
         static int sendIdNack           (Comm & comm, SPlayer player);
         static int sendStateOfUnion     (Comm & comm);
         static int sendStart            (Comm & comm);
+
 
 
     private:

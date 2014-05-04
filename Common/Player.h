@@ -33,7 +33,7 @@ namespace bali
     };
 
 
-    class Player : public Commandable<CommandPlayer>
+    class Player : public Commandable//<CommandPlayer>
     {
     public:
         Player(){

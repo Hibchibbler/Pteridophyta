@@ -7,6 +7,8 @@ namespace bali{
 class CommandStage : public Command
 {
 public:
+    CommandStage(uint32_t f, Command::Arg  a)
+        : Command(f,a){}
 
     enum Functions{
         //Client sends, Server recieves
@@ -22,11 +24,7 @@ public:
         //General
         STAGEFINISH
     };
-//    union {
-//        struct {
-//            CommEvent event;
-//        }ce;
-//    }u;
+
 };
 
 

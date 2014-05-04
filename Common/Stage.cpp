@@ -1,6 +1,6 @@
 #include "Stage.h"
 
-
+#include "Command.h"
 
 namespace bali{
 
@@ -45,5 +45,21 @@ Game* Stage::getOwner()
     return g;
 }
 
+void Stage::submitToComponents(std::shared_ptr<Command> cmd)
+{
+    auto& aSubscriberList = subscribers[cmd->getFunction()];
+    for (auto& commandable: aSubscriberList)
+    {
+        commandable->submitCommand(cmd);
+    }
+
+}
+
+
+uint32_t Stage::subscribe(uint32_t function, Commandable* c)
+{
+    subscribers[function].push_back(c);
+    return 0;
+}
 
 }//end namespace bali

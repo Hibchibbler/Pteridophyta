@@ -2,36 +2,49 @@
 #define CommandComponent_h_
 
 #include "Command.h"
+#include <vector>
+#include <string>
+
 
 namespace bali{
 
+class CommEvent;
 class CommandComponent : public Command
 {
 public:
+    CommandComponent(uint32_t f, Command::Arg a);
     enum Functions{
-        POPULATETEAMLIST,
         PAUSE,
         RESUME,
         SHOW,
         HIDE,
-        GOTWHOISACK,
-        GOTID,
-        GOTIDACK,
-        GOTIDNACK,
-        GOTSTART,
         PROCESSWHOISACKMSG,
         PROCESSIDACKMSG,
         PROCESSIDNACKMSG,
         PROCESSSTARTMSG
-
     };
-    const uint32_t MAX_NAMES = 10;
-    union arg{
-        struct ProcessWhoIsAckMsg{
-            std::string names[MAX_NAMES];
-        }pwiam;
 
+    struct WhoIsAckStruct : public Argument{
+        struct NameTeam{
+            NameTeam(std::string n, uint32_t t){
+                name=n;
+                team=t;
+            }
+            std::string name;
+            uint32_t team;
+        };
+        std::vector<NameTeam> names;
     };
+    struct IdAckStruct : public Argument{
+        std::string mapName;
+    };
+
+    static
+    Command::Arg structifyWhoIsAck(CommEvent& event);
+
+    static
+    Command::Arg structifyIdAck(CommEvent& event);
+
 };
 
 

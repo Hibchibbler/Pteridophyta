@@ -65,7 +65,7 @@ uint32_t StageClientStart::processCommands(void* arg)
 {
     for (auto& i : commands)
     {
-        switch (i.getFunction())
+        switch (i->getFunction())
         {
             case CommandStage::Functions::STAGEFINISH:
                 std::cout << "Processing STAGEFINISH" << std::endl;
