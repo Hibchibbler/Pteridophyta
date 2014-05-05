@@ -10,18 +10,7 @@
 
 namespace bali
 {
-    struct MsgId {enum mid{
-        WhoIs,
-        WhoIsAck,
-        Id,
-        IdAck,
-        IdNack,
-        Ready,
-        Start,
-        StateOfUnion,
-        StateOfPlayer,
-        Map
-    };};
+
 
     class Comm;
     class Player;
@@ -44,7 +33,18 @@ namespace bali
         static int sendStateOfUnion     (Comm & comm);
         static int sendStart            (Comm & comm);
 
-
+        enum MsgId{
+            WhoIs,
+            WhoIsAck,
+            Id,
+            IdAck,
+            IdNack,
+            Ready,
+            Start,
+            StateOfUnion,
+            StateOfPlayer,
+            Map
+        };
 
     private:
 

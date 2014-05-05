@@ -4,14 +4,14 @@
 
 namespace bali{
 
-CommandComponent::CommandComponent(uint32_t f, Command::Arg a)
+CommandComponent::CommandComponent(uint32_t f, Command::Argument::Ptr a)
     : Command(f, a)
 {
 
 }
 
 
-Command::Arg
+Command::Argument::Ptr
 CommandComponent::structifyWhoIsAck(CommEvent& event)
 {
     std::shared_ptr<CommandComponent::WhoIsAckStruct>  wia
@@ -31,7 +31,7 @@ CommandComponent::structifyWhoIsAck(CommEvent& event)
     return wia;
 }
 
-Command::Arg
+Command::Argument::Ptr
 CommandComponent::structifyIdAck(CommEvent& event)
 {
     std::shared_ptr<CommandComponent::IdAckStruct>  wia
@@ -39,7 +39,6 @@ CommandComponent::structifyIdAck(CommEvent& event)
 
     return wia;
 }
-
 
 
 

@@ -5,26 +5,30 @@ Game Cycle 3
 <pre><code>
 So..
 									  Game												
-										|												
+									   < >												
 			+---------------------------+---------------------------+
 			|							|							|
 		GameStage					GameStage					GameStage				
-			|							|							|
+		   < >						   < >						   < >
 	+-------+-------+           +-------+-------+			+-------+-------+
-	|				|			|			    |			|				|
+    |			    |		    |			    |		    |			    |
 Component		Component	Component		Component	Component		Component		
 
 
 
 							Command
+							  _|_
+							  \ /
 							   |
 	  +------------------------+-----------------------+
-	  |						   |					   |
+	  |	     				   |   				   	   |
 CommandStage			CommandComponent		CommandGameState
 
 
   
 		Commandable
+			_|_
+		    \ /
 			 |
   +----------+------------+		 
   |          |			  |

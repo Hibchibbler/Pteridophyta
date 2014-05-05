@@ -6,33 +6,34 @@
 
 namespace bali{
 
-struct Argument
-{
 
-};
 
 class Command
 {
-
 public:
-    typedef std::shared_ptr<Argument> Arg;
-    Command(uint32_t f, Arg a)
+    struct Argument
+    {
+        typedef std::shared_ptr<Argument> Ptr;
+    };
+
+    typedef std::shared_ptr<Command> Ptr;
+
+    Command(uint32_t f, Argument::Ptr a)
       : func(f),
         arg(a)
-
     {
-
     }
 
     virtual  ~Command()=default;
     uint32_t  getFunction(){return func;}
     void      setFunction(uint32_t f){func=f;}
-    Arg       getArg(){return arg;}
-    void      setArg(Arg a){arg=a;}
+    Argument::Ptr       getArg(){return arg;}
+    void      setArg(Argument::Ptr a){arg=a;}
 protected:
     uint32_t  func;
-    Arg       arg;
+    Argument::Ptr       arg;
 };
+
 
 
 

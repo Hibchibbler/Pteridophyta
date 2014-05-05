@@ -5,7 +5,7 @@
 #include "Messages.h"
 #include <SFGUI\SFGUI.hpp>
 #include "Command.h"
-
+#include "CompLogicLobby.h"
 
 
 namespace bali{
@@ -27,7 +27,10 @@ uint32_t StageClientLobby::initialize()
 
     //Add Components
     compWindowLobby = std::make_shared<CompWindowLobby>(this);
+
     components.push_back(compWindowLobby);
+    components.push_back(std::make_shared<CompLogicLobby>(this));
+
 
 
     //Initialize Component Command Subscribers
@@ -65,30 +68,9 @@ uint32_t StageClientLobby::doWindowEvent(sf::Event & event)
 uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
 {
     ContextClient& cc = GET_CLIENT_CONTEXT(g);
-
-    uint32_t msgId;
-    (*event.packet) >> msgId;
-    switch (msgId){
-     case MsgId::WhoIsAck:{
-            std::cout << "Got WhoIsAck" << std::endl;
-            Command::Arg arg = CommandComponent::structifyWhoIsAck(event);
-            submitToComponents(std::make_shared<CommandComponent>(CommandComponent::Functions::PROCESSWHOISACKMSG, arg));
-            break;
-    }case MsgId::IdAck:{
-            std::cout << "Got IdAck, " ;
-            Command::Arg arg = CommandComponent::structifyIdAck(event);
-            submitToComponents(std::make_shared<CommandComponent>(CommandComponent::Functions::PROCESSIDACKMSG, arg));
-            break;
-    }case MsgId::IdNack:{
-            std::cout << "Got IdNack" << std::endl;
-            submitToComponents(std::make_shared<CommandComponent>(CommandComponent::Functions::PROCESSIDNACKMSG, nullptr));
-            break;
-    }case MsgId::Start:{
-            std::cout << "Got Start" << std::endl;
-            submitToComponents(std::make_shared<CommandComponent>(CommandComponent::Functions::PROCESSSTARTMSG, nullptr));
-            submitCommand(std::make_shared<CommandStage>(CommandStage::Functions::STAGEFINISH, nullptr));
-            break;
-        }
+    for (auto& c : components)
+    {
+        c->doRemoteEvent(cc, event);
     }
 
     return 0;

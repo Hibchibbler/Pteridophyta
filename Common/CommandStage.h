@@ -7,7 +7,7 @@ namespace bali{
 class CommandStage : public Command
 {
 public:
-    CommandStage(uint32_t f, Command::Arg  a)
+    CommandStage(uint32_t f, Command::Argument::Ptr  a)
         : Command(f,a){}
 
     enum Functions{

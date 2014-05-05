@@ -12,19 +12,20 @@ class CommEvent;
 class CommandComponent : public Command
 {
 public:
-    CommandComponent(uint32_t f, Command::Arg a);
+    CommandComponent(uint32_t f, Command::Argument::Ptr a);
     enum Functions{
         PAUSE,
         RESUME,
         SHOW,
         HIDE,
+        PROCESSDATA,
         PROCESSWHOISACKMSG,
         PROCESSIDACKMSG,
         PROCESSIDNACKMSG,
         PROCESSSTARTMSG
     };
 
-    struct WhoIsAckStruct : public Argument{
+    struct WhoIsAckStruct : public Command::Argument{
         struct NameTeam{
             NameTeam(std::string n, uint32_t t){
                 name=n;
@@ -35,15 +36,15 @@ public:
         };
         std::vector<NameTeam> names;
     };
-    struct IdAckStruct : public Argument{
+    struct IdAckStruct : public Command::Argument{
         std::string mapName;
     };
 
     static
-    Command::Arg structifyWhoIsAck(CommEvent& event);
+    Command::Argument::Ptr structifyWhoIsAck(CommEvent& event);
 
     static
-    Command::Arg structifyIdAck(CommEvent& event);
+    Command::Argument::Ptr structifyIdAck(CommEvent& event);
 
 };
 
