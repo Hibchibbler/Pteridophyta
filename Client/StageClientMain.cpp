@@ -18,8 +18,7 @@ StageClientMain::StageClientMain(Game* game, uint32_t uid)
 
 uint32_t StageClientMain::initialize()
 {
-    Context& ctx = GET_CLIENT_CONTEXT(g);
-
+    Context& ctx = g->ctx;
     const uint32_t MAX_LAYERS=50;
     layers.reserve(MAX_LAYERS);
 
@@ -47,7 +46,7 @@ uint32_t StageClientMain::doRemoteEvent(CommEvent & event)
 
 uint32_t StageClientMain::doWindowEvent(sf::Event & event)
 {
-    Context& ctx = GET_CLIENT_CONTEXT(g);
+    Context& ctx = g->ctx;
     switch (event.type)
     {
         case sf::Event::Resized:
@@ -63,7 +62,7 @@ uint32_t StageClientMain::doWindowEvent(sf::Event & event)
 
 uint32_t StageClientMain::doLocalInputs()
 {
-    Context& ctx = GET_CLIENT_CONTEXT(g);
+    Context& ctx = g->ctx;
 
     sf::Vector2i mousePos = sf::Mouse::getPosition(ctx.window);
     sf::Vector2f mousePosWorld = ctx.window.mapPixelToCoords(mousePos);//,mainView);
@@ -89,7 +88,7 @@ uint32_t StageClientMain::doLocalInputs()
 }
 uint32_t StageClientMain::doUpdate()
 {
-    Context& ctx = GET_CLIENT_CONTEXT(g);
+    Context& ctx = g->ctx;
     compLevelLayer.doUpdate(ctx);
     return 0;
 }
@@ -107,7 +106,7 @@ uint32_t StageClientMain::doUpdate()
 
 uint32_t StageClientMain::doDraw()
 {
-    Context& ctx = GET_CLIENT_CONTEXT(g);
+    Context& ctx = g->ctx;
 
     ctx.window.clear();
     ctx.window.resetGLStates();
@@ -128,7 +127,7 @@ uint32_t StageClientMain::doDraw()
 }
 uint32_t StageClientMain::cleanup()
 {
-    Context& ctx = GET_CLIENT_CONTEXT(g);
+    Context& ctx = g->ctx;
     compLevelLayer.cleanup(ctx);
     return 0;
 }

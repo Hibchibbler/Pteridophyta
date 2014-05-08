@@ -17,8 +17,7 @@ StageClientStart::~StageClientStart()
 
 uint32_t StageClientStart::initialize()
 {
-    Context& ctx = GET_CLIENT_CONTEXT(g);
-
+    Context& ctx = g->ctx;
     //Add Components
     components.push_back(std::make_shared<CompWindowStart>(this));
 
@@ -41,8 +40,7 @@ uint32_t StageClientStart::doRemoteEvent(CommEvent & event)
 
 uint32_t StageClientStart::doWindowEvent(sf::Event & event)
 {
-    Context& ctx = GET_CLIENT_CONTEXT(g);
-
+    Context& ctx = g->ctx;
     for (auto& c : components)
     {
         c->doWindowEvent(ctx, event);
@@ -52,8 +50,7 @@ uint32_t StageClientStart::doWindowEvent(sf::Event & event)
 }
 uint32_t StageClientStart::doLocalInputs()
 {
-    Context& ctx = GET_CLIENT_CONTEXT(g);
-
+    Context& ctx = g->ctx;
     for (auto& c : components)
     {
         c->doLocalInputs(ctx);
@@ -79,8 +76,7 @@ uint32_t StageClientStart::processCommands(void* arg)
 
 uint32_t StageClientStart::doUpdate()
 {
-    Context& ctx = GET_CLIENT_CONTEXT(g);
-
+    Context& ctx = g->ctx;
     //Process Stage Commands
     processCommands(nullptr);
 
@@ -93,7 +89,7 @@ uint32_t StageClientStart::doUpdate()
 }
 uint32_t StageClientStart::doDraw()
 {
-    Context& ctx = GET_CLIENT_CONTEXT(g);
+    Context& ctx = g->ctx;
     ctx.window.clear();
     ctx.window.resetGLStates();
 
@@ -107,7 +103,7 @@ uint32_t StageClientStart::doDraw()
 }
 uint32_t StageClientStart::cleanup()
 {
-    Context& ctx = GET_CLIENT_CONTEXT(g);
+    Context& ctx = g->ctx;
     for (auto& c : components)
     {
         c->cleanup(ctx);

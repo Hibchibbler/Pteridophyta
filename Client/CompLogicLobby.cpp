@@ -65,9 +65,6 @@ uint32_t CompLogicLobby::doRemoteEvent(Context& ctx, CommEvent & event)
     //Server Side
     case Messages::MsgId::WhoIs:{
             std::cout << "Got WhoIs" << std::endl;
-
-
-
             Messages::sendWhoIsAck(ctx.net, p, ctx.mp);
             break;
         }case Messages::MsgId::Id:{

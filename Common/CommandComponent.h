@@ -38,6 +38,7 @@ public:
         std::vector<NameTeam> names;
     };
     struct IdAckStruct : public Command::Argument{
+        typedef std::shared_ptr<IdAckStruct> Ptr;
         std::string mapName;
     };
 

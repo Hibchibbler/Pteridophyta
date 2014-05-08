@@ -23,6 +23,11 @@ namespace bali
     {
     public:
         typedef std::shared_ptr<Stage> Ptr;
+
+        struct Result{
+            uint32_t code;
+        };
+    public:
         Stage(Game* game, uint32_t uid);
 
         virtual ~Stage();

@@ -1,12 +1,13 @@
 #include "Stage.h"
 
 #include "Command.h"
+#include "Context.h"
 
 namespace bali{
 
 
 Stage::Stage(Game* game, uint32_t uid)
-    : g(game) //reference to owner being set.
+    : g(game)//reference to owner being set.
 {
     done = 0;
     id = uid;

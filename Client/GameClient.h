@@ -6,7 +6,7 @@
 
 namespace bali
 {
-    #define GET_CLIENT_CONTEXT(g) (((GameClient*)g)->ctx)
+    //#define GET_CLIENT_CONTEXT(g) (((GameClient*)g)->ctx)
 
     //this is the client-side game object.
     class GameClient : public Game

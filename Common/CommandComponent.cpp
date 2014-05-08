@@ -35,7 +35,7 @@ CommandComponent::structifyWhoIsAck(CommEvent& event)
 Command::Argument::Ptr
 CommandComponent::structifyIdAck(CommEvent& event)
 {
-    std::shared_ptr<CommandComponent::IdAckStruct>  wia
+    CommandComponent::IdAckStruct::Ptr  wia
         = std::make_shared<CommandComponent::IdAckStruct>();
 
     return wia;

@@ -126,9 +126,8 @@ uint32_t CompWindowLobby::doUpdate(Context& ctx)
     return 0;
 }
 
-uint32_t CompWindowLobby::doDraw(Context& c)
+uint32_t CompWindowLobby::doDraw(Context& ctx)
 {
-    Context& ctx = *((Context*)&c);
     ctx.sfGui.Display(ctx.window);
     return 0;
 }
@@ -140,11 +139,8 @@ uint32_t CompWindowLobby::cleanup(Context& ctx)
 
 void CompWindowLobby::doReady(Context* ctx)
 {
-    //ctx->mp.player.setReady();
-    //ctx->mp.player.stateClient = StatePlayerClient::SendReady;
     stage->submitCommand(std::make_shared<CommandStage>(CommandStage::Functions::SENDREADY, nullptr));
     readyButton->Show(false);
-    //ready=1;
 
     stage->submitCommand(std::make_shared<CommandStage>(CommandStage::Functions::STAGEFINISH, nullptr));
 }

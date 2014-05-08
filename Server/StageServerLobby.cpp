@@ -19,14 +19,14 @@ StageServerLobby::~StageServerLobby()
 
 uint32_t StageServerLobby::initialize()
 {
-    ContextServer& cs = GET_SERVER_CONTEXT(g);
+    Context& ctx = g->ctx;
     initialized();
     return 0;
 }
 
 uint32_t StageServerLobby::doRemoteEvent(CommEvent & event)
 {
-    ContextServer& cs = GET_SERVER_CONTEXT(g);
+    Context& ctx = g->ctx;
 
     uint32_t msgId;
     uint32_t cid;
@@ -34,7 +34,7 @@ uint32_t StageServerLobby::doRemoteEvent(CommEvent & event)
     cid = event.connectionId;
     (*event.packet) >> msgId;
 
-    SPlayer p = cs.mp.getPlayerByCid(cid);
+    Player::Ptr p = ctx.mp.getPlayerByCid(cid);
     if (p == nullptr){
         std::cout << "p == nullptr" << std::endl;
         //a player with cid does not exist
@@ -43,7 +43,7 @@ uint32_t StageServerLobby::doRemoteEvent(CommEvent & event)
     switch (msgId){
         case Messages::MsgId::WhoIs:{
             std::cout << "Got WhoIs" << std::endl;
-            Messages::sendWhoIsAck(cs.net, p, cs.mp);
+            Messages::sendWhoIsAck(ctx.net, p, ctx.mp);
             break;
         }case Messages::MsgId::Id:{
             std::cout << "Got Id" << std::endl;
@@ -52,7 +52,7 @@ uint32_t StageServerLobby::doRemoteEvent(CommEvent & event)
 
             p->setIdentity();
 
-            Messages::sendIdAck(cs.net, p, cs.mp, cs.mc);
+            Messages::sendIdAck(ctx.net, p, ctx.mp, ctx.mc);
             //Messages::sendIdNack(gs->net, p);
             break;
         }case Messages::MsgId::Ready:{
@@ -60,9 +60,9 @@ uint32_t StageServerLobby::doRemoteEvent(CommEvent & event)
             p->setReady();
 
             const uint32_t MINPLAYERS = 1;
-            if (cs.mp.getNumPlayers() >= MINPLAYERS && cs.mp.isAllPlayersReady())
+            if (ctx.mp.getNumPlayers() >= MINPLAYERS && ctx.mp.isAllPlayersReady())
             {
-                Messages::sendStart(cs.net);
+                Messages::sendStart(ctx.net);
             }
             break;
         }
@@ -72,31 +72,31 @@ uint32_t StageServerLobby::doRemoteEvent(CommEvent & event)
 
 uint32_t StageServerLobby::doUpdate()
 {
-    ContextServer& cs = GET_SERVER_CONTEXT(g);
+    Context& ctx = g->ctx;
     return 0;
 }
 
 uint32_t StageServerLobby::doWindowEvent(sf::Event & event)
 {
-    ContextServer& cs = GET_SERVER_CONTEXT(g);
+    Context& ctx = g->ctx;
     return 0;
 }
 
 uint32_t StageServerLobby::doLocalInputs()
 {
-    ContextServer& cs = GET_SERVER_CONTEXT(g);
+    Context& ctx = g->ctx;
     return 0;
 }
 
 uint32_t StageServerLobby::doDraw()
 {
-    ContextServer& cs = GET_SERVER_CONTEXT(g);
+    Context& ctx = g->ctx;
     return 0;
 }
 
 uint32_t StageServerLobby::cleanup()
 {
-    ContextServer& cs = GET_SERVER_CONTEXT(g);
+    Context& ctx = g->ctx;
     return 0;
 }
 

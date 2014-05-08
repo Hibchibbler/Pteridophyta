@@ -21,13 +21,13 @@ uint32_t GameServer::initialize()
     add(std::shared_ptr<Stage>(new StageServerLobby(this, 1)));//1 - uid for lobby stage
     add(std::shared_ptr<Stage>(new StageServerMain(this, 2)));//2 - uid for main stage
 
-    cs.mc.initialize("configuration.xml");
-    cs.mm.initialize(cs.mc);
-    cs.mw.initialize(cs.mc, cs.mm);
+    ctx.mc.initialize("configuration.xml");
+    ctx.mm.initialize(ctx.mc);
+    ctx.mw.initialize(ctx.mc, ctx.mm);
 
-    uint32_t port = atoi(cs.mc.server.properties["port"].c_str());
+    uint32_t port = atoi(ctx.mc.server.properties["port"].c_str());
     std::cout << "Listening on Port " << port << std::endl;
-    cs.net.startServer(5676);
+    ctx.net.startServer(5676);
     return 0;
 }
 uint32_t GameServer::doEventProcessing()
@@ -37,7 +37,7 @@ uint32_t GameServer::doEventProcessing()
 
     //Do remote processing
     CommEvent event;
-    while (cs.net.receive(event)){
+    while (ctx.net.receive(event)){
         uint32_t t;
         (*event.packet) >> t;
         switch (t){
@@ -45,15 +45,15 @@ uint32_t GameServer::doEventProcessing()
                 //Server accepted a remote hosts connection request
                 std::cout << "Connected." <<  std::endl;
 
-                SPlayer newPlayer(new Player);
+                Player::Ptr newPlayer = std::make_shared<Player>();
                 newPlayer->connectionId = event.connectionId;//cid;
-                cs.mp.addPlayer(newPlayer);
+                ctx.mp.addPlayer(newPlayer);
 
                 break;
             }case CommEventType::Disconnect:{
                 //Server is no longer connected to a remote host
                 std::cout << "Disconnected." << std::endl;
-                cs.mp.removePlayerByCid(event.connectionId);
+                ctx.mp.removePlayerByCid(event.connectionId);
                 break;
             }case CommEventType::Error:
                 //An error has occured in the Server

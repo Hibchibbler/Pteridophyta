@@ -23,7 +23,7 @@ StageClientLobby::~StageClientLobby()
 
 uint32_t StageClientLobby::initialize()
 {
-    Context& ctx = GET_CLIENT_CONTEXT(g);
+    Context& ctx = g->ctx;
 
     //Add Components
     components.push_back(std::make_shared<CompWindowLobby>(this));
@@ -53,8 +53,7 @@ uint32_t StageClientLobby::initialize()
 
 uint32_t StageClientLobby::doWindowEvent(sf::Event & event)
 {
-    Context& ctx = (GET_CLIENT_CONTEXT(g));
-
+    Context& ctx = g->ctx;
     for (auto& c : components)
     {
         c->doWindowEvent(ctx, event);
@@ -65,7 +64,7 @@ uint32_t StageClientLobby::doWindowEvent(sf::Event & event)
 
 uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
 {
-    Context& ctx = GET_CLIENT_CONTEXT(g);
+    Context& ctx = g->ctx;
     for (auto& c : components)
     {
         c->doRemoteEvent(ctx, event);
@@ -75,8 +74,7 @@ uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
 }
 uint32_t StageClientLobby::processCommands(void* arg)
 {
-    Context& ctx = (GET_CLIENT_CONTEXT(g));
-
+    Context& ctx = g->ctx;
     for (auto& c : commands)
     {
         switch (c->getFunction())
@@ -113,8 +111,7 @@ uint32_t StageClientLobby::processCommands(void* arg)
 
 uint32_t StageClientLobby::doUpdate()
 {
-    Context& ctx = GET_CLIENT_CONTEXT(g);
-
+    Context& ctx = g->ctx;
     //Process Queued Stage Commands
     processCommands(nullptr);
 
@@ -134,8 +131,7 @@ uint32_t StageClientLobby::doUpdate()
 }
 uint32_t StageClientLobby::doLocalInputs()
 {
-    Context& ctx = GET_CLIENT_CONTEXT(g);
-
+    Context& ctx = g->ctx;
     for (auto& c : components)
     {
         c->doLocalInputs(ctx);
@@ -147,8 +143,7 @@ uint32_t StageClientLobby::doLocalInputs()
 
 uint32_t StageClientLobby::doDraw()
 {
-    Context& ctx = GET_CLIENT_CONTEXT(g);
-
+    Context& ctx = g->ctx;
     ctx.window.clear();
 
     for (auto& c : components)
@@ -162,8 +157,7 @@ uint32_t StageClientLobby::doDraw()
 
 uint32_t StageClientLobby::cleanup()
 {
-    Context& ctx = GET_CLIENT_CONTEXT(g);
-
+    Context& ctx = g->ctx;
     for (auto& c : components)
     {
         c->cleanup(ctx);

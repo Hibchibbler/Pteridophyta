@@ -56,7 +56,7 @@ bool ManagerMap::cleanup(){
 uint32_t ManagerMap::initializeLayer(uint32_t layer, sf::VertexArray& newLayer)
 {
     //N.B. - assuming width == height in a lot of places
-    //ContextClient&              cc              = GET_CLIENT_CONTEXT(g);
+    //ContextClient&              cc              = g->ctx;
     //ManagerMap&                 mm              = cc.mm;
     //Map&                        map             = mm.map;
     std::vector<ManagerMap::Tile>&     tiles           = layers[layer].data[0].tiles;
