@@ -36,6 +36,7 @@ namespace bali
     class Player : public Commandable//<CommandPlayer>
     {
     public:
+        typedef std::shared_ptr<Player> Ptr;
         Player(){
             name = "?";
             connectionId = -1;
@@ -98,7 +99,7 @@ namespace bali
 
     };
 
-    typedef std::shared_ptr<Player> SPlayer;
+
 
 }//end namespace bali
 

@@ -9,7 +9,7 @@ namespace bali{
 
 
 
-class Map;
+class ManagerMap;
 class LoaderMap : public LoaderXML
 {
 public:
@@ -54,12 +54,12 @@ public:
 */
     LoaderMap();
     ~LoaderMap();
-    static bool load(const char *fn, Map *m);
+    static bool load(const char *fn, ManagerMap *m);
     static void end_element(void *data, const char *el);
     static void start_element(void *data, const char *element, const char **attribute);
 
     ///Save
-    static bool save(const char *fn, Map *m);
+    static bool save(const char *fn, ManagerMap *m);
 
 private:
 

@@ -26,13 +26,13 @@ public:
     Component(Stage* stage) : stage(stage){}
     virtual ~Component(){};
 
-    virtual uint32_t initialize(Context& cc)=0;
-    virtual uint32_t doRemoteEvent(Context& cc, CommEvent & event){return 0;}
-    virtual uint32_t doWindowEvent(Context& cc, sf::Event & event){return 0;}
-    virtual uint32_t doLocalInputs(Context& cc)=0;
-    virtual uint32_t doUpdate(Context& cc)=0;
-    virtual uint32_t doDraw(Context& cc)=0;
-    virtual uint32_t cleanup(Context& cc)=0;
+    virtual uint32_t initialize(Context& ctx)=0;
+    virtual uint32_t doRemoteEvent(Context& ctx, CommEvent & event){return 0;}
+    virtual uint32_t doWindowEvent(Context& ctx, sf::Event & event){return 0;}
+    virtual uint32_t doLocalInputs(Context& ctx){return 0;};
+    virtual uint32_t doUpdate(Context& ctx){return 0;};
+    virtual uint32_t doDraw(Context& ctx){return 0;};
+    virtual uint32_t cleanup(Context& ctx)=0;
 
     uint32_t setVisible(uint32_t v){return (visible = v);}
     uint32_t getVisible(){return visible;}

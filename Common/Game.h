@@ -3,15 +3,17 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFGUI/SFGUI.hpp>
+#include "Stage.h"
 #include <vector>
 //#include <box2d/box2d.h>//notyet
 #include "ManagerPlayer.h"
 #include "Commandable.h"
 #include "CommandGame.h"
+#include "Context.h"
 namespace bali{
 
 
-    class Stage;
+    //class Stage;
 
     //Game is a list of Stage's.
     //You can think of Game as a Flip book,
@@ -29,9 +31,10 @@ class Game : public Commandable
         virtual uint32_t doGameProcessing();
         virtual uint32_t cleanup();
 
+        Context ctx;
     protected:
-        std::shared_ptr<Stage> getCurrentStage();
-        void add(std::shared_ptr<Stage> gs);
+        Stage::Ptr getCurrentStage();
+        void add(Stage::Ptr gs);
         void clear();
         void reset();
         bool nextStage();
@@ -39,7 +42,7 @@ class Game : public Commandable
     private:
         uint32_t getCurrentStageIndex(){return curStageIndex;}
         uint32_t curStageIndex;
-        std::vector<std::shared_ptr<Stage> > gameStages;
+        std::vector<Stage::Ptr> gameStages;
 
     };
 };

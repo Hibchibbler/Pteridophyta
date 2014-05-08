@@ -12,12 +12,12 @@ class CompDrawLayers : public Component
 public:
     CompDrawLayers(Stage* stage);
     ~CompDrawLayers();
-    uint32_t initialize(Context& cc);
-    uint32_t doWindowEvent(Context& cc, sf::Event & event);
-    uint32_t doLocalInputs(Context& cc);
-    uint32_t doUpdate(Context& cc);
-    uint32_t doDraw(Context& cc);
-    uint32_t cleanup(Context& cc);
+    uint32_t initialize(Context& ctx);
+    uint32_t doWindowEvent(Context& ctx, sf::Event & event);
+    uint32_t doLocalInputs(Context& ctx);
+    uint32_t doUpdate(Context& ctx);
+    uint32_t doDraw(Context& ctx);
+    uint32_t cleanup(Context& ctx);
     uint32_t processCommands(void* arg){};
     void setDrawLayer(uint32_t l){ currentLayer=l;}
 private:

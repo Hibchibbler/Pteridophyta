@@ -22,7 +22,7 @@ namespace bali
         uint32_t doGameProcessing();
         uint32_t cleanup();
         uint32_t processCommands(void* arg){}
-        ContextServer cs;
+
     private:
     };
 }

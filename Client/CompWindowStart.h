@@ -8,7 +8,7 @@
 namespace bali
 {
 
-class ContextClient;
+class Context;
 
 class CompWindowStart : public Component
 {
@@ -28,7 +28,7 @@ public:
     uint32_t processCommands(void* arg);
 
     //Specific Component Functionality
-    void doStart(ContextClient* cc);
+    void doStart(Context* ctx);
 
 private:
     sfg::Window::Ptr    window;

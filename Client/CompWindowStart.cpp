@@ -1,5 +1,5 @@
 #include "CompWindowStart.h"
-#include "ContextClient.h"
+#include "Context.h"
 #include "Stage.h"
 #include "CommandStage.h"
 
@@ -45,7 +45,7 @@ uint32_t CompWindowStart::initialize(Context& c){
 
     sfg::Button::Ptr startButton;
     startButton = sfg::Button::Create("Start");
-    startButton->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompWindowStart::doStart, this, (ContextClient*)&c) );
+    startButton->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompWindowStart::doStart, this, (Context*)&c) );
     table->Attach(startButton, sf::Rect<sf::Uint32>(0,4,2,1), 3);
 
     window = sfg::Window::Create();
@@ -79,7 +79,7 @@ uint32_t CompWindowStart::processCommands(void* arg)
 
 uint32_t CompWindowStart::doUpdate(Context& c)
 {
-    ContextClient& cc = *((ContextClient*)&c);
+    Context& ctx = *((Context*)&c);
     processCommands(nullptr);
 
     desk.Update(deskUpdateClock.restart().asSeconds());
@@ -89,8 +89,8 @@ uint32_t CompWindowStart::doUpdate(Context& c)
 
 uint32_t CompWindowStart::doDraw(Context& c)
 {
-    ContextClient& cc = *((ContextClient*)&c);
-    cc.sfGui.Display(cc.window);
+    Context& ctx = *((Context*)&c);
+    ctx.sfGui.Display(ctx.window);
     return 0;
 }
 
@@ -99,14 +99,14 @@ uint32_t CompWindowStart::cleanup(Context& c)
     return 0;
 }
 
-void CompWindowStart::doStart(ContextClient* cc)
+void CompWindowStart::doStart(Context* ctx)
 {
-    cc->mp.setPlayerStartInfo(nameEntry->GetText(),
+    ctx->mp.setPlayerStartInfo(nameEntry->GetText(),
                               passEntry->GetText(),
                               atoi(std::string(portEntry->GetText()).c_str()),
                               ipEntry->GetText());
 
-    std::cout << "Hi " << cc->mp.getPlayerName() << std::endl;
+    std::cout << "Hi " << ctx->mp.getPlayerName() << std::endl;
 
     window->Show(false);
 

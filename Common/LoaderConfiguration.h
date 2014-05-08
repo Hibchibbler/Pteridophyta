@@ -31,14 +31,14 @@ namespace bali{
 //    </networking>
 //</configuration>
 */
-
+class ManagerConfiguration;
 class Configuration;
 
 class LoaderConfiguration: public LoaderXML{
     public:
         LoaderConfiguration();
         ~LoaderConfiguration();
-        static bool load(const char* fn, Configuration* c);
+        static bool load(const char* fn, ManagerConfiguration* c);
         static void save();
     private:
         static void end_element(void *data, const char *el);

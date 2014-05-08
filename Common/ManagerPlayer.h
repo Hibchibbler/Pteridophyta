@@ -36,11 +36,11 @@ public:
         return player.name;
     }
 
-    void addPlayer(SPlayer player){
+    void addPlayer(Player::Ptr player){
         players.push_back(player);
     }
 
-    SPlayer getPlayerByCid(uint32_t cid)
+    Player::Ptr getPlayerByCid(uint32_t cid)
     {
         for (const auto& p: players)
         {
@@ -50,7 +50,7 @@ public:
             }
         }
 
-        return SPlayer();
+        return Player::Ptr(nullptr);
     }
 
     bool removePlayerByCid(uint32_t cid)
@@ -81,8 +81,8 @@ public:
         return players.size();
     }
 
-    std::vector<SPlayer> players;//Server Side Player State
-    Player               player; //Client Side Player State
+    std::vector<Player::Ptr> players;//Server Side Player State
+    Player                   player; //Client Side Player State
 private:
 };
 };//end namespace bali

@@ -22,17 +22,17 @@ uint32_t GameClient::initialize()
     add(std::make_shared<StageClientLobby>(this, 1));//1 - uid for lobby stage
     add(std::make_shared<StageClientMain>(this, 2));//2 - uid for main stage
 
-    cc.mc.initialize("configuration.xml");
-    cc.mm.initialize(cc.mc);
-    cc.mt.initialize(cc.mm);
-    cc.mw.initialize(cc.mc, cc.mm);
+    ctx.mc.initialize("configuration.xml");
+    ctx.mm.initialize(ctx.mc);
+    ctx.mt.initialize(ctx.mm);
+    ctx.mw.initialize(ctx.mc, ctx.mm);
 
-    cc.screenWidth = cc.mc.configuration.client.window.width;
-    cc.screenHeight = cc.mc.configuration.client.window.height;
+    ctx.screenWidth = ctx.mc.client.window.width;
+    ctx.screenHeight = ctx.mc.client.window.height;
 
-    cc.window.create(sf::VideoMode(cc.mc.configuration.client.window.width,
-                                   cc.mc.configuration.client.window.height,
-                                   32), "Bam");
+    ctx.window.create(sf::VideoMode(ctx.mc.client.window.width,
+                                    ctx.mc.client.window.height,
+                                    32), "Bam");
 
     return 0;
 }
@@ -43,14 +43,14 @@ uint32_t GameClient::doEventProcessing()
 
     //Do remote processing
     CommEvent event;
-    while (cc.net.receive(event)){
+    while (ctx.net.receive(event)){
         uint32_t t;
         (*event.packet) >> t;
         switch (t){
             case CommEventType::Connected:{
                 //Local Host has connected to Server
                 std::cout << "Connected." << std::endl;
-                cc.mp.player.connectionId = event.connectionId;
+                ctx.mp.player.connectionId = event.connectionId;
                 break;
             }case CommEventType::Disconnect:{
                 //Local Host is disconnected from Server
@@ -70,17 +70,17 @@ uint32_t GameClient::doEventProcessing()
     }
 
     sf::Event wevent;
-    while (cc.window.pollEvent(wevent))
+    while (ctx.window.pollEvent(wevent))
     {
         getCurrentStage()->doWindowEvent(wevent);
         if (wevent.type == sf::Event::Resized)
         {
-            cc.screenWidth = wevent.size.width;
-            cc.screenHeight = wevent.size.height;
-            std::cout << "GameClient::Resize  " << cc.screenWidth << ", " << cc.screenHeight << std::endl;
+            ctx.screenWidth = wevent.size.width;
+            ctx.screenHeight = wevent.size.height;
+            std::cout << "GameClient::Resize  " << ctx.screenWidth << ", " << ctx.screenHeight << std::endl;
         }else if (wevent.type == sf::Event::Closed)
         {
-            cc.window.close();
+            ctx.window.close();
             return 1;
         }
     }

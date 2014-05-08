@@ -18,21 +18,21 @@ StageClientMain::StageClientMain(Game* game, uint32_t uid)
 
 uint32_t StageClientMain::initialize()
 {
-    ContextClient& cc = GET_CLIENT_CONTEXT(g);
+    Context& ctx = GET_CLIENT_CONTEXT(g);
 
     const uint32_t MAX_LAYERS=50;
     layers.reserve(MAX_LAYERS);
 
-    std::cout << cc.mp.player.name << ", "
-              << cc.mp.player.pass << ", "
-              << cc.mp.player.server_port << ", "
-              << cc.mp.player.server_ip   <<  ", "
-              << cc.mp.player.team << ", "
-              << cc.mapName << std::endl;
+    std::cout << ctx.mp.player.name << ", "
+              << ctx.mp.player.pass << ", "
+              << ctx.mp.player.server_port << ", "
+              << ctx.mp.player.server_ip   <<  ", "
+              << ctx.mp.player.team << ", "
+              << ctx.mapName << std::endl;
 
-    mainView.setSize(cc.screenWidth, cc.screenHeight);
+    mainView.setSize(ctx.screenWidth, ctx.screenHeight);
 
-    compLevelLayer.initialize(cc);
+    compLevelLayer.initialize(ctx);
 
     //Set this so Game knows we are initialized, so it won't
     // initialize us again.
@@ -47,26 +47,26 @@ uint32_t StageClientMain::doRemoteEvent(CommEvent & event)
 
 uint32_t StageClientMain::doWindowEvent(sf::Event & event)
 {
-    ContextClient& cc = GET_CLIENT_CONTEXT(g);
+    Context& ctx = GET_CLIENT_CONTEXT(g);
     switch (event.type)
     {
         case sf::Event::Resized:
-            //cc is set in parent handler
-            mainView.setSize(cc.screenWidth, cc.screenHeight);
+            //ctx is set in parent handler
+            mainView.setSize(ctx.screenWidth, ctx.screenHeight);
             break;
 
     }
 
-    compLevelLayer.doWindowEvent(cc,event);
+    compLevelLayer.doWindowEvent(ctx,event);
     return 0;
 }
 
 uint32_t StageClientMain::doLocalInputs()
 {
-    ContextClient& cc = GET_CLIENT_CONTEXT(g);
+    Context& ctx = GET_CLIENT_CONTEXT(g);
 
-    sf::Vector2i mousePos = sf::Mouse::getPosition(cc.window);
-    sf::Vector2f mousePosWorld = cc.window.mapPixelToCoords(mousePos);//,mainView);
+    sf::Vector2i mousePos = sf::Mouse::getPosition(ctx.window);
+    sf::Vector2f mousePosWorld = ctx.window.mapPixelToCoords(mousePos);//,mainView);
 
     const float MAIN_VIEW_MOVE_AMOUNT = 25.0f;
     if (localInputClock.getElapsedTime().asSeconds() > 0.1)
@@ -84,13 +84,13 @@ uint32_t StageClientMain::doLocalInputs()
         localInputClock.restart();
     }
 
-    compLevelLayer.doLocalInputs(cc);
+    compLevelLayer.doLocalInputs(ctx);
     return 0;
 }
 uint32_t StageClientMain::doUpdate()
 {
-    ContextClient& cc = GET_CLIENT_CONTEXT(g);
-    compLevelLayer.doUpdate(cc);
+    Context& ctx = GET_CLIENT_CONTEXT(g);
+    compLevelLayer.doUpdate(ctx);
     return 0;
 }
 
@@ -98,38 +98,38 @@ uint32_t StageClientMain::doUpdate()
 
 //    //Dynamic
 //    std::shared_ptr<sf::VertexArray> dynamics = std::make_shared<sf::VertexArray>(sf::PrimitiveType::Quads);
-//    ManagerTile::SubSprite ss = cc.mt.getPlayer();
-//    cc.mm.map.tileSets[ss.tsi].sprite.setTextureRect(ss.irect);
+//    ManagerTile::SubSprite ss = ctx.mt.getPlayer();
+//    ctx.mm.map.tileSets[ss.tsi].sprite.setTextureRect(ss.irect);
 //    sf::FloatRect fr(ss.irect.left, ss.irect.top, ss.irect.width, ss.irect.height);
-//    addStraightQuad(dynamics ,fr, cc.mm.map.tileSets[ss.tsi].sprite.getTextureRect());
-//    cc.window.draw(*dynamics, &cc.mm.map.tileSets[ss.tsi].tex);
+//    addStraightQuad(dynamics ,fr, ctx.mm.map.tileSets[ss.tsi].sprite.getTextureRect());
+//    ctx.window.draw(*dynamics, &ctx.mm.map.tileSets[ss.tsi].tex);
 
 
 uint32_t StageClientMain::doDraw()
 {
-    ContextClient& cc = GET_CLIENT_CONTEXT(g);
+    Context& ctx = GET_CLIENT_CONTEXT(g);
 
-    cc.window.clear();
-    cc.window.resetGLStates();
+    ctx.window.clear();
+    ctx.window.resetGLStates();
 
-    cc.window.setView(mainView);
+    ctx.window.setView(mainView);
 
     //Background
     compLevelLayer.setDrawLayer(0);
-    compLevelLayer.doDraw(cc);
+    compLevelLayer.doDraw(ctx);
 
     //Foreground
     compLevelLayer.setDrawLayer(1);
-    compLevelLayer.doDraw(cc);
+    compLevelLayer.doDraw(ctx);
 
-    cc.window.display();
+    ctx.window.display();
 
     return 0;
 }
 uint32_t StageClientMain::cleanup()
 {
-    ContextClient& cc = GET_CLIENT_CONTEXT(g);
-    compLevelLayer.cleanup(cc);
+    Context& ctx = GET_CLIENT_CONTEXT(g);
+    compLevelLayer.cleanup(ctx);
     return 0;
 }
 

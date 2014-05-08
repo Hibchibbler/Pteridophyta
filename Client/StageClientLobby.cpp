@@ -23,12 +23,10 @@ StageClientLobby::~StageClientLobby()
 
 uint32_t StageClientLobby::initialize()
 {
-    ContextClient& cc = GET_CLIENT_CONTEXT(g);
+    Context& ctx = GET_CLIENT_CONTEXT(g);
 
     //Add Components
-    compWindowLobby = std::make_shared<CompWindowLobby>(this);
-
-    components.push_back(compWindowLobby);
+    components.push_back(std::make_shared<CompWindowLobby>(this));
     components.push_back(std::make_shared<CompLogicLobby>(this));
 
 
@@ -47,7 +45,7 @@ uint32_t StageClientLobby::initialize()
     //they each will subscribe to some, all, or none of the functions initialized above..
     for (auto& c : components)
     {
-        c->initialize(cc);
+        c->initialize(ctx);
     }
     initialized();
     return 0;
@@ -55,11 +53,11 @@ uint32_t StageClientLobby::initialize()
 
 uint32_t StageClientLobby::doWindowEvent(sf::Event & event)
 {
-    ContextClient& cc = (GET_CLIENT_CONTEXT(g));
+    Context& ctx = (GET_CLIENT_CONTEXT(g));
 
     for (auto& c : components)
     {
-        c->doWindowEvent(cc, event);
+        c->doWindowEvent(ctx, event);
     }
 
     return 0;
@@ -67,17 +65,17 @@ uint32_t StageClientLobby::doWindowEvent(sf::Event & event)
 
 uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
 {
-    ContextClient& cc = GET_CLIENT_CONTEXT(g);
+    Context& ctx = GET_CLIENT_CONTEXT(g);
     for (auto& c : components)
     {
-        c->doRemoteEvent(cc, event);
+        c->doRemoteEvent(ctx, event);
     }
 
     return 0;
 }
 uint32_t StageClientLobby::processCommands(void* arg)
 {
-    ContextClient& cc = (GET_CLIENT_CONTEXT(g));
+    Context& ctx = (GET_CLIENT_CONTEXT(g));
 
     for (auto& c : commands)
     {
@@ -88,20 +86,20 @@ uint32_t StageClientLobby::processCommands(void* arg)
                 finished(0);
                 break;
             case CommandStage::Functions::SENDWHOIS:
-                Messages::sendWhoIs(cc.net, cc.mp.player);
+                Messages::sendWhoIs(ctx.net, ctx.mp.player);
                 break;
             case CommandStage::Functions::SENDID:
-                Messages::sendId(cc.net, cc.mp.player);
+                Messages::sendId(ctx.net, ctx.mp.player);
                 break;
             case CommandStage::Functions::SENDREADY:
-                Messages::sendReady(cc.net, cc.mp.player);
+                Messages::sendReady(ctx.net, ctx.mp.player);
 
                 //
                 //The player is ready when we recieve Ready from client.
                 //And player is identified.
                 //
-                if (cc.mp.player.isIdentified())
-                    cc.mp.player.setReady();
+                if (ctx.mp.player.isIdentified())
+                    ctx.mp.player.setReady();
                 else
                     std::cout << "Ready received, but not identified yet." << std::endl;
 
@@ -115,7 +113,7 @@ uint32_t StageClientLobby::processCommands(void* arg)
 
 uint32_t StageClientLobby::doUpdate()
 {
-    ContextClient& cc = GET_CLIENT_CONTEXT(g);
+    Context& ctx = GET_CLIENT_CONTEXT(g);
 
     //Process Queued Stage Commands
     processCommands(nullptr);
@@ -129,18 +127,18 @@ uint32_t StageClientLobby::doUpdate()
 
     for (auto& c : components)
     {
-        c->doUpdate(cc);
+        c->doUpdate(ctx);
     }
 
     return 0;
 }
 uint32_t StageClientLobby::doLocalInputs()
 {
-    ContextClient& cc = GET_CLIENT_CONTEXT(g);
+    Context& ctx = GET_CLIENT_CONTEXT(g);
 
     for (auto& c : components)
     {
-        c->doLocalInputs(cc);
+        c->doLocalInputs(ctx);
     }
 
     return 0;
@@ -149,26 +147,26 @@ uint32_t StageClientLobby::doLocalInputs()
 
 uint32_t StageClientLobby::doDraw()
 {
-    ContextClient& cc = GET_CLIENT_CONTEXT(g);
+    Context& ctx = GET_CLIENT_CONTEXT(g);
 
-    cc.window.clear();
+    ctx.window.clear();
 
     for (auto& c : components)
     {
-        c->doDraw(cc);
+        c->doDraw(ctx);
     }
 
-    cc.window.display();
+    ctx.window.display();
     return 0;
 }
 
 uint32_t StageClientLobby::cleanup()
 {
-    ContextClient& cc = GET_CLIENT_CONTEXT(g);
+    Context& ctx = GET_CLIENT_CONTEXT(g);
 
     for (auto& c : components)
     {
-        c->cleanup(cc);
+        c->cleanup(ctx);
     }
 
     return 0;

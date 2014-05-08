@@ -14,7 +14,8 @@ CommandComponent::CommandComponent(uint32_t f, Command::Argument::Ptr a)
 Command::Argument::Ptr
 CommandComponent::structifyWhoIsAck(CommEvent& event)
 {
-    std::shared_ptr<CommandComponent::WhoIsAckStruct>  wia
+    //std::shared_ptr<CommandComponent::WhoIsAckStruct>  wia
+    CommandComponent::WhoIsAckStruct::Ptr wia
         = std::make_shared<CommandComponent::WhoIsAckStruct>();
 
     uint32_t np;

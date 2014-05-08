@@ -74,7 +74,7 @@ int Messages::sendId(Comm & comm, Player & player)
 //    return 0;
 //}
 
-int Messages::sendWhoIsAck(Comm & comm, SPlayer player, ManagerPlayer & mp)
+int Messages::sendWhoIsAck(Comm & comm, Player::Ptr player, ManagerPlayer & mp)
 {
     std::cout << "Sent WhoIsAck" << std::endl;
     CommEvent event;
@@ -104,7 +104,7 @@ int Messages::sendWhoIsAck(Comm & comm, SPlayer player, ManagerPlayer & mp)
     return 0;
 }
 
-int Messages::sendIdAck(Comm & comm, SPlayer player, ManagerPlayer & mp, ManagerConfiguration& mc)
+int Messages::sendIdAck(Comm & comm, Player::Ptr player, ManagerPlayer & mp, ManagerConfiguration& mc)
 {
     std::cout << "Sent IdAck" << std::endl;
     CommEvent event;
@@ -116,12 +116,12 @@ int Messages::sendIdAck(Comm & comm, SPlayer player, ManagerPlayer & mp, Manager
     //server will send layer name as found in configuration.xml
     //this layer name indicates which layer, in the tmx file to use for the level.
     //TODO rethink this.
-    (*event.packet) << mc.configuration.global.maps.front().id;
+    (*event.packet) << mc.global.maps.front().id;
 
     comm.send(event);
     return 0;
 }
-int Messages::sendIdNack(Comm & comm, SPlayer player)
+int Messages::sendIdNack(Comm & comm, Player::Ptr player)
 {
     std::cout << "Sent IdNack" << std::endl;
     CommEvent event;

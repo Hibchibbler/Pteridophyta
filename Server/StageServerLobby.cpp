@@ -41,11 +41,11 @@ uint32_t StageServerLobby::doRemoteEvent(CommEvent & event)
         return STAGE_SERVER_LOBBY_ERROR;
     }
     switch (msgId){
-        case MsgId::WhoIs:{
+        case Messages::MsgId::WhoIs:{
             std::cout << "Got WhoIs" << std::endl;
             Messages::sendWhoIsAck(cs.net, p, cs.mp);
             break;
-        }case MsgId::Id:{
+        }case Messages::MsgId::Id:{
             std::cout << "Got Id" << std::endl;
             (*event.packet) >> p->name;
             (*event.packet) >> p->team;
@@ -55,7 +55,7 @@ uint32_t StageServerLobby::doRemoteEvent(CommEvent & event)
             Messages::sendIdAck(cs.net, p, cs.mp, cs.mc);
             //Messages::sendIdNack(gs->net, p);
             break;
-        }case MsgId::Ready:{
+        }case Messages::MsgId::Ready:{
             std::cout << "Got Ready" << std::endl;
             p->setReady();
 

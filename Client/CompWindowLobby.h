@@ -8,7 +8,7 @@
 
 namespace bali
 {
-class ContextClient;
+class Context;
 class CompWindowLobby : public Component
 {
 public:
@@ -16,25 +16,25 @@ public:
     ~CompWindowLobby();
 
     //General Component Functionality
-    uint32_t initialize(Context& cc);
-    uint32_t doWindowEvent(Context& cc, sf::Event & event);
-    uint32_t doLocalInputs(Context& cc);
-    uint32_t doUpdate(Context& cc);
-    uint32_t doDraw(Context& cc);
-    uint32_t cleanup(Context& cc);
+    uint32_t initialize(Context& ctx);
+    uint32_t doWindowEvent(Context& ctx, sf::Event & event);
+    uint32_t doLocalInputs(Context& ctx);
+    uint32_t doUpdate(Context& ctx);
+    uint32_t doDraw(Context& ctx);
+    uint32_t cleanup(Context& ctx);
     uint32_t processCommands(void* arg);
 
 
     //Specific Component Functionality
-    void doReady(ContextClient* cc);
+    void doReady(Context* ctx);
     uint32_t isReady();
 
     void clearNames();
     void addName(std::string name);
 
-    void handleIdAck(ContextClient& cc, CommandComponent::IdAckStruct & arg);
-    void handleIdNack(ContextClient& cc);
-    void handleWhoIsAck(ContextClient& cc, CommandComponent::WhoIsAckStruct & arg);
+    void handleIdAck(Context& ctx, CommandComponent::IdAckStruct & arg);
+    void handleIdNack(Context& ctx);
+    void handleWhoIsAck(Context& ctx, CommandComponent::WhoIsAckStruct & arg);
 
 
     std::vector<sfg::Entry::Ptr>     teamNameEntries;
@@ -51,7 +51,7 @@ public:
     sf::Clock           deskUpdateClock;
     sf::Clock           sendWhoIsClk;
 private:
-    void doJoinTeam(ContextClient* cc);
+    void doJoinTeam(Context* ctx);
 
     sfg::Window::Ptr        window;
     sfg::Desktop            desk;

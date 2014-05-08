@@ -23,7 +23,6 @@ namespace bali{
         uint32_t processCommands(void* arg);
     private:
         sf::Clock           sendWhoIsClk;
-        std::shared_ptr<CompWindowLobby>     compWindowLobby;
 
 
     };

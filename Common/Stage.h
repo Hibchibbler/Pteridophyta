@@ -22,7 +22,7 @@ namespace bali
     class Stage : public Commandable
     {
     public:
-
+        typedef std::shared_ptr<Stage> Ptr;
         Stage(Game* game, uint32_t uid);
 
         virtual ~Stage();

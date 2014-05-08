@@ -1,5 +1,5 @@
 #include "LoaderMap.h"
-#include "Map.h"
+#include "ManagerMap.h"
 
 #include <string>
 #include <iostream>
@@ -15,7 +15,7 @@ LoaderMap::LoaderMap(){
 LoaderMap::~LoaderMap(){
 }
 
-bool LoaderMap::load(const char *fn, Map *m){
+bool LoaderMap::load(const char *fn, ManagerMap *m){
     return LoaderXML::load(fn, m, LoaderMap::start_element, LoaderMap::end_element);
 }
 
@@ -34,11 +34,11 @@ void LoaderMap::start_element(void *data, const char *element, const char **attr
     }
 #endif
     ///////
-    Map       *map    = (Map*)data;
+    ManagerMap       *map    = (ManagerMap*)data;
 
     std::string elementName(element);
     if (elementName == "map"){
-        map->mapLoadState = Map::MAP;
+        map->mapLoadState = ManagerMap::MAP;
         for (size_t i = 0; attribute[i]; i += 2)
         {
             ASSIGNIFMATCHESSTR("version", map->version);
@@ -52,7 +52,7 @@ void LoaderMap::start_element(void *data, const char *element, const char **attr
     }
     else
     if (elementName == "tileset"){
-        map->tileSets.push_back(Map::TileSet());
+        map->tileSets.push_back(ManagerMap::TileSet());
         for (size_t i = 0; attribute[i]; i += 2)
         {
             ASSIGNIFMATCHESINT("firstgid", map->tileSets.back().firstgid);
@@ -76,8 +76,8 @@ void LoaderMap::start_element(void *data, const char *element, const char **attr
     }
     else
     if (elementName == "layer"){
-        map->mapLoadState = Map::LAYER;
-        map->layers.push_back(Map::Layer());
+        map->mapLoadState = ManagerMap::LAYER;
+        map->layers.push_back(ManagerMap::Layer());
         for (size_t i = 0; attribute[i]; i += 2)
         {
             ASSIGNIFMATCHESSTR("name", map->layers.back().name);
@@ -88,11 +88,11 @@ void LoaderMap::start_element(void *data, const char *element, const char **attr
     }
     else
     if (elementName == "data"){
-        map->layers.back().data.push_back(Map::Data());
+        map->layers.back().data.push_back(ManagerMap::Data());
     }
     else
     if (elementName == "tile"){
-        map->layers.back().data.back().tiles.push_back(Map::Tile());
+        map->layers.back().data.back().tiles.push_back(ManagerMap::Tile());
         for (size_t i = 0; attribute[i]; i += 2)
         {
             ASSIGNIFMATCHESINT("gid", map->layers.back().data.back().tiles.back().gid);
@@ -101,8 +101,8 @@ void LoaderMap::start_element(void *data, const char *element, const char **attr
     }
     else
     if (elementName == "objectgroup"){
-        map->mapLoadState = Map::OBJECTGROUP;
-        map->objectGroups.push_back(Map::ObjectGroup());
+        map->mapLoadState = ManagerMap::OBJECTGROUP;
+        map->objectGroups.push_back(ManagerMap::ObjectGroup());
         for (size_t i = 0; attribute[i]; i += 2)
         {
             ASSIGNIFMATCHESSTR("name", map->objectGroups.back().name);
@@ -114,19 +114,19 @@ void LoaderMap::start_element(void *data, const char *element, const char **attr
     }
     else
     if (elementName == "property"){
-        Map::Property * property = NULL;
-        if (map->mapLoadState== Map::MAP){
-            map->properties.push_back(Map::Property());
+        ManagerMap::Property * property = NULL;
+        if (map->mapLoadState== ManagerMap::MAP){
+            map->properties.push_back(ManagerMap::Property());
             property = &map->properties.back();
         }
         else
-        if (map->mapLoadState == Map::LAYER){
-            map->layers.back().properties.push_back(Map::Property());
+        if (map->mapLoadState == ManagerMap::LAYER){
+            map->layers.back().properties.push_back(ManagerMap::Property());
             property = &map->layers.back().properties.back();
         }
         else
-        if (map->mapLoadState == Map::OBJECTGROUP){
-            map->objectGroups.back().properties.push_back(Map::Property());
+        if (map->mapLoadState == ManagerMap::OBJECTGROUP){
+            map->objectGroups.back().properties.push_back(ManagerMap::Property());
             property = &map->objectGroups.back().properties.back();
         }
 
@@ -139,7 +139,7 @@ void LoaderMap::start_element(void *data, const char *element, const char **attr
     }
     else
     if (elementName == "object"){
-        map->objectGroups.back().objects.push_back(Map::Object());
+        map->objectGroups.back().objects.push_back(ManagerMap::Object());
         for (size_t i = 0; attribute[i]; i += 2)
         {
             ASSIGNIFMATCHESINT("x", map->objectGroups.back().objects.back().x);
@@ -155,7 +155,7 @@ void LoaderMap::start_element(void *data, const char *element, const char **attr
 }
 
 ///Save
-bool LoaderMap::save(const char *fn, Map *m){
+bool LoaderMap::save(const char *fn, ManagerMap *m){
 //        const char * xmlStart = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 //        ofstream fout(fn);
 //        if (!fout.is_open())

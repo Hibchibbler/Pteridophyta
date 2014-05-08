@@ -9,7 +9,6 @@ bool ManagerConfiguration::initialize(std::string configFileName){
     LoaderConfiguration::load(configFileName.c_str(), this);
     return true;
 }
-
 bool ManagerConfiguration::update(){
 
     return true;
@@ -18,4 +17,6 @@ bool ManagerConfiguration::cleanup(){
     return true;
 }
 
+
 }//end namespace bali
+

@@ -16,7 +16,6 @@ namespace bali{
         sf::RenderWindow window;
 
         sfg::SFGUI sfGui;
-        sfg::Desktop desk;
 
         uint32_t processCommands(void* arg)
         {

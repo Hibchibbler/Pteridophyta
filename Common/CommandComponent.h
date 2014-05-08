@@ -26,6 +26,7 @@ public:
     };
 
     struct WhoIsAckStruct : public Command::Argument{
+        typedef std::shared_ptr<WhoIsAckStruct> Ptr;
         struct NameTeam{
             NameTeam(std::string n, uint32_t t){
                 name=n;

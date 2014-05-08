@@ -1,5 +1,5 @@
 #include "LoaderConfiguration.h"
-#include "Configuration.h"
+#include "ManagerConfiguration.h"
 
 #include <vector>
 #include <string>
@@ -22,7 +22,7 @@ LoaderConfiguration::~LoaderConfiguration()
 }
 
 
-bool LoaderConfiguration::load(const char* fn, Configuration *c){
+bool LoaderConfiguration::load(const char* fn, ManagerConfiguration* c){
     LoaderXML::load(fn, c, LoaderConfiguration::start_element, LoaderConfiguration::end_element);
     return true;
 }
@@ -52,23 +52,23 @@ void LoaderConfiguration::start_element(void *data, const char *element, const c
 
 
     //LoaderConfiguration *cl = (LoaderConfiguration*)data;
-    Configuration* configuration = (Configuration*)data;
+    ManagerConfiguration* configuration = (ManagerConfiguration*)data;
 
     std::string elementName = element;
 
     if (elementName == "client"){
-        configuration->configLoadState = Configuration::CLIENT;
+        configuration->configLoadState = ManagerConfiguration::CLIENT;
     }
     else
     if (elementName == "server"){
-        configuration->configLoadState = Configuration::SERVER;
+        configuration->configLoadState = ManagerConfiguration::SERVER;
     }
     else
     if (elementName == "global"){
-        configuration->configLoadState = Configuration::GLOBAL;
+        configuration->configLoadState = ManagerConfiguration::GLOBAL;
     }
 
-    if (elementName == "window" && configuration->configLoadState == Configuration::CLIENT){
+    if (elementName == "window" && configuration->configLoadState == ManagerConfiguration::CLIENT){
         for (size_t i = 0; attribute[i]; i += 2){
             ASSIGNIFMATCHESSTR("name", configuration->client.window.name);
             ASSIGNIFMATCHESSTR("mode", configuration->client.window.mode);
@@ -77,8 +77,8 @@ void LoaderConfiguration::start_element(void *data, const char *element, const c
         }
     }
 
-    if (elementName == "map" && configuration->configLoadState == Configuration::GLOBAL){
-        configuration->global.maps.push_back(Configuration::Map());
+    if (elementName == "map" && configuration->configLoadState == ManagerConfiguration::GLOBAL){
+        configuration->global.maps.push_back(ManagerConfiguration::Map());
         for (size_t i = 0; attribute[i]; i += 2){
             ASSIGNIFMATCHESSTR("id", configuration->global.maps.back().id);
             ASSIGNIFMATCHESSTR("filepath", configuration->global.maps.back().filePath);
@@ -89,21 +89,21 @@ void LoaderConfiguration::start_element(void *data, const char *element, const c
     if (elementName == "property"){
 
         std::map<std::string, std::string>* properties = NULL;
-        if (configuration->configLoadState == Configuration::CLIENT)
+        if (configuration->configLoadState == ManagerConfiguration::CLIENT)
         {
-            //configuration->client.properties.push_back(Configuration::Property());
+            //configuration->client.properties.push_back(ManagerConfiguration::Property());
             properties = &configuration->client.properties;//.back();
         }
         else
-        if (configuration->configLoadState == Configuration::SERVER)
+        if (configuration->configLoadState == ManagerConfiguration::SERVER)
         {
-            //configuration->server.properties.push_back(Configuration::Property());
+            //configuration->server.properties.push_back(ManagerConfiguration::Property());
             properties = &configuration->server.properties;//.back();
         }
         else
-        if (configuration->configLoadState == Configuration::GLOBAL)
+        if (configuration->configLoadState == ManagerConfiguration::GLOBAL)
         {
-            //configuration->global.properties.push_back(Configuration::Property());
+            //configuration->global.properties.push_back(ManagerConfiguration::Property());
             properties = &configuration->global.properties;//.back();
         }
 

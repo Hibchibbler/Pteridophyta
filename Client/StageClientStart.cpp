@@ -17,7 +17,7 @@ StageClientStart::~StageClientStart()
 
 uint32_t StageClientStart::initialize()
 {
-    ContextClient& cc = GET_CLIENT_CONTEXT(g);
+    Context& ctx = GET_CLIENT_CONTEXT(g);
 
     //Add Components
     components.push_back(std::make_shared<CompWindowStart>(this));
@@ -25,7 +25,7 @@ uint32_t StageClientStart::initialize()
     //Initialize components
     for (auto& c : components)
     {
-        c->initialize(cc);
+        c->initialize(ctx);
     }
 
     //Set this so Game knows we are initialized, so it won't
@@ -41,22 +41,22 @@ uint32_t StageClientStart::doRemoteEvent(CommEvent & event)
 
 uint32_t StageClientStart::doWindowEvent(sf::Event & event)
 {
-    ContextClient& cc = GET_CLIENT_CONTEXT(g);
+    Context& ctx = GET_CLIENT_CONTEXT(g);
 
     for (auto& c : components)
     {
-        c->doWindowEvent(cc, event);
+        c->doWindowEvent(ctx, event);
     }
 
     return 0;
 }
 uint32_t StageClientStart::doLocalInputs()
 {
-    ContextClient& cc = GET_CLIENT_CONTEXT(g);
+    Context& ctx = GET_CLIENT_CONTEXT(g);
 
     for (auto& c : components)
     {
-        c->doLocalInputs(cc);
+        c->doLocalInputs(ctx);
     }
 
     return 0;
@@ -79,38 +79,38 @@ uint32_t StageClientStart::processCommands(void* arg)
 
 uint32_t StageClientStart::doUpdate()
 {
-    ContextClient& cc = GET_CLIENT_CONTEXT(g);
+    Context& ctx = GET_CLIENT_CONTEXT(g);
 
     //Process Stage Commands
     processCommands(nullptr);
 
     for (auto& c : components)
     {
-        c->doUpdate(cc);
+        c->doUpdate(ctx);
     }
 
     return 0;
 }
 uint32_t StageClientStart::doDraw()
 {
-    ContextClient& cc = GET_CLIENT_CONTEXT(g);
-    cc.window.clear();
-    cc.window.resetGLStates();
+    Context& ctx = GET_CLIENT_CONTEXT(g);
+    ctx.window.clear();
+    ctx.window.resetGLStates();
 
     for (auto& c : components)
     {
-        c->doDraw(cc);
+        c->doDraw(ctx);
     }
 
-    cc.window.display();
+    ctx.window.display();
     return 0;
 }
 uint32_t StageClientStart::cleanup()
 {
-    ContextClient& cc = GET_CLIENT_CONTEXT(g);
+    Context& ctx = GET_CLIENT_CONTEXT(g);
     for (auto& c : components)
     {
-        c->cleanup(cc);
+        c->cleanup(ctx);
     }
     return 0;
 }
