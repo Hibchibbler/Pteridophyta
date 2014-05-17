@@ -6,6 +6,7 @@
 
 #include <memory>
 #include <SFML\Window\Event.hpp>
+#include "ReturnVal.h"
 
 namespace bali{
 
@@ -26,13 +27,13 @@ public:
     Component(Stage* stage) : stage(stage){}
     virtual ~Component(){};
 
-    virtual uint32_t initialize(Context& ctx)=0;
-    virtual uint32_t doRemoteEvent(Context& ctx, CommEvent & event){return 0;}
-    virtual uint32_t doWindowEvent(Context& ctx, sf::Event & event){return 0;}
-    virtual uint32_t doLocalInputs(Context& ctx){return 0;};
-    virtual uint32_t doUpdate(Context& ctx){return 0;};
-    virtual uint32_t doDraw(Context& ctx){return 0;};
-    virtual uint32_t cleanup(Context& ctx)=0;
+    virtual ReturnVal initialize()=0;
+    virtual ReturnVal doRemoteEvent(CommEvent& event){return ReturnVal();}
+    virtual ReturnVal doWindowEvent(sf::Event & event){return ReturnVal();}
+    virtual ReturnVal doLocalInputs(){return ReturnVal();};
+    virtual ReturnVal doUpdate(){return ReturnVal();};
+    virtual ReturnVal doDraw(){return ReturnVal();};
+    virtual ReturnVal cleanup()=0;
 
     uint32_t setVisible(uint32_t v){return (visible = v);}
     uint32_t getVisible(){return visible;}

@@ -16,13 +16,13 @@ public:
     ~CompWindowLobby();
 
     //General Component Functionality
-    uint32_t initialize(Context& ctx);
-    uint32_t doWindowEvent(Context& ctx, sf::Event & event);
-    uint32_t doLocalInputs(Context& ctx);
-    uint32_t doUpdate(Context& ctx);
-    uint32_t doDraw(Context& ctx);
-    uint32_t cleanup(Context& ctx);
-    uint32_t processCommands(void* arg);
+    ReturnVal initialize();
+    ReturnVal doWindowEvent(sf::Event & event);
+    ReturnVal doLocalInputs();
+    ReturnVal doUpdate();
+    ReturnVal doDraw();
+    ReturnVal cleanup();
+    uint32_t  processCommands(void* arg);
 
 
     //Specific Component Functionality

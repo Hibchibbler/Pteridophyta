@@ -12,13 +12,13 @@ namespace bali
         StageClientMain(Game* game, uint32_t uid);
         ~StageClientMain(){}
 
-        uint32_t initialize();
-        uint32_t doRemoteEvent(CommEvent & event);
-        uint32_t doWindowEvent(sf::Event & event);
-        uint32_t doLocalInputs();
-        uint32_t doUpdate();
-        uint32_t doDraw();
-        uint32_t cleanup();
+        ReturnVal initialize();
+        ReturnVal doRemoteEvent(CommEvent & event);
+        ReturnVal doWindowEvent(sf::Event & event);
+        ReturnVal doLocalInputs();
+        ReturnVal doUpdate();
+        ReturnVal doDraw();
+        ReturnVal cleanup();
         uint32_t processCommands(void* arg){};
     private:
         CompDrawLayers compLevelLayer;

@@ -28,3 +28,4 @@ private:
 }//end namespace bali
 #endif
 
+ContextClient* cc = (ContexClient*)(((GameClient*)(s->g))->getContext());

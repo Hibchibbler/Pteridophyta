@@ -21,10 +21,8 @@ StageClientLobby::~StageClientLobby()
 {
 }
 
-uint32_t StageClientLobby::initialize()
+ReturnVal StageClientLobby::initialize()
 {
-    Context& ctx = g->ctx;
-
     //Add Components
     components.push_back(std::make_shared<CompWindowLobby>(this));
     components.push_back(std::make_shared<CompLogicLobby>(this));
@@ -45,36 +43,34 @@ uint32_t StageClientLobby::initialize()
     //they each will subscribe to some, all, or none of the functions initialized above..
     for (auto& c : components)
     {
-        c->initialize(ctx);
+        c->initialize();
     }
     initialized();
-    return 0;
+    return ReturnVal();
 }
 
-uint32_t StageClientLobby::doWindowEvent(sf::Event & event)
+ReturnVal StageClientLobby::doWindowEvent(sf::Event & event)
 {
-    Context& ctx = g->ctx;
     for (auto& c : components)
     {
-        c->doWindowEvent(ctx, event);
+        c->doWindowEvent(event);
     }
 
-    return 0;
+    return ReturnVal();
 }
 
-uint32_t StageClientLobby::doRemoteEvent(CommEvent & event)
+ReturnVal StageClientLobby::doRemoteEvent(CommEvent & event)
 {
-    Context& ctx = g->ctx;
     for (auto& c : components)
     {
-        c->doRemoteEvent(ctx, event);
+        c->doRemoteEvent(event);
     }
 
-    return 0;
+    return ReturnVal();
 }
 uint32_t StageClientLobby::processCommands(void* arg)
 {
-    Context& ctx = g->ctx;
+    Context& ctx = game->ctx;
     for (auto& c : commands)
     {
         switch (c->getFunction())
@@ -109,9 +105,8 @@ uint32_t StageClientLobby::processCommands(void* arg)
     return 0;
 }
 
-uint32_t StageClientLobby::doUpdate()
+ReturnVal StageClientLobby::doUpdate()
 {
-    Context& ctx = g->ctx;
     //Process Queued Stage Commands
     processCommands(nullptr);
 
@@ -124,46 +119,44 @@ uint32_t StageClientLobby::doUpdate()
 
     for (auto& c : components)
     {
-        c->doUpdate(ctx);
+        c->doUpdate();
     }
 
-    return 0;
+    return ReturnVal();
 }
-uint32_t StageClientLobby::doLocalInputs()
+ReturnVal StageClientLobby::doLocalInputs()
 {
-    Context& ctx = g->ctx;
     for (auto& c : components)
     {
-        c->doLocalInputs(ctx);
+        c->doLocalInputs();
     }
 
-    return 0;
+    return ReturnVal();
 }
 
 
-uint32_t StageClientLobby::doDraw()
+ReturnVal StageClientLobby::doDraw()
 {
-    Context& ctx = g->ctx;
+    Context& ctx = game->ctx;
     ctx.window.clear();
 
     for (auto& c : components)
     {
-        c->doDraw(ctx);
+        c->doDraw();
     }
 
     ctx.window.display();
-    return 0;
+    return ReturnVal();
 }
 
-uint32_t StageClientLobby::cleanup()
+ReturnVal StageClientLobby::cleanup()
 {
-    Context& ctx = g->ctx;
     for (auto& c : components)
     {
-        c->cleanup(ctx);
+        c->cleanup();
     }
 
-    return 0;
+    return ReturnVal();
 }
 
 }//end namespace bali

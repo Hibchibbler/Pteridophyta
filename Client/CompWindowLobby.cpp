@@ -1,8 +1,8 @@
-
 #include "CompWindowLobby.h"
+#include "Game.h"
+#include "Stage.h"
 #include "Context.h"
 #include "CommandStage.h"
-#include "Stage.h"
 
 namespace bali{
 
@@ -15,9 +15,9 @@ CompWindowLobby::~CompWindowLobby()
 {
 }
 
-uint32_t CompWindowLobby::initialize(Context& ctx)
+ReturnVal CompWindowLobby::initialize()
 {
-
+    Context& ctx = stage->game->ctx;
     ctx.net.startClient(5676,sf::IpAddress("192.168.1.13"));
     //sf::sleep(sf::seconds(6));
     std::cout << "CompWindowLobby::initialize()" << ", "
@@ -82,17 +82,17 @@ uint32_t CompWindowLobby::initialize(Context& ctx)
     stage->subscribe(CommandComponent::Functions::PROCESSIDNACKMSG, this);
     stage->subscribe(CommandComponent::Functions::PROCESSIDACKMSG, this);
     stage->subscribe(CommandComponent::Functions::PROCESSWHOISACKMSG, this);
-    return 0;
+    return ReturnVal();
 }
-uint32_t CompWindowLobby::doWindowEvent(Context& ctx, sf::Event & event)
+ReturnVal CompWindowLobby::doWindowEvent(sf::Event & event)
 {
     desk.HandleEvent(event);
-    return 0;
+    return ReturnVal();
 }
 
-uint32_t CompWindowLobby::doLocalInputs(Context& ctx)
+ReturnVal CompWindowLobby::doLocalInputs()
 {
-    return 0;
+    return ReturnVal();
 }
 
 uint32_t CompWindowLobby::processCommands(void* arg)
@@ -119,22 +119,24 @@ uint32_t CompWindowLobby::processCommands(void* arg)
     return 0;
 }
 
-uint32_t CompWindowLobby::doUpdate(Context& ctx)
+ReturnVal CompWindowLobby::doUpdate()
 {
+    Context& ctx = stage->game->ctx;
     processCommands(&ctx);
     desk.Update(deskUpdateClock.restart().asSeconds());
-    return 0;
+    return ReturnVal();
 }
 
-uint32_t CompWindowLobby::doDraw(Context& ctx)
+ReturnVal CompWindowLobby::doDraw()
 {
+    Context& ctx = stage->game->ctx;
     ctx.sfGui.Display(ctx.window);
-    return 0;
+    return ReturnVal();
 }
 
-uint32_t CompWindowLobby::cleanup(Context& ctx)
+ReturnVal CompWindowLobby::cleanup()
 {
-    return 0;
+    return ReturnVal();
 }
 
 void CompWindowLobby::doReady(Context* ctx)

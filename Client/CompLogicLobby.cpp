@@ -1,4 +1,6 @@
 #include "CompLogicLobby.h"
+
+#include "Game.h"
 #include "Stage.h"
 #include "Context.h"
 #include "Messages.h"
@@ -15,15 +17,16 @@ CompLogicLobby::~CompLogicLobby()
 }
 
 //General Component Functionality
-uint32_t CompLogicLobby::initialize(Context& ctx)
+ReturnVal CompLogicLobby::initialize()
 {
     //Subscribe to...
 
-    return 0;
+    return ReturnVal();
 }
 
-uint32_t CompLogicLobby::doRemoteEvent(Context& ctx, CommEvent & event)
+ReturnVal CompLogicLobby::doRemoteEvent(CommEvent & event)
 {
+    Context& ctx = stage->game->ctx;
     uint32_t msgId;
     Player::Ptr p = ctx.mp.getPlayerByCid(event.connectionId);
     if (p != nullptr){
@@ -89,32 +92,32 @@ uint32_t CompLogicLobby::doRemoteEvent(Context& ctx, CommEvent & event)
             break;
         }
     }
-    return 0;
+    return ReturnVal();
 }
 
-uint32_t CompLogicLobby::doWindowEvent(Context& ctx, sf::Event & event)
+ReturnVal CompLogicLobby::doWindowEvent(sf::Event & event)
 {
-    return 0;
+    return ReturnVal();
 }
 
-uint32_t CompLogicLobby::doLocalInputs(Context& ctx)
+ReturnVal CompLogicLobby::doLocalInputs()
 {
-    return 0;
+    return ReturnVal();
 }
 
-uint32_t CompLogicLobby::doUpdate(Context& ctx)
+ReturnVal CompLogicLobby::doUpdate()
 {
-    return 0;
+    return ReturnVal();
 }
 
-uint32_t CompLogicLobby::doDraw(Context& ctx)
+ReturnVal CompLogicLobby::doDraw()
 {
-    return 0;
+    return ReturnVal();
 }
 
-uint32_t CompLogicLobby::cleanup(Context& ctx)
+ReturnVal CompLogicLobby::cleanup()
 {
-    return 0;
+    return ReturnVal();
 }
 
 uint32_t CompLogicLobby::processCommands(void* arg)

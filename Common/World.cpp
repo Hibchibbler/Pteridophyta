@@ -1,5 +1,5 @@
 #include "World.h"
-#include "Configuration.h"
+//#include "Configuration.h"
 
 namespace bali{
 

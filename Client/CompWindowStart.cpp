@@ -1,6 +1,7 @@
 #include "CompWindowStart.h"
-#include "Context.h"
+#include "Game.h"
 #include "Stage.h"
+#include "Context.h"
 #include "CommandStage.h"
 
 namespace bali{
@@ -14,7 +15,7 @@ CompWindowStart::~CompWindowStart()
 {
 }
 
-uint32_t CompWindowStart::initialize(Context& c){
+ReturnVal CompWindowStart::initialize(){
     //Construct Start Menu GUI
     sfg::Table::Ptr table( sfg::Table::Create(  ) );
 
@@ -45,7 +46,7 @@ uint32_t CompWindowStart::initialize(Context& c){
 
     sfg::Button::Ptr startButton;
     startButton = sfg::Button::Create("Start");
-    startButton->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompWindowStart::doStart, this, (Context*)&c) );
+    startButton->GetSignal( sfg::Widget::OnLeftClick ).Connect( std::bind(&CompWindowStart::doStart, this, &stage->game->ctx) );
     table->Attach(startButton, sf::Rect<sf::Uint32>(0,4,2,1), 3);
 
     window = sfg::Window::Create();
@@ -59,17 +60,17 @@ uint32_t CompWindowStart::initialize(Context& c){
 
 
     //No Subscriptions in this component.
-    return 0;
+    return ReturnVal();
 }
-uint32_t CompWindowStart::doWindowEvent(Context& c, sf::Event & event)
+ReturnVal CompWindowStart::doWindowEvent(sf::Event & event)
 {
     desk.HandleEvent(event);
-    return 0;
+    return ReturnVal();
 }
 
-uint32_t CompWindowStart::doLocalInputs(Context& c)
+ReturnVal CompWindowStart::doLocalInputs()
 {
-    return 0;
+    return ReturnVal();
 }
 uint32_t CompWindowStart::processCommands(void* arg)
 {
@@ -77,26 +78,25 @@ uint32_t CompWindowStart::processCommands(void* arg)
     return 0;
 }
 
-uint32_t CompWindowStart::doUpdate(Context& c)
+ReturnVal CompWindowStart::doUpdate()
 {
-    Context& ctx = *((Context*)&c);
     processCommands(nullptr);
 
     desk.Update(deskUpdateClock.restart().asSeconds());
 
-    return 0;
+    return ReturnVal();
 }
 
-uint32_t CompWindowStart::doDraw(Context& c)
+ReturnVal CompWindowStart::doDraw()
 {
-    Context& ctx = *((Context*)&c);
+    Context& ctx = stage->game->ctx;
     ctx.sfGui.Display(ctx.window);
-    return 0;
+    return ReturnVal();
 }
 
-uint32_t CompWindowStart::cleanup(Context& c)
+ReturnVal CompWindowStart::cleanup()
 {
-    return 0;
+    return ReturnVal();
 }
 
 void CompWindowStart::doStart(Context* ctx)

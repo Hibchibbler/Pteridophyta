@@ -3,7 +3,7 @@
 
 #include <SFGUI/sfgui.hpp>
 #include "Component.h"
-
+#include "ReturnVal.h"
 
 namespace bali
 {
@@ -17,12 +17,12 @@ public:
     ~CompWindowStart();
 
     //General Component Functionality
-    uint32_t initialize(Context& c);
-    uint32_t doWindowEvent(Context& c, sf::Event & event);
-    uint32_t doLocalInputs(Context& c);
-    uint32_t doUpdate(Context& c);
-    uint32_t doDraw(Context& c);
-    uint32_t cleanup(Context& c);
+    ReturnVal initialize();
+    ReturnVal doWindowEvent(sf::Event & event);
+    ReturnVal doLocalInputs();
+    ReturnVal doUpdate();
+    ReturnVal doDraw();
+    ReturnVal cleanup();
 
     //Commandable obligations
     uint32_t processCommands(void* arg);

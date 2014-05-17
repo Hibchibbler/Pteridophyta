@@ -16,9 +16,9 @@ StageClientMain::StageClientMain(Game* game, uint32_t uid)
 {
 }
 
-uint32_t StageClientMain::initialize()
+ReturnVal StageClientMain::initialize()
 {
-    Context& ctx = g->ctx;
+    Context& ctx = game->ctx;
     const uint32_t MAX_LAYERS=50;
     layers.reserve(MAX_LAYERS);
 
@@ -31,22 +31,22 @@ uint32_t StageClientMain::initialize()
 
     mainView.setSize(ctx.screenWidth, ctx.screenHeight);
 
-    compLevelLayer.initialize(ctx);
+    compLevelLayer.initialize();
 
     //Set this so Game knows we are initialized, so it won't
     // initialize us again.
     initialized();
-    return 0;
+    return ReturnVal();
 }
 
-uint32_t StageClientMain::doRemoteEvent(CommEvent & event)
+ReturnVal StageClientMain::doRemoteEvent(CommEvent & event)
 {
-    return 0;
+    return ReturnVal();
 }
 
-uint32_t StageClientMain::doWindowEvent(sf::Event & event)
+ReturnVal StageClientMain::doWindowEvent(sf::Event & event)
 {
-    Context& ctx = g->ctx;
+    Context& ctx = game->ctx;
     switch (event.type)
     {
         case sf::Event::Resized:
@@ -56,13 +56,13 @@ uint32_t StageClientMain::doWindowEvent(sf::Event & event)
 
     }
 
-    compLevelLayer.doWindowEvent(ctx,event);
-    return 0;
+    compLevelLayer.doWindowEvent(event);
+    return ReturnVal();
 }
 
-uint32_t StageClientMain::doLocalInputs()
+ReturnVal StageClientMain::doLocalInputs()
 {
-    Context& ctx = g->ctx;
+    Context& ctx = game->ctx;
 
     sf::Vector2i mousePos = sf::Mouse::getPosition(ctx.window);
     sf::Vector2f mousePosWorld = ctx.window.mapPixelToCoords(mousePos);//,mainView);
@@ -83,14 +83,14 @@ uint32_t StageClientMain::doLocalInputs()
         localInputClock.restart();
     }
 
-    compLevelLayer.doLocalInputs(ctx);
-    return 0;
+    compLevelLayer.doLocalInputs();
+    return ReturnVal();
 }
-uint32_t StageClientMain::doUpdate()
+ReturnVal StageClientMain::doUpdate()
 {
-    Context& ctx = g->ctx;
-    compLevelLayer.doUpdate(ctx);
-    return 0;
+    Context& ctx = game->ctx;
+    compLevelLayer.doUpdate();
+    return ReturnVal();
 }
 
 
@@ -104,9 +104,9 @@ uint32_t StageClientMain::doUpdate()
 //    ctx.window.draw(*dynamics, &ctx.mm.map.tileSets[ss.tsi].tex);
 
 
-uint32_t StageClientMain::doDraw()
+ReturnVal StageClientMain::doDraw()
 {
-    Context& ctx = g->ctx;
+    Context& ctx = game->ctx;
 
     ctx.window.clear();
     ctx.window.resetGLStates();
@@ -115,23 +115,47 @@ uint32_t StageClientMain::doDraw()
 
     //Background
     compLevelLayer.setDrawLayer(0);
-    compLevelLayer.doDraw(ctx);
+    compLevelLayer.doDraw();
 
     //Foreground
     compLevelLayer.setDrawLayer(1);
-    compLevelLayer.doDraw(ctx);
+    compLevelLayer.doDraw();
 
     ctx.window.display();
 
-    return 0;
+    return ReturnVal();
 }
-uint32_t StageClientMain::cleanup()
+ReturnVal StageClientMain::cleanup()
 {
-    Context& ctx = g->ctx;
-    compLevelLayer.cleanup(ctx);
-    return 0;
+    Context& ctx = game->ctx;
+    compLevelLayer.cleanup();
+    return ReturnVal();
 }
 
+/*
+On Client:
+	During Initialize:
+		Load TMX Map
+		Array 	 Background
+		Array 	 Foreground
+		QuadTree Walkables
+		Quadtree Gravity Zones
+		Quadtree Dynamics
 
+	During Local Inputs:
+		Update List of Commands
+
+	During Remote Event:
+		Update List of Remotes
+
+	During Update:
+		For each d in Dynamics
+			Retrieve Relevant Walkables
+			Retrieve Relevant Gravity Zones
+			Based on current Gravity, Rotate d if needed
+			update position using Commands and Remotes
+			collision detect with walkables, and correct if needed
+			collision detect with dynamics, and apply damage if needed
+*/
 
 }//end namespace bali

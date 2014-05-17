@@ -15,48 +15,45 @@ StageClientStart::~StageClientStart()
 {
 }
 
-uint32_t StageClientStart::initialize()
+ReturnVal StageClientStart::initialize()
 {
-    Context& ctx = g->ctx;
     //Add Components
     components.push_back(std::make_shared<CompWindowStart>(this));
 
     //Initialize components
     for (auto& c : components)
     {
-        c->initialize(ctx);
+        c->initialize();
     }
 
     //Set this so Game knows we are initialized, so it won't
     // initialize us again.
     initialized();
-    return 0;
+    return ReturnVal();
 }
 
-uint32_t StageClientStart::doRemoteEvent(CommEvent & event)
+ReturnVal StageClientStart::doRemoteEvent(CommEvent & event)
 {
-    return 0;
+    return ReturnVal();
 }
 
-uint32_t StageClientStart::doWindowEvent(sf::Event & event)
+ReturnVal StageClientStart::doWindowEvent(sf::Event & event)
 {
-    Context& ctx = g->ctx;
     for (auto& c : components)
     {
-        c->doWindowEvent(ctx, event);
+        c->doWindowEvent(event);
     }
 
-    return 0;
+    return ReturnVal();
 }
-uint32_t StageClientStart::doLocalInputs()
+ReturnVal StageClientStart::doLocalInputs()
 {
-    Context& ctx = g->ctx;
     for (auto& c : components)
     {
-        c->doLocalInputs(ctx);
+        c->doLocalInputs();
     }
 
-    return 0;
+    return ReturnVal();
 }
 uint32_t StageClientStart::processCommands(void* arg)
 {
@@ -72,43 +69,42 @@ uint32_t StageClientStart::processCommands(void* arg)
     }
 
     commands.clear();
+    return 0;
 }
 
-uint32_t StageClientStart::doUpdate()
+ReturnVal StageClientStart::doUpdate()
 {
-    Context& ctx = g->ctx;
     //Process Stage Commands
     processCommands(nullptr);
 
     for (auto& c : components)
     {
-        c->doUpdate(ctx);
+        c->doUpdate();
     }
 
-    return 0;
+    return ReturnVal();
 }
-uint32_t StageClientStart::doDraw()
+ReturnVal StageClientStart::doDraw()
 {
-    Context& ctx = g->ctx;
+    Context& ctx = game->ctx;
     ctx.window.clear();
     ctx.window.resetGLStates();
 
     for (auto& c : components)
     {
-        c->doDraw(ctx);
+        c->doDraw();
     }
 
     ctx.window.display();
-    return 0;
+    return ReturnVal();
 }
-uint32_t StageClientStart::cleanup()
+ReturnVal StageClientStart::cleanup()
 {
-    Context& ctx = g->ctx;
     for (auto& c : components)
     {
-        c->cleanup(ctx);
+        c->cleanup();
     }
-    return 0;
+    return ReturnVal();
 }
 
 

@@ -23,6 +23,13 @@ namespace bali{
 class Game : public Commandable
 {
     public:
+        struct ReturnVal{
+            enum class Code{
+                SUCCESS,
+                ERROR
+            };
+            Code code;
+        };
         Game();
         virtual ~Game();
 

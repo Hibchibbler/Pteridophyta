@@ -9,7 +9,7 @@
 #include "Component.h"
 #include "Commandable.h"
 #include "CommandStage.h"
-
+#include "ReturnVal.h"
 
 namespace bali
 {
@@ -24,9 +24,7 @@ namespace bali
     public:
         typedef std::shared_ptr<Stage> Ptr;
 
-        struct Result{
-            uint32_t code;
-        };
+
     public:
         Stage(Game* game, uint32_t uid);
 
@@ -37,23 +35,23 @@ namespace bali
         //their Stage::initialize() routine, when initialization
         //is complete.
         //
-        virtual uint32_t initialize()=0;
+        virtual ReturnVal initialize()=0;
 
         //
         //doRemoteEvent is responsible for receiving data from server.
         //
-        virtual uint32_t doRemoteEvent(CommEvent & event)=0;
+        virtual ReturnVal doRemoteEvent(CommEvent & event)=0;
 
-        virtual uint32_t doWindowEvent(sf::Event & event)=0;
-        virtual uint32_t doLocalInputs()=0;
+        virtual ReturnVal doWindowEvent(sf::Event & event)=0;
+        virtual ReturnVal doLocalInputs()=0;
 
         //
         //doUpdate
         //
-        virtual uint32_t doUpdate()=0;
+        virtual ReturnVal doUpdate()=0;
 
-        virtual uint32_t doDraw()=0;
-        virtual uint32_t cleanup()=0;
+        virtual ReturnVal doDraw()=0;
+        virtual ReturnVal cleanup()=0;
 
         Game* getOwner();
         void setId(uint32_t id);
@@ -74,7 +72,7 @@ namespace bali
         uint32_t init;
 
         //reference to owner
-        Game* g;
+        Game* game;
 
         std::vector<std::shared_ptr<Component>> components;
         std::map<uint32_t, std::vector<Commandable*> > subscribers;

@@ -6,8 +6,8 @@
 namespace bali{
 
 
-Stage::Stage(Game* game, uint32_t uid)
-    : g(game)//reference to owner being set.
+Stage::Stage(Game* g, uint32_t uid)
+    : game(g)//reference to owner being set.
 {
     done = 0;
     id = uid;
@@ -43,7 +43,7 @@ uint32_t Stage::getId()
 
 Game* Stage::getOwner()
 {
-    return g;
+    return game;
 }
 
 void Stage::submitToComponents(std::shared_ptr<Command> cmd)
